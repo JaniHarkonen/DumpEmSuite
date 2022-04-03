@@ -1,4 +1,4 @@
-### DumpEm Suite
+# DumpEm Suite
 
 ## Relation to DumpEm and motivations
 This appliaction is not to be confused with DumpEm, which is an application that can be used to create custom workspaces.
@@ -11,7 +11,7 @@ of DumpEm.
 
 ## Change log
 
-# 4.4.2020
+### 4.4.2020
 Initial commit. The default setup used for React + Electron had to be modified a bit. For some reason wait-on waited
 indefinitely for the React-app to become online which resulted in the Electron window never being created. wait-on has now
 been removed from the electron:serve-routine, however it has not yet been uninstalled.

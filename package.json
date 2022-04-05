@@ -15,6 +15,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.0",
+    "styled-components": "^5.3.5",
     "wait-on": "^6.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -28,7 +29,6 @@
     "electron": "electron .",
     "electron:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run electron:start\"",
     "electron:build": "npm run build && electron-builder -c.extraMetadata.main=build/public/main.js",
-    
     "electron:start": "electron .",
     "custompackage": "electron-packager .",
     "package-win": "electron-packager . --overwrite --platform=win32"

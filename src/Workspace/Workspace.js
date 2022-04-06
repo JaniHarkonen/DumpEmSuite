@@ -1,19 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import View from "./View/View";
+//import View from "./View/View";
 import { getKey } from "../utils/KeyManager";
+import ViewPriceAction from "./View/views/ViewPriceAction";
+import ViewTa1 from "./View/views/ViewTa1";
+import ViewVolume from "./View/views/ViewVolume";
+import ViewFundamental from "./View/views/ViewFundamental";
+import ViewMacro from "./View/views/ViewMacro";
 
 export default function Workspace(props) {
-    const tabs = ["hello", "world", "my", "name", "jefff"];
+
+    /**
+     * Creates a JSON representing a Tab and returns it.
+     * @param {string} name Name of the tab (its title).
+     * @param {*} content React-component that constitutes the content of the view.
+     * @returns JSON-object representing the tab.
+     */
+    const createTab = (name, content) => {
+        if( !name ) name = "";
+        if( !content ) return {};
+
+        return {
+            name: name,
+            content: content
+        };
+    }
+
+    /**
+     * Initializes all the available tabs.
+     */
+    const TABS = [
+        createTab("Volume",         <ViewVolume />),
+        createTab("Price action",   <ViewPriceAction />),
+        createTab("TA #1",          <ViewTa1 />) ,
+        createTab("Fundamental",    <ViewFundamental />),
+        createTab("MACRO",          <ViewMacro />)
+    ];
+
+        // State declarations
+    const [ activeTab, openTab ] = useState(TABS[0]);   // Holds the currently open tab
     
-    const renderTabs = () => {
-        return tabs.map((tab) => {
+
+    /**
+     * Opens the tab represented by the given JSON.
+     * @param {*} tab JSON-object representing the tab to be opened.
+     */
+    const handleTabClick = (tab) => {
+        openTab(tab);
+    }
+
+    /**
+     * Renders the tabs into the top navigation bar.
+     * @param {*} tablist Array containing the tabs whose navigation buttons are to be rendered.
+     * @returns An array containing the React-components of the navigation buttons.
+     */
+    const renderTabs = (tablist) => {
+        if( !tablist ) return <></>;
+
+        return tablist.map((tab) => {
             return(
-                <TabContainer key={"wstab-" + getKey()}>
+                <TabContainer key={"wsview-" + getKey()}>
                     <WSTab
-                        onClick={() => { console.log("trolled B)"); }}
+                        onClick={() => { handleTabClick(tab); }}
                     >
-                        {tab}
+                        {tab.name}
                     </WSTab>
                 </TabContainer>
             )
@@ -23,11 +73,11 @@ export default function Workspace(props) {
     return(
         <Content>
             <TabBar>
-                { renderTabs() }
+                { renderTabs(TABS) }
             </TabBar>
 
             <ViewContainer>
-                <View />
+                {activeTab.content}
             </ViewContainer>
         </Content>
     );

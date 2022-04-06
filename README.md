@@ -22,7 +22,7 @@ JavaScript files for all the workspace components that will be used.
 
 A new design pattern will also be adopted for simple components, such as buttons that do nothing but render a representation
 and register a user click. The question surrounding such components was whether or not they should be given their separate
-file -- and if so -- whether a general button component should be created that is then passed a different CSS styling. The
+file &#150 and if so &#150 whether a general button component should be created that is then passed a different CSS styling. The
 draw back for separate files was that many files with a very similar code base would have to be created, and creating a
 general component would likely not cut down the amount of programming that would have to be done. Furthermore, a general
 component may be useless due to the differences in the HTML-presentations. The draw back of simply writing the component into
@@ -32,8 +32,15 @@ a new styled component would have to be declared at the bottom of the parent fil
 The solution that will be used in this project is to write all the functionality into the parent component that would normally
 import and draw the simple component. The CSS-styling of the simple component is then imported from a separate file that is
 located in the same folder as the parent component usually following the naming convention: ParentComponent_ChildComponent.js.
-Because the functionality of a simple component is easy -- and most of the functionality (such as the function executed upon
-click) has to be declared in the parent component regardless -- code clarity and separation of conserns are not degraded with
+Because the functionality of a simple component is easy &#150 and most of the functionality (such as the function executed upon
+click) has to be declared in the parent component regardless &#150 code clarity and separation of conserns are not degraded with
 this approach. Additionally, the separation of styling into multiple JavaScript-files external to the parent component
 increases the clarity of the code. Generally applicable style declarations may even be promoted to the "common" components
-folder. 
+folder.
+
+### 6.4.2022
+Created extremely basic versions of the workspace tabs and their components. The user can now switch between tabs and view the
+bare-bones versions of FileExplorer, Note and SymbolList. Further development of the components has so far been put on hold
+due to their depency on the WorkspaceModel. The Workspace model &#150 which will be developed next &#150, stores the current
+configuration of a workspace. The model is used to pass information between React-components as well as to store the workspace
+in an external file.

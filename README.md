@@ -44,3 +44,11 @@ bare-bones versions of FileExplorer, Note and SymbolList. Further development of
 due to their depency on the WorkspaceModel. The Workspace model — which will be developed next —, stores the current
 configuration of a workspace. The model is used to pass information between React-components as well as to store the workspace
 in an external file.
+
+### 7.4.2022
+Created the base for the Workspace Model and the Model Manager that will handle the opening, saving, modifying, serving and
+closing of Workspace Models. So far, the Model Manager can only open workspaces while the application can only display one.
+The "Volume", "Price action" and "TA #1" tabs now receive their data from their parent Workspace Model. The features will be
+developed further as the focus gets now shifted towards creating all the functionalities as well as improving the UI
+presentation of the SymbolList. This is done so that the prodcut vision becomes more clear and concrete, which will be
+beneficial in deciding what functionalities to add to the Workspace Model and the Model Manager.

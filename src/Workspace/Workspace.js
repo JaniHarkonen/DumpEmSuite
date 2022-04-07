@@ -1,59 +1,20 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-//import View from "./View/View";
 import { getKey } from "../utils/KeyManager";
-import ViewPriceAction from "./View/views/ViewPriceAction";
-import ViewTa1 from "./View/views/ViewTa1";
-import ViewVolume from "./View/views/ViewVolume";
-import ViewFundamental from "./View/views/ViewFundamental";
-import ViewMacro from "./View/views/ViewMacro";
+import WorkspaceModel from "../utils/model/WorkspaceModel";
 
 export default function Workspace(props) {
 
-    /**
-     * Creates a JSON representing a Tab and returns it.
-     * @param {string} name Name of the tab (its title).
-     * @param {*} content React-component that constitutes the content of the view.
-     * @returns JSON-object representing the tab.
-     */
-    const createTab = (name, content) => {
-        if( !name ) name = "";
-        if( !content ) return {};
-
-        return {
-            name: name,
-            content: content
-        };
-    }
-
-    /**
-     * Initializes all the available tabs.
-     */
-    const TABS = [
-        createTab("Volume",         <ViewVolume />),
-        createTab("Price action",   <ViewPriceAction />),
-        createTab("TA #1",          <ViewTa1 />) ,
-        createTab("Fundamental",    <ViewFundamental />),
-        createTab("MACRO",          <ViewMacro />)
-    ];
-
         // State declarations
-    const [ activeTab, openTab ] = useState(TABS[0]);   // Holds the currently open tab
+    const [ activeTab, openTab ] = useState(props.model.tabs[WorkspaceModel.TAB_VOLUME]);   // Holds the currently open tab
     
 
-    /**
-     * Opens the tab represented by the given JSON.
-     * @param {*} tab JSON-object representing the tab to be opened.
-     */
     const handleTabClick = (tab) => {
+        if( !tab ) return;
+
         openTab(tab);
     }
 
-    /**
-     * Renders the tabs into the top navigation bar.
-     * @param {*} tablist Array containing the tabs whose navigation buttons are to be rendered.
-     * @returns An array containing the React-components of the navigation buttons.
-     */
     const renderTabs = (tablist) => {
         if( !tablist ) return <></>;
 
@@ -66,18 +27,29 @@ export default function Workspace(props) {
                         {tab.name}
                     </WSTab>
                 </TabContainer>
-            )
+            );
         });
     };
+
+    const renderView = (element, data) => {
+        let View = element;
+
+        return(
+            <View
+                data ={data}
+                model={props.model}
+            />
+        );
+    }
 
     return(
         <Content>
             <TabBar>
-                { renderTabs(TABS) }
+                {renderTabs(props.model.tabs)}
             </TabBar>
 
             <ViewContainer>
-                {activeTab.content}
+                {renderView(activeTab.element, activeTab.data)}
             </ViewContainer>
         </Content>
     );

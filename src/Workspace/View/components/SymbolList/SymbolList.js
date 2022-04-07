@@ -18,7 +18,7 @@ export default function SymbolList(props) {
         return syms.map((sym) => {
             return(
                 <SymbolContainer key={"symbol-" + getKey()}>
-                    <SymbolList_Item data={sym} />
+                    <SymbolList_Item data={props.model.getStockById(sym.id)} />
                 </SymbolContainer>
             );
         });

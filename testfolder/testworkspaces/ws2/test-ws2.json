@@ -1,0 +1,35 @@
+{
+    "name": "mini space",
+    "stocks": [
+        {
+            "name": "paskajärven sellutehdas",
+            "ticker": "pjst",
+            "volume": "€999"
+        },
+        {
+            "name": "kapakka",
+            "ticker": "kpk",
+            "volume": "€6514"
+        },
+        {
+            "name": "nesteessä",
+            "ticker": "KUSESSA",
+            "volume": "€9,600,000"
+        }
+    ],
+    "tabs": [
+        {
+            "id": 0,
+            "data": {
+                "symbols": [
+                    {
+                        "id": 0
+                    },
+                    {
+                        "id": 2
+                    }
+                ]
+            }
+        }
+    ]
+}

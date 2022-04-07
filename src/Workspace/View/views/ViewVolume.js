@@ -4,12 +4,15 @@ import { Content } from "../../../common/Content";
 import SymbolList from "../components/SymbolList/SymbolList";
 import TESTSYMBOLS from "./TESTSYMBOLS.json";
 
-export default function ViewVolume() {
+export default function ViewVolume(props) {
 
 
     return(
         <Content>
-            <SymbolList symbols={TESTSYMBOLS.symbols} />
+            <SymbolList
+                symbols={props.data.symbols}
+                model  ={props.model}
+            />
         </Content>
     );
 }

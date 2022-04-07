@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Content } from "../../../../common/Content";
+import { getKey } from "../../../../utils/KeyManager";
 
 const { exec } = window.require("child_process");
 const fs = window.require("fs");
@@ -60,7 +61,10 @@ export default function FileExplorer() {
 
         return files.map((file) => {
             return(
-                <FileContainer onClick={() => { console.log("file clicked"); }}>
+                <FileContainer
+                    key={"fe-file-" + getKey()}
+                    onClick={() => { console.log("file clicked"); }}
+                >
                     {file.name}
                 </FileContainer>
             );

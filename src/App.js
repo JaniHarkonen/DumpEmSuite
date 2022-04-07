@@ -3,17 +3,25 @@ import Workspace from "./Workspace/Workspace";
 import SideBar from "./SideBar/SideBar";
 import { getKey } from "./utils/KeyManager";
 
-export default function App() {
-    let tabs = ["Workspace 2021-1", "Workspace 2021-2", "Workspace 2022-1"]
+export default function App(props) {
 
-    const renderTabs = (tablist) => {
-        return tablist.map((name) => {
+    const handleWorkspaceClick = (wsmod) => {
+        if( !wsmod ) return;
+
+        console.log()
+    }
+
+    const renderTabs = (models) => {
+        if( !models ) return <></>;
+        
+        return models.map((mod) => {
             return(
                 <Tab
                     key={getKey()}
-                    title={name}
                     onClick={() => { console.log("switch workspace") }}
-                />
+                >
+                    {mod.name}
+                </Tab>
             );
         });
     }
@@ -26,14 +34,14 @@ export default function App() {
                     <SideBar />
                 </SideBarContainer>
 
-                <WorkspaceContainer id="lol">
+                <WorkspaceContainer>
 
                     <TopBar>
-                        {renderTabs(tabs)}
+                        {renderTabs(props.modelManager.models)}
                     </TopBar>
 
                     <Content>
-                        <Workspace />
+                        <Workspace model={props.modelManager.models[0]} />
                     </Content>
 
                 </WorkspaceContainer>

@@ -5,12 +5,6 @@ import { getKey } from "./utils/KeyManager";
 
 export default function App(props) {
 
-    const handleWorkspaceClick = (wsmod) => {
-        if( !wsmod ) return;
-
-        console.log()
-    }
-
     const renderTabs = (models) => {
         if( !models ) return <></>;
         
@@ -37,11 +31,11 @@ export default function App(props) {
                 <WorkspaceContainer>
 
                     <TopBar>
-                        {renderTabs(props.modelManager.models)}
+                        {renderTabs(props.modelManager.getModels())}
                     </TopBar>
 
                     <Content>
-                        <Workspace model={props.modelManager.models[0]} />
+                        <Workspace model={props.modelManager.getModelByIndex(0)} />
                     </Content>
 
                 </WorkspaceContainer>
@@ -58,8 +52,6 @@ const Base = styled.div`
     width: 100%;
     height: 100%;
 
-    background-color: gray;
-
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     border-bottom-left-radius: 3px;
@@ -74,7 +66,6 @@ const ContentContainer = styled.div`
 
 const WorkspaceContainer = styled.div`
     position: absolute;
-    //display : inline-block;
 
     left: 48px;
     width: calc(100% - 48px);
@@ -111,7 +102,6 @@ const Content = styled.div`
 
 const SideBarContainer = styled.div`
     position: absolute;
-    //display: inline-block;
     left: 0px;
     width: 48px;
     height: 100%;

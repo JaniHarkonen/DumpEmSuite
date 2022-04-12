@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Content = styled.div`
+export const FullDiv = styled.div`
     position: absolute;
     left: 0px;
     top : 0px;

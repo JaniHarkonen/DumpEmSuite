@@ -6,14 +6,14 @@ import WorkspaceModel from "../utils/model/WorkspaceModel";
 export default function Workspace(props) {
 
         // State declarations
-    const [ activeTab, openTab ] = useState(props.model.tabs[WorkspaceModel.TAB_VOLUME]);   // Holds the currently open tab
+    const [ activeTab, openTab ] = useState(props.model.getTabById(WorkspaceModel.TAB_VOLUME));   // Holds the currently open tab
     
 
     const handleTabClick = (tab) => {
         if( !tab ) return;
 
         openTab(tab);
-    }
+    };
 
     const renderTabs = (tablist) => {
         if( !tablist ) return <></>;
@@ -24,32 +24,32 @@ export default function Workspace(props) {
                     <WSTab
                         onClick={() => { handleTabClick(tab); }}
                     >
-                        {tab.name}
+                        {tab.getName()}
                     </WSTab>
                 </TabContainer>
             );
         });
     };
 
-    const renderView = (element, data) => {
-        let View = element;
+    const renderView = (tab) => {
+        let View = tab.getElement();
 
         return(
             <View
-                data ={data}
-                model={props.model}
+                tab={tab}
+                stocks={props.model.getStocks()}
             />
         );
-    }
+    };
 
     return(
         <Content>
             <TabBar>
-                {renderTabs(props.model.tabs)}
+                {renderTabs(props.model.getTabs())}
             </TabBar>
 
             <ViewContainer>
-                {renderView(activeTab.element, activeTab.data)}
+                {renderView(activeTab)}
             </ViewContainer>
         </Content>
     );
@@ -61,8 +61,6 @@ const Content = styled.div`
     top : 0px;
     width: 100%;
     height: 100%;
-
-    background-color: blue;
 `;
 
 const TabBar = styled.div`

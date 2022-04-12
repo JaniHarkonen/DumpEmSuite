@@ -52,3 +52,26 @@ The "Volume", "Price action" and "TA #1" tabs now receive their data from their 
 developed further as the focus gets now shifted towards creating all the functionalities as well as improving the UI
 presentation of the SymbolList. This is done so that the prodcut vision becomes more clear and concrete, which will be
 beneficial in deciding what functionalities to add to the Workspace Model and the Model Manager.
+
+### 12.4.2022
+Finally, the core functionalities of the SymbolList have been adequately completed. The user can now change color codes and
+filter settings on the list, and the changes will be reflected in subsequent tabs as well as the Workspace Model. Completing
+these features required broad changes to the implementation and the concerns of all of the components of the business logic — 
+Model Manager, Workspace Model, model components — as well as the flow of information between the involved React components.
+
+Several difficulties were faced while designing the UI and its architecture. Most of the problems could've been completely
+avoided if the desgin decision to utilize databases instead of external .json-files was made earlier. In fact, the whole 
+Workspace Model along with the Model Manager had to be implemented simply to hold a copy of the external file. With a database
+such an approach would've been unnecessary, as any changes to the data could've been posted directly into the database via a
+database server. Filter options could've been passed within the query statement which would've solved the several issues faced
+while implementing the filtration panel.
+
+Nonetheless, the architecture as well as the functionalities have now been developed to a sufficient enough level so as to
+proceed to the next phase in the in process. As of now, changes made to the Workspace Model are only stored in the model
+components and not in the JSON-representation of the workspace. For this reason, saving models in an external file is not yet
+possible, nor is it the priority for the next phase. Initially, this phase was intended as the one where the SymbolList is
+developed with all the functionalities as well as a more fleshed out UI-presentation. However, due to the large changes to the
+business logic a second round of development has to be carried out later on in the project.
+
+Next, the development focus will be on the "Fundamental"-tab. The goal is to create all the functionalities just like in the
+case of SymbolList, however the UI-representation will still be kept simple.

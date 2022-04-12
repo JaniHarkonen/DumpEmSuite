@@ -1,6 +1,6 @@
 import { readJson } from "./FileUtils";
 import WorkspaceModel from "./model/WorkspaceModel";
-import Stock from "./model/Stock";
+import Stock from "./model/components/Stock";
 
 export default class ModelManager {
     constructor() {
@@ -29,7 +29,7 @@ export default class ModelManager {
     openModel(path) {
         if( !path || path === "" ) return;
 
-        let mjson = readJson(path);
+       /* let mjson = readJson(path);
         let model = new WorkspaceModel();
 
             // Get workspace name
@@ -37,7 +37,10 @@ export default class ModelManager {
 
             // Get workspace stocks
         model.stocks = mjson.stocks.map((stock, ind) => {
-            return this.createStock(ind, stock.name, stock.ticker, stock.volume);
+            let nstock = this.createStock(ind, stock.name, stock.ticker, stock.volume);
+            nstock.setColorCodes(stock.colorCodes);
+
+            return nstock;
         });
 
             // Get workspace tabs
@@ -45,7 +48,45 @@ export default class ModelManager {
             model.tabs[tab.id].data = tab.data;
         });
 
+        this.models.push(model);*/
+
+        let mjson = readJson(path);
+        let model = new WorkspaceModel();
+        model.load(mjson);
+
         this.models.push(model);
+    }
+
+    /**
+     * Requests the manager to save the state of a workspace in an external
+     * destination.
+     * @param {WorkspaceModel} model Workspace whose state to save.
+     */
+    requestSave(model) {
+        if( !model ) return;
+
+        this.saveModel(model.getModelJson());
+    }
+
+    /**
+     * Writes a JSON-object representing a workspace to a given file.
+     * @param {string} path Destination file to write to.
+     * @param {JSON} json JSON-object representing the workspace.
+     */
+    saveModel(path, json) {
+        if( !path || path === "" ) return;
+        if( !json ) return;
+    }
+
+    getModels() {
+        return this.models;
+    }
+
+    getModelByIndex(ind) {
+        if( ind < 0 || ind >= this.models.length )
+        return null;
+
+        return this.models[ind];
     }
 
     /**

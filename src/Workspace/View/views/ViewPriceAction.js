@@ -1,16 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { Content } from "../../../common/Content";
+import { FullDiv } from "../../../common/FullDiv";
 import SymbolList from "../components/SymbolList/SymbolList";
 
 export default function ViewPriceAction(props) {
 
     return(
-        <Content>
+        <FullDiv>
             <SymbolList
-                symbols={props.data.symbols}
-                model  ={props.model}
+                tab={props.tab}
+                filters={props.tab.getFilters()}
+                stocks={props.stocks}
             />
-        </Content>
+        </FullDiv>
     );
 }

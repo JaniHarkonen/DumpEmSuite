@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { Content } from "../../../../common/Content";
+import { FullDiv } from "../../../../common/FullDiv";
 
 export default function Note(props) {
 
     return(
-        <Content>
+        <FullDiv>
             <NoteInput
                 style={{
                     fontFamily: "Courier New",
@@ -14,7 +14,7 @@ export default function Note(props) {
                     tabSize: 4
                 }}
             />
-        </Content>
+        </FullDiv>
     )
 }
 

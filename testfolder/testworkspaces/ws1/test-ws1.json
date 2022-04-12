@@ -2,44 +2,36 @@
     "name": "big space",
     "stocks": [
         {
-            "name": "k kauppa",
-            "ticker": "kkk",
-            "volume": "€1111"
+            "name": "Outokumpu",
+            "ticker": "OUT1V",
+            "volume": "€1111.36",
+            "colorCodes": [0, -1, -1, -1]
         },
         {
             "name": "b kauppa",
             "ticker": "bk",
-            "volume": "€1"
+            "volume": "€1",
+            "colorCodes": [1, -1, -1, -1]
         },
         {
             "name": "neste",
             "ticker": "NESTE",
-            "volume": "€5,000,000"
+            "volume": "€5,000,000",
+            "colorCodes": [0, -1, -1, -1]
         }
     ],
     "tabs": [
         {
             "id": 0,
-            "data": {
-                "symbols": [
-                    {
-                        "id": 0
-                    },
-                    {
-                        "id": 2
-                    }
-                ]
-            }
+            "filters": []
         },
         {
             "id": 1,
-            "data": {
-                "symbols": [
-                    {
-                        "id": 1
-                    }
-                ]
-            }
+            "filters": [0]
+        },
+        {
+            "id": 2,
+            "filters": [1]
         }
     ]
 }

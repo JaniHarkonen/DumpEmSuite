@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Content } from "../../../../common/Content";
+import { FullDiv } from "../../../../common/FullDiv";
 import { getKey } from "../../../../utils/KeyManager";
 
 const { exec } = window.require("child_process");
@@ -72,9 +72,9 @@ export default function FileExplorer() {
     }
 
     return(
-        <Content>
+        <FullDiv>
             {renderFileList(readFolder(TESTFOLDER))}
-        </Content>
+        </FullDiv>
     );
 }
 

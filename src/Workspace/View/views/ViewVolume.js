@@ -1,18 +1,18 @@
+import { tab } from "@testing-library/user-event/dist/tab";
 import React from "react";
-import styled from "styled-components";
-import { Content } from "../../../common/Content";
+import { FullDiv } from "../../../common/FullDiv";
+import WorkspaceModel from "../../../utils/model/WorkspaceModel";
 import SymbolList from "../components/SymbolList/SymbolList";
-import TESTSYMBOLS from "./TESTSYMBOLS.json";
 
 export default function ViewVolume(props) {
 
-
     return(
-        <Content>
+        <FullDiv>
             <SymbolList
-                symbols={props.data.symbols}
-                model  ={props.model}
+                tab={props.tab}
+                filters={props.tab.getFilters()}
+                stocks={props.stocks}
             />
-        </Content>
+        </FullDiv>
     );
 }

@@ -13,6 +13,8 @@ export default function Note(props) {
                     backgroundColor: "#FFF9E8",
                     tabSize: 4
                 }}
+
+                value={props.content}
             />
         </FullDiv>
     )

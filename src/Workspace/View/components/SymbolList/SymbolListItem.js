@@ -21,6 +21,11 @@ export default function SymbolListItem(props) {
         openColorPicker(false);
     };
 
+    const handleListingClick = () => {
+        if( props.itemClickHook )
+        props.itemClickHook(props.stock);
+    }
+
     const renderInfoPanel = (info) => {
         if( !info ) return <></>;
 
@@ -42,13 +47,13 @@ export default function SymbolListItem(props) {
     return(
         <Content>
             {
-                (isColorPickerOpen === true) ? 
-                <>
+                isColorPickerOpen === true ? 
+                (
                     <ColorPicker colorSelectionHook={(cindex) => { selectColor(cindex); }} />
-                </>
+                )
                 :
                 <>
-                    <InfoPanelContainer>
+                    <InfoPanelContainer onClick={handleListingClick} >
 
                         {renderInfoPanel(props.stock.getName())}
                         {renderInfoPanel(props.stock.getTicker())}
@@ -58,23 +63,34 @@ export default function SymbolListItem(props) {
 
                     <OptionPanelContainer>
                         <OptionPanelWrapper>
-                            <OptionPanel>
-                                <ColorPickerButton 
-                                    style={{
-                                        backgroundColor: COLOR_OPTIONS[props.stock.getColorCode(props.tabId)]
-                                    }}
-                                    onClick={() => { openColorPicker(true); }}
-                                />
-                            </OptionPanel>
+
+                            {
+                                !props.disableColorPicker &&
+                                (
+                                    <OptionPanel>
+                                        <ColorPickerButton 
+                                            style={{
+                                                backgroundColor: COLOR_OPTIONS[props.stock.getColorCode(props.tabId)]
+                                            }}
+                                            onClick={() => { openColorPicker(true); }}
+                                        />
+                                    </OptionPanel>
+                                )
+                            }
 
                             <OptionPanel></OptionPanel>
 
-                            <OptionPanel>
-                                <FullImage
-                                    src={imgChart}
-                                    onClick={handleChartClick}
-                                />
-                            </OptionPanel>
+                            {
+                                !props.disableChart &&
+                                (
+                                    <OptionPanel>
+                                        <FullImage
+                                            src={imgChart}
+                                            onClick={handleChartClick}
+                                        />
+                                    </OptionPanel>
+                                )
+                            }
 
                         </OptionPanelWrapper>
                     </OptionPanelContainer>

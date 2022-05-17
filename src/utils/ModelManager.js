@@ -1,6 +1,7 @@
 import { readJson } from "./FileUtils";
 import WorkspaceModel from "./model/WorkspaceModel";
 import Stock from "./model/components/Stock";
+import { DUMP_EM_CONFIG } from "./CommonVariables";
 
 export default class ModelManager {
     constructor() {
@@ -53,6 +54,7 @@ export default class ModelManager {
         let mjson = readJson(path);
         let model = new WorkspaceModel();
         model.load(mjson);
+        model.setPath(path);
 
         this.models.push(model);
     }
@@ -93,7 +95,7 @@ export default class ModelManager {
      * Initializes the model manager by loading the previous state of the manager.
      */
     initialize() {
-        let config = readJson("D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\config.json");
+        let config = readJson(DUMP_EM_CONFIG);
         for( var i = 0; i < config.openWorkspaces.length; i++ )
         this.openModel(config.openWorkspaces[i]);
 

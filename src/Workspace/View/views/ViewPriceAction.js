@@ -10,7 +10,7 @@ export default function ViewPriceAction(props) {
             <SymbolList
                 tab={props.tab}
                 filters={props.tab.getFilters()}
-                stocks={props.stocks}
+                stocks={props.model.getStocks()}
             />
         </FullDiv>
     );

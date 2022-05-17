@@ -2,70 +2,59 @@ import React from "react";
 import styled from "styled-components";
 import { FullDiv } from "../../../../common/FullDiv";
 import { getKey } from "../../../../utils/KeyManager";
+import { FullImage } from "../../../../common/FullImage";
+
+import imgFolderWhite from "../../../../assets/img_folder_white.svg";
 
 const { exec } = window.require("child_process");
 const fs = window.require("fs");
 const pathModule = window.require("path");
 
-export default function FileExplorer() {
+export default function FileExplorer(props) {
 
-    const TESTFOLDER = "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\";
-
-    /**
-     * Reads the files contained in a given folder and returns an array containing
-     * JSON-objects representing the files and their attributes.
-     * @param {string} path Folder whose contents to read.
-     * @returns An array of JSON-objects representing the read files.
-     */
     const readFolder = (path) => {
         if( !path || path === "" ) return [];
+        if( !fs.existsSync(path) ) return [];
 
         let files = fs.readdirSync(path);
-        let file_objs = files.map((file) => {
-            if( (path + "\\" + file).includes("System Volume Information") ) return false;
+        let file_objs = [];
 
-            /*let is_folder = fs.lstatSync(path + "\\" + file).isDirectory();
-            return { 
-                path: (is_folder) ? path + file + "\\" : path + "\\" + file,
-                name: file,
-                isFolder: is_folder,
-                extension: pathModule.extname(file)
-            };*/
+        for( let file of files )
+        {
+            let full_path = path + "\\" + file;
 
-            return {
-                name: file
-            };
-        });
-    
-        /*let opts = this.state.itemTypes;
-        return file_objs.filter((file) => {
-            if( !opts.includes("FOLDER") && file.isFolder === true ) return false;
-            if( !opts.includes("FILE") && file.isFolder === false )
-            {
-                if( opts.includes(file.extension) ) return true;
-                else return false;
-            }
+            if( full_path.includes("System Volume Information") )   continue;
+            if( fs.lstatSync(full_path).isDirectory() )             continue;
 
-            return true;
-        });*/
+            file_objs.push(file);
+        }
 
         return file_objs;
     }
 
-    /**
-     * Returns an array of React-components representing a given list of files.
-     * @param {*} files An array of files whose should be rendered.
-     */
+    const handleFileClick = (file) => {
+        if( !file || file === "" ) return;
+
+        exec("\"" + props.directory + "\\" + file + "\"");
+    }
+
     const renderFileList = (files) => {
-        if( !files ) return <></>;
+        if( !files || files.length === 0 )
+        {
+            return(
+                <FileContainer>
+                    No files or analysis yet...
+                </FileContainer>
+            )
+        }
 
         return files.map((file) => {
             return(
                 <FileContainer
                     key={"fe-file-" + getKey()}
-                    onClick={() => { console.log("file clicked"); }}
+                    onClick={() => { handleFileClick(file); }}
                 >
-                    {file.name}
+                    {file}
                 </FileContainer>
             );
         });
@@ -73,44 +62,62 @@ export default function FileExplorer() {
 
     return(
         <FullDiv>
-            {renderFileList(readFolder(TESTFOLDER))}
+            <LoadFileContainer>
+                <LoadFileIconPanel>
+                    <FullImage src={imgFolderWhite} />
+                </LoadFileIconPanel>
+
+                <LoadFileCaptionPanel>
+                    <LoadFileButtonCaptionContainer>
+                        Load file...
+                    </LoadFileButtonCaptionContainer>
+                </LoadFileCaptionPanel>
+            </LoadFileContainer>
+
+            {renderFileList(readFolder(props.directory))}
         </FullDiv>
     );
 }
-
-/*
-<input type="file" />
-
-readFolder = (path) => {
-        let files = fs.readdirSync(path);
-        let file_objs = files.map((file) => {
-            if( (path + "\\" + file).includes("System Volume Information") ) return false;
-
-            let is_folder = fs.lstatSync(path + "\\" + file).isDirectory();
-            return { 
-                path: (is_folder) ? path + file + "\\" : path + "\\" + file,
-                name: file,
-                isFolder: is_folder,
-                extension: pathModule.extname(file)
-            };
-        });
-    
-        let opts = this.state.itemTypes;
-        return file_objs.filter((file) => {
-            if( !opts.includes("FOLDER") && file.isFolder === true ) return false;
-            if( !opts.includes("FILE") && file.isFolder === false )
-            {
-                if( opts.includes(file.extension) ) return true;
-                else return false;
-            }
-
-            return true;
-        });
-    }
-*/
 
 const FileContainer = styled.div`
     position: relative;
     width : 50%;
     height: 48px;
+`;
+
+const LoadFileContainer = styled.div`
+    position: relative;
+    width: 128px;
+    height: 32px;
+
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+`;
+
+const LoadFileIconPanel = styled.div`
+    position: relative;
+    width: 25%;
+    height: 100%;
+
+    display: inline-block;
+`;
+
+const LoadFileCaptionPanel = styled.div`
+    position: relative;
+    width: 75%;
+    height: 100%;
+
+    display: inline-block;
+    vertical-align: top;    // This line prevents the div within (shown below) from "falling" when text is added
+`;
+
+const LoadFileButtonCaptionContainer = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;

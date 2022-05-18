@@ -75,3 +75,27 @@ business logic a second round of development has to be carried out later on in t
 
 Next, the development focus will be on the "Fundamental"-tab. The goal is to create all the functionalities just like in the
 case of SymbolList, however the UI-representation will still be kept simple.
+
+### 18.5.2022
+After a long hiatus, a decision has been made to re-do file system for the DumpEm Suite. Since last update, I have learned
+more about databases and their implementations in JavaScript, and I've come to the conclusion that the current file system is
+extremely inefficient. Not only is making changes to the external files slow and memory consuming, the file system has also
+forced the implementation of the complex Workspace Models as stated in the previous development diary entry. Furthermore
+external files require dealing with directories making the external storing of the files messy as well.
+
+To avoid having to continue the development of a wholly inefficient system, an SQLite database manager is to be be implemented
+that will be used to make queries to lightweight databases that will, from this point on, represent the Workspaces and their
+contents. Before choosing SQLite as the database solution, the usage of MariaDB and MongoDB were considered. It seems that the
+other solutions were more useful in projects where the database was stored on an external server ,as setting up one would
+require the user to download the database manager and to run the database creation script. Without a  doubt, such a process
+could be automated, however, SQLite provided a lightweight and easy-to-implement local solution that requires no additional
+setting up on the behalf of the user and can be easily bundled in with the DumpEm Suite application. Furthermore, MariaDB and
+MongoDB are perhaps more suitable when dealing with large datasets which wont be necessary in this project, as a Workspace will
+likely only contain very limited amounts of data. Also, the structure of the database will be very much fixed making a solution
+such as MongoDB less useful, since the way that MongoDB stores data is much more unstructured (usage of JSONs).
+
+Despite being a major change, the separation between the UI and the file system within the codebase is very clear. Because of
+this, implementing SQLite shouldn't be too problematic, however, each time a React-component makes requests to the
+WorkspaceModel, those functions have to be replaced with SQLite requests. To avoid problems in the future, creating an API of
+sorts that will function as a separation between the database and the UI will be considered. There also has to be a separate
+Database Controller object, that will be used to execute queries through the API.

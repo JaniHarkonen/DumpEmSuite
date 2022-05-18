@@ -7,7 +7,7 @@ const url = require("url");
 require("@electron/remote/main").initialize();
 
 function createWindow() {
-    const startUrl = isDev ? "http://localhost:3000" : process.env.ELECTRON_START_URL || url.format({
+    const startUrl = /*isDev ? "http://localhost:3000" :*/ process.env.ELECTRON_START_URL || url.format({
         pathname: path.join(__dirname, './public/index.html'),
         protocol: 'file:',
         slashes: true,

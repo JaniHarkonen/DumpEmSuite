@@ -6,6 +6,7 @@ import ViewVolume from "../../Workspace/View/views/ViewVolume";
 import Stock from "./components/Stock";
 import Tab from "./components/Tab";
 import TabDefault from "./components/tabs/TabDefault";
+import TabFundamental from "./components/tabs/TabFundamental";
 
 export default class WorkspaceModel {
     static TAB_VOLUME       = 0;
@@ -18,15 +19,16 @@ export default class WorkspaceModel {
         this.manager = manager;
         this.name = "";
         this.tabs = [
-            new TabDefault  (this, WorkspaceModel.TAB_VOLUME,       "Volume"        , ViewVolume),
-            new TabDefault  (this, WorkspaceModel.TAB_PRICE_ACTION, "Price action"  , ViewPriceAction),
-            new TabDefault  (this, WorkspaceModel.TAB_TA1,          "TA #1"         , ViewTa1),
-            new Tab         (this, WorkspaceModel.TAB_FUNDAMENTAL,  "Fundamental"   , ViewFundamental),
-            new Tab         (this, WorkspaceModel.TAB_MACRO,        "MACRO"         , ViewMacro)
+            new TabDefault      (this, WorkspaceModel.TAB_VOLUME,       "Volume"        , ViewVolume),
+            new TabDefault      (this, WorkspaceModel.TAB_PRICE_ACTION, "Price action"  , ViewPriceAction),
+            new TabDefault      (this, WorkspaceModel.TAB_TA1,          "TA #1"         , ViewTa1),
+            new TabFundamental  (this, WorkspaceModel.TAB_FUNDAMENTAL,  "Fundamental"   , ViewFundamental),
+            new Tab             (this, WorkspaceModel.TAB_MACRO,        "MACRO"         , ViewMacro)
         ];
 
         this.stocks = [];
         this.modelJson = {};
+        this.path = "";
     }
 
     load(json) {
@@ -100,6 +102,10 @@ export default class WorkspaceModel {
         this.manager.requestSave(this);
     }
 
+    setPath(path) {
+        this.path = path;
+    }
+
     /**
      * Returns the JSON-object containing the state of the Workspace Model.
      * @returns JSON-object representing this workspace.
@@ -126,5 +132,9 @@ export default class WorkspaceModel {
 
     getTabs() {
         return this.tabs;
+    }
+
+    getPath() {
+        return this.path;
     }
 }

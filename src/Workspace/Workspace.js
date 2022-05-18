@@ -23,6 +23,9 @@ export default function Workspace(props) {
                 <TabContainer key={"wsview-" + getKey()}>
                     <WSTab
                         onClick={() => { handleTabClick(tab); }}
+                        style={{
+                            backgroundColor: (tab === activeTab) ? "#BCBCBC" : "auto"
+                        }}
                     >
                         {tab.getName()}
                     </WSTab>
@@ -37,7 +40,7 @@ export default function Workspace(props) {
         return(
             <View
                 tab={tab}
-                stocks={props.model.getStocks()}
+                model={props.model}
             />
         );
     };

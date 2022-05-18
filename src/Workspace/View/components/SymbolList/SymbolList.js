@@ -53,6 +53,10 @@ export default function SymbolList(props) {
                     <SymbolList_Item
                         stock={stock}
                         tabId={props.tab.getId()}
+                        itemClickHook={props.itemSelectionHook}
+
+                        disableColorPicker={props.disableColorPicker}
+                        disableChart={props.disableChart}
                     />
                 </SymbolContainer>
             );
@@ -75,18 +79,23 @@ export default function SymbolList(props) {
 
     return(
         <Content>
-            <FilterContainer>
-                <FilterPanel>
-                    <FilterCaption>
-                        Filters:
-                    </FilterCaption>
-                    <FiltersContainer>
-                        <OptionContainer>
-                            {renderFilterOptions()}
-                        </OptionContainer>
-                    </FiltersContainer>
-                </FilterPanel>
-            </FilterContainer>
+            {
+                !props.disableFilters &&
+                (
+                    <FilterContainer>
+                        <FilterPanel>
+                            <FilterCaption>
+                                Filters:
+                            </FilterCaption>
+                            <FiltersContainer>
+                                <OptionContainer>
+                                    {renderFilterOptions()}
+                                </OptionContainer>
+                            </FiltersContainer>
+                        </FilterPanel>
+                    </FilterContainer>
+                )
+            }
 
             <ListAlignWrapper>
                 <ScrollableList>
@@ -103,7 +112,7 @@ const Content = styled.div`
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 55%;
+    width: 100%;
     height: 100%;
 
     background-color: #C0C0E5;

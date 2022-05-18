@@ -37,32 +37,6 @@ export default class TabDefault extends Tab {
 
         if( this.id === WorkspaceModel.TAB_VOLUME ) return;
 
-        /*let old_filters = this.filters;
-
-            // Narrowing the filter criteria requires re-ordering of subsquent lists
-        if( old_filters.length > filters.length )
-        {
-                // Determine which filters were removed
-            let lost_filters = old_filters.filter((ofl) => !filters.includes(ofl));
-
-                // De-list stocks from the subsequent tabs
-            this.hostWorkspace.getStocks().forEach((stock) => {
-
-                if( lost_filters.includes(stock.getColorCode(this.id)) )
-                {
-                    for( var i = this.id; i < stock.getColorCodes(); i++ )
-                    stock.setColorCode(i, Stock.FILTERED_COLOR);
-                }
-            });
-        }*/
-
-        /*for( let i = 0; i < this.hostWorkspace.getStocks(); i++ )
-        {
-            let stock = this.hostWorkspace.getStock
-            if(  )
-            if( let j = 0;  )
-        }*/
-
         if( filters.length > 0 )
         {
             this.hostWorkspace.getStocks().forEach((stock) => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+/*import styled from "styled-components";
 import { FullDiv } from "../../../../../common/FullDiv";
 import { getKey } from "../../../../../utils/KeyManager";
 
@@ -82,4 +82,4 @@ const ColorPanel = styled.div`
 
     border-style: solid;
     border-width: 2px;
-`;
+`;*/

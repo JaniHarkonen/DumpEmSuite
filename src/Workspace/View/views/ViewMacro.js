@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import styled from "styled-components";
 //import { Content } from "../../../common/Content";
 import Note from "../components/Note/Note";
@@ -30,4 +30,4 @@ const NoteContainer = styled.div`
     position: relative;
     width: 50%;
     height: 50%;
-`;
+`;*/

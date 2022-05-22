@@ -99,3 +99,23 @@ this, implementing SQLite shouldn't be too problematic, however, each time a Rea
 WorkspaceModel, those functions have to be replaced with SQLite requests. To avoid problems in the future, creating an API of
 sorts that will function as a separation between the database and the UI will be considered. There also has to be a separate
 Database Controller object, that will be used to execute queries through the API.
+
+### 22.5.2022
+SQLite3 has now been implemented as the method of external storage. From this point on, workspaces will be stored entirely
+within SQLite database files (db). An "interface" has also been implemented to facilitate the communication between the external
+storage handler and the application front-end. This was done to avoid having to re-write parts of React-elements in the future,
+in case other means of external storage are implemented. Instead, WorkspaceManager — the "interface" — will be utilized by the
+React-components to make requests to the DatabaseController, which in turn is in charge of querying the database. The
+DatabaseController is the part of the application "back-end" that handles the actual communication with the database, including
+establishing/closing connection, sending fetch/post/delete -typed queries and returning result sets of completed queries.
+
+The implementation of SQLite wasn't without problems. Initially, SQLite3-library was used low-level communication layer between
+the application "back-end" and the database. However, the asynchronous nature of SQLite3 proved it difficult to use in tandem
+with React's states. All logic regarding result handling had to be delegated into a callback function separate from the
+function where the query requests were made, even though it was often the case that the results from the query were to be used
+in the code immediately after. SQLite3 would've imposed inefficiencies in processing as well as lead to much confusion while
+debugging. To avoid asynchronicity, better-sqlite3-library was chosen. better-sqlite3 functions almost exactly like SQLite3,
+however all functions relative to the project are handled synchronously, thus making better-sqlite3 the superior solution.
+
+Next, the development will focus on further integration between the application and SQLite. A more critical look is also taken
+at the existing architecture decisions on the React-side.

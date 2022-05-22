@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import SymbolList_Item from "./SymbolListItem";
-import { getKey } from "../../../../utils/KeyManager";  
-import WorkspaceModel from "../../../../utils/model/WorkspaceModel";
-import Stock from "../../../../utils/model/components/Stock";
+import { getKey } from "../../../../utils/KeyManager";
 
 export default function SymbolList(props) {
-    const [ filters, setFilters ] = useState(props.filters);
+    const storageInterface = props.context.storageInterface;
+    /*const [ filters, setFilters ] = useState(props.filters);
 
     const COLOR_OPTIONS = [
         "red",
@@ -105,7 +104,16 @@ export default function SymbolList(props) {
                 </ScrollableList>
             </ListAlignWrapper>
         </Content>
-    );
+    );*/
+    
+    const loadstocks = () => {
+        return storageInterface.getStocks().map((s) => {
+            return (<div style={{position: "relative"}}>
+                {s.name}
+            </div>);
+        });
+    }
+    return(<div style={{position: "absolute", left: "0px", top: "0px", width: "100%", height: "100%", backgroundColor: "blue"}}>{loadstocks()}</div>);
 }
 
 const Content = styled.div`

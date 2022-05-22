@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { getKey } from "../utils/KeyManager";
-import WorkspaceModel from "../utils/model/WorkspaceModel";
+import View from "./View/views/View";
+import SymbolList from "./View/components/SymbolList/SymbolList";
 
 export default function Workspace(props) {
-
-        // State declarations
-    const [ activeTab, openTab ] = useState(props.model.getTabById(WorkspaceModel.TAB_VOLUME));   // Holds the currently open tab
+    const [ activeTab, openTab ] = useState();   // Holds the currently open tab
     
 
     const handleTabClick = (tab) => {
@@ -18,7 +17,7 @@ export default function Workspace(props) {
     const renderTabs = (tablist) => {
         if( !tablist ) return <></>;
 
-        return tablist.map((tab) => {
+        /*return tablist.map((tab) => {
             return(
                 <TabContainer key={"wsview-" + getKey()}>
                     <WSTab
@@ -31,28 +30,21 @@ export default function Workspace(props) {
                     </WSTab>
                 </TabContainer>
             );
-        });
+        });*/
     };
 
     const renderView = (tab) => {
-        let View = tab.getElement();
-
-        return(
-            <View
-                tab={tab}
-                model={props.model}
-            />
-        );
+        return(<View firstHalf={SymbolList} context={{storageInterface: props.storageInterface}} />);
     };
 
     return(
         <Content>
             <TabBar>
-                {renderTabs(props.model.getTabs())}
+                {/*renderTabs(null)*/}
             </TabBar>
 
             <ViewContainer>
-                {renderView(activeTab)}
+                {renderView(null)}
             </ViewContainer>
         </Content>
     );

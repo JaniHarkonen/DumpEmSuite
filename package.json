@@ -7,15 +7,18 @@
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "better-sqlite3": "^7.5.3",
     "concurrently": "^7.1.0",
     "cross-env": "^7.0.3",
     "electron": "^18.0.1",
     "electron-is-dev": "^2.0.0",
     "electron-packager": "^15.5.1",
+    "electron-rebuild": "^3.2.7",
     "path": "^0.12.7",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.0",
+    "react-usestateref": "^1.0.8",
     "styled-components": "^5.3.5",
     "wait-on": "^6.0.1",
     "web-vitals": "^2.1.4"
@@ -32,7 +35,8 @@
     "electron:build": "npm run build && electron-builder -c.extraMetadata.main=build/public/main.js",
     "electron:start": "electron .",
     "custompackage": "electron-packager .",
-    "package-win": "electron-packager . --overwrite --platform=win32"
+    "package-win": "electron-packager . --overwrite --platform=win32",
+    "rebuild": "electron-rebuild -f -w better-sqlite3"
   },
   "eslintConfig": {
     "extends": [

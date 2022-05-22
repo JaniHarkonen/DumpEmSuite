@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import styled from "styled-components";
 import { FullDiv } from "../../../common/FullDiv";
 import SymbolList from "../components/SymbolList/SymbolList";
@@ -15,3 +15,4 @@ export default function ViewTa1(props) {
         </FullDiv>
     );
 }
+*/

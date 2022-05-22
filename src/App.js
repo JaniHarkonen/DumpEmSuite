@@ -18,7 +18,7 @@ export default function App(props) {
                 </Tab>
             );
         });
-    }
+    };
 
     return (
         <Base>
@@ -31,11 +31,11 @@ export default function App(props) {
                 <WorkspaceContainer>
 
                     <TopBar>
-                        {renderTabs(props.modelManager.getModels())}
+                        {/*renderTabs(props.modelManager.getModels())*/}
                     </TopBar>
 
                     <Content>
-                        <Workspace model={props.modelManager.getModelByIndex(0)} />
+                        <Workspace storageInterface={props.storageInterface} />
                     </Content>
 
                 </WorkspaceContainer>

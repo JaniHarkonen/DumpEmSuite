@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import { FullDiv } from "../../../common/FullDiv";
 import SymbolList from "../components/SymbolList/SymbolList";
 
@@ -14,3 +14,4 @@ export default function ViewVolume(props) {
         </FullDiv>
     );
 }
+*/

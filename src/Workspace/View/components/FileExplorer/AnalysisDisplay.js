@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/*import React, { useState } from "react";
 import styled from "styled-components";
 import Note from "../Note/Note";
 import { FullDiv } from "../../../../common/FullDiv";
@@ -94,4 +94,4 @@ const NoteContainer = styled.div`
     position: relative;
     width: 100%;
     height: calc(100% - 32px);
-`;
+`;*/

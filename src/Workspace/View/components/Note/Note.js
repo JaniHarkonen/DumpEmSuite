@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import styled from "styled-components";
 import { FullDiv } from "../../../../common/FullDiv";
 
@@ -31,4 +31,4 @@ const NoteInput = styled.textarea`
     resize: none;
 
     border-radius: 8px;
-`;
+`;*/

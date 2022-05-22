@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import styled from "styled-components";
 import { FullDiv } from "../../../../common/FullDiv";
 import { getKey } from "../../../../utils/KeyManager";
@@ -120,4 +120,4 @@ const LoadFileButtonCaptionContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-`;
+`;*/

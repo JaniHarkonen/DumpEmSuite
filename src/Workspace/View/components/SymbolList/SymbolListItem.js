@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/*import React, { useState } from "react";
 import styled from "styled-components";
 import { FullImage } from "../../../../common/FullImage";
 import ColorPicker from "./ColorPicker/ColorPicker";
@@ -178,4 +178,4 @@ const ColorPickerButton = styled.div`
 
     border-style: solid;
     border-width: 1px;
-`;
+`;*/

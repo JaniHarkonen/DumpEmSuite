@@ -4,9 +4,8 @@ import { FullDiv } from "../../../common/FullDiv"
 
 
 export default function View(props) {
-
-    const FirstHalf = props.firstHalf;
-    const SecondHalf = props.secondHalf;
+    const FirstHalf = props.firstHalf.element;
+    const SecondHalf = props.secondHalf?.element;
 
     return(
         <FullDiv>
@@ -14,17 +13,17 @@ export default function View(props) {
                 width: props.stretch ? "100%" : "50%"
             }}
             >
-                {props.firstHalf && <FirstHalf context={props.context} />}
+                {props.firstHalf && <FirstHalf context={props.firstHalf.context} />}
             </Half>
 
             {
                 props.stretch &&
                 <Half>
-                    {props.secondHalf && <SecondHalf context={props.context} />}
+                    {props.secondHalf && <SecondHalf context={props.firstHalf?.context} />}
                 </Half>
             }
         </FullDiv>
-    )
+    );
 }
 
 const Half = styled.div`

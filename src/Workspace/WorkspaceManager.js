@@ -1,19 +1,20 @@
 export default class WorkspaceManager {
-    constructor(dbc) {
-        this.databaseController = dbc;
+    constructor(ec) {
+        this.externalController = ec;
+    }
+
+    controllerIsValid() {
+        return this.externalController != null;
     }
 
     openWorkspace(ws) {
-        if( !this.databaseController ) return;
         if( !ws ) return;
 
-        this.databaseController.connect(ws);
+        this.externalController.connect(ws);
     }
 
     getStocks() {
-        if( !this.databaseController ) return null;
-        
-        let res = this.databaseController.fetch({
+        let res = this.externalController.fetch({
             type: "stocks"
         });
 
@@ -25,10 +26,9 @@ export default class WorkspaceManager {
     }
 
     getStocksOnTab(tab) {
-        if( !this.databaseController ) return null;
         if( tab < 0 ) return null;
 
-        let res = this.databaseController.fetch({
+        let res = this.externalController.fetch({
             type: "stocks-tab",
             tab: tab
         });
@@ -41,9 +41,7 @@ export default class WorkspaceManager {
     }
 
     changeColorCode(id, color) {
-        if( !this.databaseController ) return null;
-        
-        let res = this.databaseController.post({
+        let res = this.externalController.post({
             type: "code-change",
             id: id,
             color: color

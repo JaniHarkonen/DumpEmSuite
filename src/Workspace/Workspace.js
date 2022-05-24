@@ -5,8 +5,14 @@ import View from "./View/views/View";
 import SymbolList from "./View/components/SymbolList/SymbolList";
 
 export default function Workspace(props) {
-    const [ activeTab, openTab ] = useState();   // Holds the currently open tab
+    const [ activeTab, openTab ] = useState(1);   // Holds the currently open tab
     
+    const DEBUG_TABS = [
+        "Volume",
+        "Price action",
+        "TA #1",
+        "Fundamental"
+    ];
 
     const handleTabClick = (tab) => {
         if( !tab ) return;
@@ -17,34 +23,47 @@ export default function Workspace(props) {
     const renderTabs = (tablist) => {
         if( !tablist ) return <></>;
 
-        /*return tablist.map((tab) => {
+        return tablist.map((tab, index) => {
             return(
                 <TabContainer key={"wsview-" + getKey()}>
                     <WSTab
-                        onClick={() => { handleTabClick(tab); }}
+                        onClick={() => {
+                            handleTabClick(index + 1);
+                        }}
+
                         style={{
-                            backgroundColor: (tab === activeTab) ? "#BCBCBC" : "auto"
+                            backgroundColor: (activeTab - 1 === index) ? "#BCBCBC" : "auto"
                         }}
                     >
-                        {tab.getName()}
+                        {tab}
                     </WSTab>
                 </TabContainer>
             );
-        });*/
+        });
     };
 
-    const renderView = (tab) => {
-        return(<View firstHalf={SymbolList} context={{storageInterface: props.storageInterface}} />);
+    const renderView = (tab, first = false) => {
+        return(
+            <View 
+                firstHalf={{
+                    element: SymbolList,
+                    context: {
+                        stocks: !first ? props.storageInterface.getStocksOnTab(tab) : props.storageInterface.getStocks()
+                    }
+
+                }}
+            />
+        );
     };
 
     return(
         <Content>
             <TabBar>
-                {/*renderTabs(null)*/}
+                {renderTabs(DEBUG_TABS)}
             </TabBar>
 
             <ViewContainer>
-                {renderView(null)}
+                {renderView(activeTab, activeTab === 1)}
             </ViewContainer>
         </Content>
     );

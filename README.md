@@ -119,3 +119,15 @@ however all functions relative to the project are handled synchronously, thus ma
 
 Next, the development will focus on further integration between the application and SQLite. A more critical look is also taken
 at the existing architecture decisions on the React-side.
+
+### 24.5.2022
+Some changes to the architecture of the Views as well as Symobol list filter options have been made to minimize reusing of code.
+SQLite functionalities developed in the earlier diary entry have been further implemented to the Views, and filtration of stocks
+is now possible. The filter options panel was completely re-written, as the previous version was confusing and lacked important
+functionalities; filters would only apply to the data that was to be brought from the previous view, no way of filtering the
+stocks on display.
+
+Next, the "basic" Views (views with only a SymbolList) will be developed to include all required functionalities. The bringing of
+stocks from previous views will be handled a bit differently to avoid querying the database everytime the "bring"-filters are
+changed. Stocks will only be brought upon clicking a separate button. If the action would remove already color coded stocks, a
+modal popup will be displayed to confirm the bringing.

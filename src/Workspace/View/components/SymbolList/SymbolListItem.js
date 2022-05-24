@@ -1,11 +1,11 @@
-/*import React, { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FullImage } from "../../../../common/FullImage";
 import ColorPicker from "./ColorPicker/ColorPicker";
 import imgChart from "../../../../assets/img_chart.svg";
 
 export default function SymbolListItem(props) {
-    const [ isColorPickerOpen, openColorPicker ] = useState(false);
+    /*const [ isColorPickerOpen, openColorPicker ] = useState(false);
 
     const COLOR_OPTIONS = [
         "red",
@@ -19,7 +19,7 @@ export default function SymbolListItem(props) {
     const selectColor = (cindex) => {
         props.stock.changeColorCode(props.tabId, cindex);
         openColorPicker(false);
-    };
+    };*/
 
     const handleListingClick = () => {
         if( props.itemClickHook )
@@ -47,24 +47,24 @@ export default function SymbolListItem(props) {
     return(
         <Content>
             {
-                isColorPickerOpen === true ? 
+                /*isColorPickerOpen === true ? 
                 (
                     <ColorPicker colorSelectionHook={(cindex) => { selectColor(cindex); }} />
                 )
-                :
+                :*/
                 <>
                     <InfoPanelContainer onClick={handleListingClick} >
 
-                        {renderInfoPanel(props.stock.getName())}
-                        {renderInfoPanel(props.stock.getTicker())}
-                        {renderInfoPanel(props.stock.getVolume())}
+                        {renderInfoPanel(props.stock.name)}
+                        {renderInfoPanel(props.stock.ticker)}
+                        {renderInfoPanel(props.stock.volume)}
 
                     </InfoPanelContainer>
 
                     <OptionPanelContainer>
                         <OptionPanelWrapper>
 
-                            {
+                            {/*
                                 !props.disableColorPicker &&
                                 (
                                     <OptionPanel>
@@ -76,7 +76,7 @@ export default function SymbolListItem(props) {
                                         />
                                     </OptionPanel>
                                 )
-                            }
+                                        */}
 
                             <OptionPanel></OptionPanel>
 
@@ -178,4 +178,4 @@ const ColorPickerButton = styled.div`
 
     border-style: solid;
     border-width: 1px;
-`;*/
+`;

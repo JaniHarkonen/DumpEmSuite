@@ -17,6 +17,15 @@ const DEFAULT_ANALYSIS_TEMPLATES = {
  */
 export var ANALYSIS_TEMPLATES = DEFAULT_ANALYSIS_TEMPLATES;
 
+/**
+ * JSON-object containing all available color codes.
+ */
+export const COLOR_CODES = [
+    "red",
+    "blue",
+    "black",
+    "orange"
+]
 
 /**
  * Changes the analysis note templates to the given ones.

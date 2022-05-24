@@ -1,85 +1,81 @@
-import React, { useState } from "react";
-/*import styled from "styled-components";
-import { FullDiv } from "../../../../../common/FullDiv";
+import React from "react";
+import styled from "styled-components";
 import { getKey } from "../../../../../utils/KeyManager";
+import { COLOR_CODES } from "../../../../../utils/CommonVariables";
 
 export default function ColorPicker(props) {
-    const [ colorSelection, setColorSelection ] = useState(props.colorCode);
+    const colorOrder = null;
+    const picks = props.selection;
 
-    const COLOR_OPTIONS = [
-        "red",
-        "green",
-        "blue",
-        "orange",
-        "#0094FF",
-        "#C0C0E5"
-    ];
+    const addIfNotInArray = (item, arr) => {
+        if( !arr ) return;
 
-    const handleColorSelectionClick = (cindex) => {
-        props.colorSelectionHook(cindex);
+        if( arr.indexOf(item) >= 0 )
+        return arr.filter((itm) => itm !== item)
+        else
+        return arr.concat(item);
     };
 
-    const renderColorOptions = (options) => {
-        return(options.map((opt, ind) => {
-            return(
-                <React.Fragment key={"color-panel-" + getKey()} >
-                    <ColorPanel onClick={() => { handleColorSelectionClick(ind); }} >
-                        <FullDiv style={{ backgroundColor: opt }} />
-                    </ColorPanel>
+    const handleColorPick = (index) => {
+        props.onPick(addIfNotInArray(index, picks));
+    };
 
-                    {(ind === 2) && <br />}
-                </React.Fragment>
-            );
-        }));
+    const renderColorPane = (color, index) => {
+        if( !color ) return <></>;
+
+        return(
+            <ColorPane
+                key={getKey()}
+                style={{
+                    backgroundColor: color,
+                    borderStyle: picks.includes(index) ? "dashed" : "solid"
+                }}
+                onClick={() => {
+                    handleColorPick(index)
+                }}
+            />
+        );
+    };
+
+    const renderColorPanes = () => {
+        let result = [];
+
+            // If a separate order has been decided -> use it
+        if( colorOrder )
+        {
+            for( let i = 0; i < colorOrder.length; i++ )
+            result.push(renderColorPane(COLOR_CODES[colorOrder[i]], colorOrder[i]));
+        }
+        else
+        {
+                // Otherwise, use the default order
+            for( let i = 0; i < COLOR_CODES.length; i++ )
+            result.push(renderColorPane(COLOR_CODES[i], i));
+        }
+
+        return result;
     };
 
     return(
         <Content>
-            <ColorContainer>
-                <ColorPanelsWrapper id="dss">
-                    {renderColorOptions(COLOR_OPTIONS)}
-                </ColorPanelsWrapper>
-            </ColorContainer>
+            {renderColorPanes()}
         </Content>
     );
 }
 
 const Content = styled.div`
-    position: absolute;
-    left: 0px;
-    top: 0px;
+    position: relative;
     width: 100%;
     height: 100%;
-
     display: flex;
-    justify-content: center;
-    align-items: center;
+    gap: 5px;
 `;
 
-const ColorContainer = styled.div`
+const ColorPane = styled.div`
     position: relative;
-    width: 50%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: white;
-    border-radius: 8px;
-`;
-
-const ColorPanelsWrapper = styled.div`
-    position: relative;
-`;
-
-const ColorPanel = styled.div`
-    position: relative;
-    width: 32px;
-    height: 32px;
-
-    display: inline-block;
-    margin: 6px;
+    flex: 1;
 
     border-style: solid;
-    border-width: 2px;
-`;*/
+    border-width: 1px;
+    border-color: black;
+`;

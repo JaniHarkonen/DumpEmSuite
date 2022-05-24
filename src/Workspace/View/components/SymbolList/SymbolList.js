@@ -2,96 +2,43 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import SymbolList_Item from "./SymbolListItem";
 import { getKey } from "../../../../utils/KeyManager";
+import FilterOptionsPanel from "./FilterOptions/FilterOptionsPanel";
 
 export default function SymbolList(props) {
-    const storageInterface = props.context.storageInterface;
-    /*const [ filters, setFilters ] = useState(props.filters);
+    const tabStocks = props.context.stocks;
+    const [displayFilters, setDisplayFilters] = useState([]);
 
-    const COLOR_OPTIONS = [
-        "red",
-        "green",
-        "blue",
-        "orange",
-        "#0094FF",
-        "#C0C0E5"
-    ];
+    const handleDisplayFilterChange = (newfils) => {
+        if( !newfils ) return;
 
-    const filterStocks = (filter) => {
-        let tabid = props.tab.getId();
-
-        if( tabid === WorkspaceModel.TAB_VOLUME ) return props.stocks;
-
-        tabid -= 1;
-
-        return props.stocks.filter((stock) => {
-            let ccode = stock.getColorCode(tabid);
-
-            return ( ccode !== Stock.FILTERED_COLOR && (filter.length === 0 || filter.includes(ccode)) );
-        });
-    };
-
-    const handleFilterSelection = (filter) => {
-        let new_filters = filters.map((f) => f);
-
-        if( filters.includes(filter) )
-        new_filters = filters.filter((f) => f !== filter);
-        else
-        new_filters.push(filter);
-
-        props.tab.changeFilters(new_filters);
-
-        setFilters(new_filters);
-    };
+        setDisplayFilters(newfils);
+    }
 
     const renderSymbols = (stocks) => {
         if( !stocks ) return <></>;
 
-        return stocks.map((stock) => {
+        let flstocks = stocks;
+        if( displayFilters.length > 0 )
+        flstocks = stocks.filter((stock) => displayFilters.includes(stock.colorCode));
+
+        return flstocks.map((stock) => {
             return(
                 <SymbolContainer key={"symbol-" + getKey()}>
                     <SymbolList_Item
                         stock={stock}
-                        tabId={props.tab.getId()}
-                        itemClickHook={props.itemSelectionHook}
-
-                        disableColorPicker={props.disableColorPicker}
-                        disableChart={props.disableChart}
                     />
                 </SymbolContainer>
             );
         });
     };
 
-    const renderFilterOptions = () => {
-        return(COLOR_OPTIONS.map((col, ind) => {
-            return(
-                <FilterOption
-                    style={{
-                        backgroundColor: col,
-                        borderWidth: (filters.includes(ind)) ? "2px" : "1px"
-                    }}
-                    onClick={() => { handleFilterSelection(ind); }}
-                />
-            );
-        }));
-    };
-
     return(
         <Content>
             {
-                !props.disableFilters &&
+                !props.disableFilterPanel &&
                 (
                     <FilterContainer>
-                        <FilterPanel>
-                            <FilterCaption>
-                                Filters:
-                            </FilterCaption>
-                            <FiltersContainer>
-                                <OptionContainer>
-                                    {renderFilterOptions()}
-                                </OptionContainer>
-                            </FiltersContainer>
-                        </FilterPanel>
+                        <FilterOptionsPanel onDisplayFilterChange={handleDisplayFilterChange} />
                     </FilterContainer>
                 )
             }
@@ -99,21 +46,12 @@ export default function SymbolList(props) {
             <ListAlignWrapper>
                 <ScrollableList>
                     <ListContainer>
-                        {renderSymbols(filterStocks(filters))}
+                        {renderSymbols(tabStocks)}
                     </ListContainer>
                 </ScrollableList>
             </ListAlignWrapper>
         </Content>
-    );*/
-    
-    const loadstocks = () => {
-        return storageInterface.getStocks().map((s) => {
-            return (<div style={{position: "relative"}}>
-                {s.name}
-            </div>);
-        });
-    }
-    return(<div style={{position: "absolute", left: "0px", top: "0px", width: "100%", height: "100%", backgroundColor: "blue"}}>{loadstocks()}</div>);
+    );
 }
 
 const Content = styled.div`
@@ -165,9 +103,6 @@ const FilterContainer = styled.div`
     position: relative;
     width: 100%;
     height: 48px;
-
-    display: flex;
-    align-items: center;
 `;
 
 const FilterPanel = styled.div`

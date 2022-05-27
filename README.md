@@ -131,3 +131,23 @@ Next, the "basic" Views (views with only a SymbolList) will be developed to incl
 stocks from previous views will be handled a bit differently to avoid querying the database everytime the "bring"-filters are
 changed. Stocks will only be brought upon clicking a separate button. If the action would remove already color coded stocks, a
 modal popup will be displayed to confirm the bringing.
+
+### 28.5.2022
+All functionalities, aside from the extraction of stocks from a downloaded website, have been implemented to the Views using the
+new SQLite-approach. A modal popup component was created and implemented that is currently only utilized by the SymbolList when
+clearing stocks before bringing new ones from the previous tab. The SQLite-queries perform slower than previously expected,
+however dealing with larger datasets will probably be faster. It isn't clear if the datasets being operated on will be large
+enough to see any drastic performance when writing changes to the Workspace content, however, with the introduction of
+WorkspaceManager-interface changing to other database solution or even reverting to the previous file system -based solution.
+
+Most requests to the DatabaseController from WorkspaceManager follow the same form where the validity of the database controller
+object is first checked, followed by the query, ending with the returning of either the query result or a console logging of an
+error message and the returning of a null object, in case the query fails. For this reason, "request"-method was implemented to
+be used internally by the WorkspaceManager. "request" takes in a function that will be executed after a database controller
+object validity check and before the returning of the query result as described above. This makes it possible to create
+additional checks or other repetitive in a scalable way.
+
+Next, the development will focus on the reduction of repetitive code as well as error checking within the DatabaseController.
+Architectural choices will also be criticly examined and possibly changed elsewhere in the Workspace and its components, for
+example, there is a lot of repition with hooks as well as prop drilling which may be solved with better design or the usage of
+useContext-hooks. The changing of WorkspaceManager-interface's methods to static ones will also be considered.

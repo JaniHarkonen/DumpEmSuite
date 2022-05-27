@@ -1,6 +1,7 @@
 import { makeReturnableError, makeReturnableSuccessful } from "./DatabaseUtils";
 import Stock from "./entities/Stock";
 import CodedStock from "./entities/CodedStock";
+import CodedEntry from "./entities/CodedEntry";
 
 const sqlite3 = window.require("better-sqlite3");
 
@@ -80,6 +81,7 @@ export default class DatabaseController {
             
                 // Fetch the basic stock data of all the companies listed on a certain tab
                 // as well as their color codes
+                // (requires: tab)
             case "stocks-tab":
             {
                 if( !q.tab ) return makeReturnableError("ERROR: No tab index provided!");
@@ -95,6 +97,43 @@ export default class DatabaseController {
 
                 return res;
             }
+
+                // Fetch the company IDs and color codes of all the companies listed on a certain
+                // tab that have a set color code (not -1)
+                // (requires: tab)
+            case "coded-tab":
+            {
+                if( !q.tab ) return makeReturnableError("ERROR: No tab index provided!");
+
+                let res = makeReturnableSuccessful();
+                let qres = this.query("get", 
+                    `SELECT Company_ID, CCode_code_index
+                     FROM colorcodes
+                     WHERE CCode_code_index != -1
+                     AND CCode_tab=?`, [q.tab]
+                ).rows;
+                res.result = (new CodedEntry().form(qres));
+
+                return res;
+            }
+
+                // Fetch the available color codes for the symbol list color picker
+            case "color-codes":
+            {
+                let res = makeReturnableSuccessful() ;
+                let qres = this.query("get", `SELECT Color_ID, Color_color FROM colors;`).rows;
+
+                if( qres.length === 0 ) return res;
+
+                let colors = new Array(qres.length);
+                for( let col of qres )
+                colors[col.Color_ID] = col.Color_color;
+
+                res.result = colors;
+                return res;
+            }
+
+            default: return makeReturnableError("ERROR: Invalid query type!");
         }
     }
 
@@ -103,24 +142,72 @@ export default class DatabaseController {
 
         switch( q.type )
         {
-                // Make changes to the color code of a given stock
-                // (requires: id, color code index)
+                // Make changes to the color code of a given stock on a given tab
+                // (requires: id, tab, color code index)
             case "code-change":
             {
                 let res = makeReturnableSuccessful();
                 res.result = this.query("post",
                     `UPDATE colorcodes 
                      SET CCode_code_index=? 
-                     WHERE Company_ID=?`, [q.color, q.id]
+                     WHERE Company_ID=?
+                     AND CCode_tab=?`, [q.color, q.id, q.tab]
+                );
+
+                return res;
+            }
+
+                // Brings stocks from a given tab to another if they satisfy a given filter
+                // (requires: source tab, destination tab, filters)
+            case "bring-stocks":
+            {
+                let res = makeReturnableSuccessful();
+                let qstr = 
+                    `INSERT INTO colorcodes
+                     SELECT cs.Company_ID, ${q.toTab}, 0
+                     FROM companies cs, colorcodes css
+                     WHERE css.Company_ID = cs.Company_ID
+                     AND css.CCode_tab=?`;
+
+                let inqms = "?";
+
+                if( q.filters.length === 0 )
+                {
+                    res.result = this.query("post", qstr, [q.fromTab]);
+                    return res;
+                }
+
+                for( let i = 1; i < q.filters.length; i++ )
+                inqms += ",?";
+
+                qstr += ` AND css.CCode_code_index in (${inqms});`;
+                res.result = this.query("post", qstr, ([q.fromTab]).concat(q.filters));
+
+                return res;
+            }
+
+            default: return makeReturnableError("ERROR: Invalid query type!");
+        }
+    }
+
+    delete(q) {
+        if( !q ) makeReturnableError("ERROR: No entity input!");
+
+        switch( q.type )
+        {
+                // Removes all stocks from a given tab
+                // (requires: tab)
+            case "stocks-tab":
+            {
+                let res = makeReturnableSuccessful();
+                res.result = this.query("delete",
+                    `DELETE FROM colorcodes WHERE CCode_tab=?`,
+                    [q.tab]
                 );
 
                 return res;
             }
         }
-    }
-
-    delete(q) {
-        
     }
 
     /**
@@ -148,13 +235,19 @@ export default class DatabaseController {
             };
         }
 
-        if( type === "post" )
+        if( type === "post" || type === "delete" )
         {
             let stmt = this.targetDatabase.prepare(q);
             let res = stmt.run(vals);
+
+            if( type === "post" )
             return {
                 lastID: res.lastInsertRowid,
                 changes: res.changes
+            };
+            
+            return {
+                removed: res.changes
             };
         }
     }

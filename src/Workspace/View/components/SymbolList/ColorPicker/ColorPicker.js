@@ -1,33 +1,37 @@
 import React from "react";
 import styled from "styled-components";
 import { getKey } from "../../../../../utils/KeyManager";
-import { COLOR_CODES } from "../../../../../utils/CommonVariables";
+import { COLOR_CODES, integerToRGBA } from "../../../../../utils/CommonVariables";
 
 export default function ColorPicker(props) {
     const colorOrder = null;
-    const picks = props.selection;
+    const disableMultiSelection = props.disableMultiSelection;
+    const picks = disableMultiSelection ? [props.selection[0]] : props.selection;
+    const onPick = props.onPick;
+
 
     const addIfNotInArray = (item, arr) => {
         if( !arr ) return;
-
+    
         if( arr.indexOf(item) >= 0 )
-        return arr.filter((itm) => itm !== item)
+        return arr.filter((itm) => itm !== item);
         else
         return arr.concat(item);
     };
 
     const handleColorPick = (index) => {
-        props.onPick(addIfNotInArray(index, picks));
+        if( !disableMultiSelection )
+        onPick(addIfNotInArray(index, picks));
+        else
+        onPick(index);
     };
 
     const renderColorPane = (color, index) => {
-        if( !color ) return <></>;
-
         return(
             <ColorPane
                 key={getKey()}
                 style={{
-                    backgroundColor: color,
+                    backgroundColor: integerToRGBA(color),
                     borderStyle: picks.includes(index) ? "dashed" : "solid"
                 }}
                 onClick={() => {
@@ -43,13 +47,13 @@ export default function ColorPicker(props) {
             // If a separate order has been decided -> use it
         if( colorOrder )
         {
-            for( let i = 0; i < colorOrder.length; i++ )
+            for( let i = 1; i < colorOrder.length; i++ )
             result.push(renderColorPane(COLOR_CODES[colorOrder[i]], colorOrder[i]));
         }
         else
         {
                 // Otherwise, use the default order
-            for( let i = 0; i < COLOR_CODES.length; i++ )
+            for( let i = 1; i < COLOR_CODES.length; i++ )
             result.push(renderColorPane(COLOR_CODES[i], i));
         }
 

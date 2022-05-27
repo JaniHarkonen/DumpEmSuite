@@ -1,25 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FullImage } from "../../../../common/FullImage";
 import ColorPicker from "./ColorPicker/ColorPicker";
 import imgChart from "../../../../assets/img_chart.svg";
+import { integerToRGBA, getColorCode } from "../../../../utils/CommonVariables";
 
 export default function SymbolListItem(props) {
-    /*const [ isColorPickerOpen, openColorPicker ] = useState(false);
+    const symbolStockID = props.stock.id;
+    const symbolName = props.stock.name;
+    const symbolTicker = props.stock.ticker;
+    const symbolVolume = props.stock.volume;
+    const symbolColorIndex = props.stock.colorCode;
+    const symbolColorCode = getColorCode(symbolColorIndex);
+    const onColorCodeChange = props.onColorCodeChange;
 
-    const COLOR_OPTIONS = [
-        "red",
-        "green",
-        "blue",
-        "orange",
-        "#0094FF",
-        "#C0C0E5"
-    ];
+    const [ isColorPickerOpen, openColorPicker ] = useState(false);
 
-    const selectColor = (cindex) => {
-        props.stock.changeColorCode(props.tabId, cindex);
-        openColorPicker(false);
-    };*/
 
     const handleListingClick = () => {
         if( props.itemClickHook )
@@ -44,39 +40,49 @@ export default function SymbolListItem(props) {
         );
     };
 
+    const handleColorCodeChange = (newcol) => {
+        onColorCodeChange(symbolStockID, newcol);
+        openColorPicker(false);
+    };
+
     return(
         <Content>
+            <Backdrop color={integerToRGBA(symbolColorCode, 4/9)} />
             {
-                /*isColorPickerOpen === true ? 
+                isColorPickerOpen === true ? 
                 (
-                    <ColorPicker colorSelectionHook={(cindex) => { selectColor(cindex); }} />
+                    <ColorPicker 
+                        selection={[symbolColorIndex]}
+                        onPick={handleColorCodeChange}
+                        disableMultiSelection={true}
+                    />
                 )
-                :*/
+                :
                 <>
                     <InfoPanelContainer onClick={handleListingClick} >
 
-                        {renderInfoPanel(props.stock.name)}
-                        {renderInfoPanel(props.stock.ticker)}
-                        {renderInfoPanel(props.stock.volume)}
+                        {renderInfoPanel(symbolName)}
+                        {renderInfoPanel(symbolTicker)}
+                        {renderInfoPanel(symbolVolume)}
 
                     </InfoPanelContainer>
 
                     <OptionPanelContainer>
                         <OptionPanelWrapper>
 
-                            {/*
+                            {
                                 !props.disableColorPicker &&
                                 (
                                     <OptionPanel>
                                         <ColorPickerButton 
                                             style={{
-                                                backgroundColor: COLOR_OPTIONS[props.stock.getColorCode(props.tabId)]
+                                                backgroundColor: integerToRGBA(symbolColorCode)
                                             }}
                                             onClick={() => { openColorPicker(true); }}
                                         />
                                     </OptionPanel>
                                 )
-                                        */}
+                            }
 
                             <OptionPanel></OptionPanel>
 
@@ -107,7 +113,7 @@ const Content = styled.div`
     width: 100%;
     height: 100%;
 
-    background-color: #CCCCE8;
+    background-color: white;
 
     border-style: solid;
     border-width: 1px;
@@ -116,6 +122,16 @@ const Content = styled.div`
     &:hover {
         opacity: 0.8;
     }
+`;
+
+const Backdrop = styled.div`
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+
+    background-color: ${props => props.color};
 `;
 
 const InfoPanelContainer = styled.div`

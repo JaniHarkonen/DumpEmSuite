@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import Workspace from "./Workspace/Workspace";
 import SideBar from "./SideBar/SideBar";
 import { getKey } from "./utils/KeyManager";
+import { setColorCodes } from "./utils/CommonVariables";
 
 export default function App(props) {
+    useEffect(() => {
+        setColorCodes(props.storageInterface.getColorCodes());
+    }, []);
 
     const renderTabs = (models) => {
         if( !models ) return <></>;

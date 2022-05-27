@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { FullDiv } from "../../../common/FullDiv"
+import { getKey } from "../../../utils/KeyManager";
 
 
 export default function View(props) {
     const FirstHalf = props.firstHalf.element;
     const SecondHalf = props.secondHalf?.element;
+
+
 
     return(
         <FullDiv>
@@ -13,13 +16,25 @@ export default function View(props) {
                 width: props.stretch ? "100%" : "50%"
             }}
             >
-                {props.firstHalf && <FirstHalf context={props.firstHalf.context} />}
+                {
+                    props.firstHalf &&
+                    (<FirstHalf
+                        key={"first-half-" + getKey()}
+                        context={props.firstHalf.context}
+                    />)
+                }
             </Half>
 
             {
                 props.stretch &&
                 <Half>
-                    {props.secondHalf && <SecondHalf context={props.firstHalf?.context} />}
+                    {
+                        props.secondHalf &&
+                        (<SecondHalf
+                            key={"second-half-" + getKey()}
+                            context={props.firstHalf?.context}
+                        />)
+                    }
                 </Half>
             }
         </FullDiv>

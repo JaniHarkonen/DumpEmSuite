@@ -1,31 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import SymbolList_Item from "./SymbolListItem";
+import SymbolListItem from "./SymbolListItem";
 import { getKey } from "../../../../utils/KeyManager";
 import FilterOptionsPanel from "./FilterOptions/FilterOptionsPanel";
 
 export default function SymbolList(props) {
-    const tabStocks = props.context.stocks;
+    const refresh = props.context.refresh;
+    const disableFilterPanel = props.disableFilterPanel;
+    const enableBring = props.context.enableBring;
+    const onBring = props.context.onBring;
+    const onClear = props.context.onClear;
+    const onColorCodeChange = props.context.onColorCodeChange;
+
     const [displayFilters, setDisplayFilters] = useState([]);
+    const [tabStocks, setTabStocks] = useState([]);
+
+    useEffect(() => {
+        setTabStocks(props.context.stocks);
+    }, []);
+
+    const refreshStocks = () => {
+        setTabStocks(refresh());
+    };
+
+    const filterStocks = (stocks, filters) => {
+        if( filters.length > 0 )
+        return stocks.filter((stock) => filters.includes(stock.colorCode));
+
+        return stocks;
+    };
 
     const handleDisplayFilterChange = (newfils) => {
         if( !newfils ) return;
 
         setDisplayFilters(newfils);
-    }
+    };
 
-    const renderSymbols = (stocks) => {
+    const handleBringClick = (filters) => {
+        onBring(filters);
+        refreshStocks();
+    };
+
+    const handleClearClick = () => {
+        onClear();
+        refreshStocks();
+    };
+
+    const handleColorCodeChange = (id, newcol) => {
+        onColorCodeChange(id, newcol);
+        refreshStocks();
+    };
+
+    const renderSymbols = (stocks, filters) => {
         if( !stocks ) return <></>;
 
-        let flstocks = stocks;
-        if( displayFilters.length > 0 )
-        flstocks = stocks.filter((stock) => displayFilters.includes(stock.colorCode));
-
-        return flstocks.map((stock) => {
+        return filterStocks(stocks, filters).map((stock) => {
             return(
                 <SymbolContainer key={"symbol-" + getKey()}>
-                    <SymbolList_Item
+                    <SymbolListItem
                         stock={stock}
+                        onColorCodeChange={handleColorCodeChange}
                     />
                 </SymbolContainer>
             );
@@ -35,10 +69,20 @@ export default function SymbolList(props) {
     return(
         <Content>
             {
-                !props.disableFilterPanel &&
+                !disableFilterPanel &&
                 (
                     <FilterContainer>
-                        <FilterOptionsPanel onDisplayFilterChange={handleDisplayFilterChange} />
+                        <FilterOptionsPanel 
+                            onDisplayFilterChange={handleDisplayFilterChange}
+                            onBring={handleBringClick}
+                            onClear={handleClearClick}
+                            enableBring={enableBring}
+                            enableClear={true}
+                            stats={{
+                                stocksDisplayed: filterStocks(tabStocks, displayFilters).length,
+                                stocksCount: tabStocks.length
+                            }}
+                        />
                     </FilterContainer>
                 )
             }
@@ -46,7 +90,7 @@ export default function SymbolList(props) {
             <ListAlignWrapper>
                 <ScrollableList>
                     <ListContainer>
-                        {renderSymbols(tabStocks)}
+                        {renderSymbols(tabStocks, displayFilters)}
                     </ListContainer>
                 </ScrollableList>
             </ListAlignWrapper>
@@ -102,48 +146,5 @@ const SymbolContainer = styled.div`
 const FilterContainer = styled.div`
     position: relative;
     width: 100%;
-    height: 48px;
-`;
-
-const FilterPanel = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-`;
-
-const FilterCaption = styled.div`
-    position: relative;
-    margin-left: 48px;
-`;
-
-const FiltersContainer = styled.div`
-    position: relative;
-    height: 100%;
-    margin-left: 16px;
-
-    display: inline-block;
-`;
-
-const OptionContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-`;
-
-const FilterOption = styled.div`
-    position: relative;
-    width: 16px;
-    height: 16px;
-
-    display: inline-block;
-    margin-right: 8px;
-
-    border-style: solid;
-    border-width: 1px;
+    height: 128px;
 `;

@@ -49,3 +49,15 @@ export const makeReturnableError = (err) => {
         error: err
     };
 };
+
+export const generateQueryList = (items, separator = ",") => {
+    if( !items || items.length === 0 )
+    return "";
+
+    let str = items[0].getString();
+
+    for( let i = 1; i < items.length; i++ )
+    str += separator + " " + items[i].getString();
+
+    return str;
+};

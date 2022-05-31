@@ -4,23 +4,27 @@ import SymbolListItem from "./SymbolListItem";
 import { getKey } from "../../../../utils/KeyManager";
 import FilterOptionsPanel from "./FilterOptions/FilterOptionsPanel";
 
+
 export default function SymbolList(props) {
-    const refresh = props.context.refresh;
+    const enableBring = props.enableBring;
     const disableFilterPanel = props.disableFilterPanel;
-    const enableBring = props.context.enableBring;
-    const onBring = props.context.onBring;
-    const onClear = props.context.onClear;
-    const onColorCodeChange = props.context.onColorCodeChange;
+    const actions = props.actions;
+    const onBring = actions.onBring;
+    const onClear = actions.onClear;
+    const onColorCodeChange = actions.onColorCodeChange;
 
     const [displayFilters, setDisplayFilters] = useState([]);
     const [tabStocks, setTabStocks] = useState([]);
 
+
+    console.log("render: symbol list");
+
     useEffect(() => {
-        setTabStocks(props.context.stocks);
+        refresh();
     }, []);
 
-    const refreshStocks = () => {
-        setTabStocks(refresh());
+    const refresh = () => {
+        setTabStocks(actions.refresh());
     };
 
     const filterStocks = (stocks, filters) => {
@@ -30,25 +34,14 @@ export default function SymbolList(props) {
         return stocks;
     };
 
-    const handleDisplayFilterChange = (newfils) => {
-        if( !newfils ) return;
-
-        setDisplayFilters(newfils);
-    };
-
     const handleBringClick = (filters) => {
         onBring(filters);
-        refreshStocks();
+        refresh();
     };
 
     const handleClearClick = () => {
         onClear();
-        refreshStocks();
-    };
-
-    const handleColorCodeChange = (id, newcol) => {
-        onColorCodeChange(id, newcol);
-        refreshStocks();
+        refresh();
     };
 
     const renderSymbols = (stocks, filters) => {
@@ -59,7 +52,7 @@ export default function SymbolList(props) {
                 <SymbolContainer key={"symbol-" + getKey()}>
                     <SymbolListItem
                         stock={stock}
-                        onColorCodeChange={handleColorCodeChange}
+                        onColorCodeChange={onColorCodeChange}
                     />
                 </SymbolContainer>
             );
@@ -73,7 +66,7 @@ export default function SymbolList(props) {
                 (
                     <FilterContainer>
                         <FilterOptionsPanel 
-                            onDisplayFilterChange={handleDisplayFilterChange}
+                            onDisplayFilterChange={setDisplayFilters}
                             onBring={handleBringClick}
                             onClear={handleClearClick}
                             enableBring={enableBring}

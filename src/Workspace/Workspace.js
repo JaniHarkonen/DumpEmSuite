@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { getKey } from "../utils/KeyManager";
 import View from "./View/views/View";
-import SymbolList from "./View/components/SymbolList/SymbolList";
-import ClearNotification from "./modals/ClearNotification";
+//import ClearNotification from "./modals/ClearNotification";
+import SymbolListExternalWrapper from "./View/views/wrappers/SymbolListExternalWrapper";
 
 export default function Workspace(props) {
     const DEBUG_TABS = [
@@ -12,25 +12,16 @@ export default function Workspace(props) {
         "TA #1",
         "Fundamental"
     ];
-    const storageInterface = props.storageInterface;
 
-    const [ activeTab, openTab ] = useState(1);   // Holds the currently open tab
-    const [isModalActive, setModalActive] = useState(null);
+    console.log("render: workspace");
+    const [activeTab, openTab] = useState(1);   // Holds the currently open tab
+    //const [isModalActive, setModalActive] = useState(null);
 
 
     const handleTabClick = (tab) => {
         if( !tab ) return;
 
         openTab(tab);
-    };
-
-    const bringStocksFromTab = (filters, tab) => {
-        if( !filters ) return;
-
-        if( storageInterface.tabHasColorCodedStocks(tab) )
-        setModalActive(true);
-        else
-        storageInterface.bringStocksFromTab(tab - 1, tab, filters);
     };
 
     const renderTabs = (tablist) => {
@@ -60,22 +51,10 @@ export default function Workspace(props) {
         return(
             <View 
                 firstHalf={{
-                    element: SymbolList,
+                    element: SymbolListExternalWrapper,
                     context: {
-                        stocks: storageInterface.getStocksOnTab(tab),
-                        refresh: () => {
-                            return storageInterface.getStocksOnTab(tab);
-                        },
-                        enableBring: !first,
-                        onBring: (filters) => {
-                            bringStocksFromTab(filters, tab)
-                        },
-                        onColorCodeChange: (id, newcol) => {
-                            return storageInterface.changeColorCode(id, tab, newcol);
-                        },
-                        onClear: () => {
-                            storageInterface.clearTabStocks(tab);
-                        }
+                        tab: tab,
+                        enableBring: !first
                     }
                 }}
             />
@@ -92,13 +71,12 @@ export default function Workspace(props) {
                 {renderActiveTab(activeTab === 1)}
             </ViewContainer>
 
-            {
+            {/*
                 isModalActive &&
                 (<ClearNotification 
                     tab={activeTab}
-                    storageInterface={storageInterface}
                     setModalActive={setModalActive}
-                />)
+                />)*/
             }
         </Content>
     );

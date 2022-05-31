@@ -5,7 +5,7 @@ import App from './App';
 import { DUMP_EM_CONFIG, setAnalysisTemplates } from './utils/CommonVariables';
 import { readJson } from './utils/FileUtils';
 import DatabaseController from "./database/DatabaseController";
-import WorkspaceManager from "./Workspace/WorkspaceManager";
+import ExternalStorageAPI from './Workspace/ExternalStorageAPI';
 
 
     // Load analysis note templates
@@ -16,10 +16,10 @@ setAnalysisTemplates({
     consensus: readJson(config.analysisTemplates.consensus).content
 });*/
 
-    // Set up the WorkspaceManager interface along with a database connection
-let wsm = new WorkspaceManager(new DatabaseController());
-wsm.openWorkspace("D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\test.db");
+    // Set up the ExternalStorageAPI interface along with a database connection
+ExternalStorageAPI.initialize(new DatabaseController());
+ExternalStorageAPI.openWorkspace("D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\test.db");
 
     // React setup
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App storageInterface={wsm} />);
+root.render(<App />);

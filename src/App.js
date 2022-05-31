@@ -1,13 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, createContext } from "react";
 import styled from "styled-components";
 import Workspace from "./Workspace/Workspace";
 import SideBar from "./SideBar/SideBar";
 import { getKey } from "./utils/KeyManager";
 import { setColorCodes } from "./utils/CommonVariables";
+import ExternalStorageAPI from "./Workspace/ExternalStorageAPI";
 
-export default function App(props) {
+
+const modal = null;
+
+export const ModalContext = createContext(modal);
+
+export default function App() {
     useEffect(() => {
-        setColorCodes(props.storageInterface.getColorCodes());
+        setColorCodes(ExternalStorageAPI.getColorCodes());
     }, []);
 
     const renderTabs = (models) => {
@@ -40,7 +46,7 @@ export default function App(props) {
                     </TopBar>
 
                     <Content>
-                        <Workspace storageInterface={props.storageInterface} />
+                        <Workspace />
                     </Content>
 
                 </WorkspaceContainer>

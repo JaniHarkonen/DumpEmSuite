@@ -1,25 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FullImage } from "../../../../common/FullImage";
 import ColorPicker from "./ColorPicker/ColorPicker";
 import imgChart from "../../../../assets/img_chart.svg";
 import { integerToRGBA, getColorCode } from "../../../../utils/CommonVariables";
+import { getKey } from "../../../../utils/KeyManager";
+
+/**
+ * This function is used by SymbolListItem only, but is hoisted due to
+ * being used in the useState initialization.
+ * 
+ * Creates a color JSON containing the index as well as the RRRGGGBBB-
+ * integer representation of the color.
+ * @param {integer} index Color index.
+ * @returns JSON containing the color index and RRRGGGBBB-integer.
+ */
+const makeColor = (index) => {
+    return {
+        index: index,
+        color: getColorCode(index)
+    };
+};
+
+const makeOptionPanel = (element, condition) => {
+    return {
+        element: element,
+        condition: condition
+    };
+};
 
 export default function SymbolListItem(props) {
-    const symbolStockID = props.stock.id;
-    const symbolName = props.stock.name;
-    const symbolTicker = props.stock.ticker;
-    const symbolVolume = props.stock.volume;
-    const symbolColorIndex = props.stock.colorCode;
-    const symbolColorCode = getColorCode(symbolColorIndex);
+    const symbol = props.stock;
+    const symbolStockID = symbol.id;
+    const symbolName = symbol.name;
+    const symbolTicker = symbol.ticker;
+    const symbolVolume = symbol.volume;
+    const symbolColorIndex = symbol.colorCode;
     const onColorCodeChange = props.onColorCodeChange;
+    const onItemClick = props.onItemClick;
+    const disableColorPicker = props.disableColorPicker;
+    const disableChart = props.disableChart;
 
+    console.log("render: symbol list item");
+    const [ symbolColorCode, setSymbolColorCode ] = useState(makeColor(symbolColorIndex));
     const [ isColorPickerOpen, openColorPicker ] = useState(false);
 
-
     const handleListingClick = () => {
-        if( props.itemClickHook )
-        props.itemClickHook(props.stock);
+        if( onItemClick )
+        onItemClick(symbol);
     }
 
     const renderInfoPanel = (info) => {
@@ -32,27 +60,69 @@ export default function SymbolListItem(props) {
         );
     };
 
+    const renderOptionPanel = (content, condition) => {
+        return(
+            <OptionPanel key={getKey()}>
+                {condition && content}
+            </OptionPanel>
+        );
+    };
+
+    const renderOptionPanels = (options) => {
+        if( !options ) return <></>;
+
+        return optionPanels.map((op) => {
+            return renderOptionPanel(op.element, op.condition);
+        });
+    };
+
     const handleChartClick = () => {
         window.require("electron")
         .shell.openExternal(
             "https://www.tradingview.com/chart/?symbol=" +
-            props.stock.ticker
+            symbolTicker
         );
     };
 
     const handleColorCodeChange = (newcol) => {
         onColorCodeChange(symbolStockID, newcol);
+        setSymbolColorCode(makeColor(newcol));
         openColorPicker(false);
     };
 
+
+    const optionPanels = [
+        makeOptionPanel(
+            <ColorPickerButton 
+                style={{
+                    backgroundColor: integerToRGBA(symbolColorCode.color)
+                }}
+                onClick={() => {
+                    openColorPicker(true);
+                }}
+            />, !disableColorPicker
+        ),
+
+        makeOptionPanel(<></>, false),
+
+        makeOptionPanel(
+            <FullImage
+                src={imgChart}
+                onClick={handleChartClick}
+            />, !disableChart
+        )
+    ];
+
     return(
         <Content>
-            <Backdrop color={integerToRGBA(symbolColorCode, 4/9)} />
+            <Backdrop style={{
+                backgroundColor: integerToRGBA(symbolColorCode.color, 4/9)
+            }} />
             {
                 isColorPickerOpen === true ? 
                 (
                     <ColorPicker 
-                        selection={[symbolColorIndex]}
+                        selection={[symbolColorCode.index]}
                         onPick={handleColorCodeChange}
                         disableMultiSelection={true}
                     />
@@ -69,35 +139,7 @@ export default function SymbolListItem(props) {
 
                     <OptionPanelContainer>
                         <OptionPanelWrapper>
-
-                            {
-                                !props.disableColorPicker &&
-                                (
-                                    <OptionPanel>
-                                        <ColorPickerButton 
-                                            style={{
-                                                backgroundColor: integerToRGBA(symbolColorCode)
-                                            }}
-                                            onClick={() => { openColorPicker(true); }}
-                                        />
-                                    </OptionPanel>
-                                )
-                            }
-
-                            <OptionPanel></OptionPanel>
-
-                            {
-                                !props.disableChart &&
-                                (
-                                    <OptionPanel>
-                                        <FullImage
-                                            src={imgChart}
-                                            onClick={handleChartClick}
-                                        />
-                                    </OptionPanel>
-                                )
-                            }
-
+                        {renderOptionPanels(optionPanels)}
                         </OptionPanelWrapper>
                     </OptionPanelContainer>
                 </>
@@ -131,7 +173,7 @@ const Backdrop = styled.div`
     width: 100%;
     height: 100%;
 
-    background-color: ${props => props.color};
+    background-color: white;
 `;
 
 const InfoPanelContainer = styled.div`

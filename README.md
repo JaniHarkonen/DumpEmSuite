@@ -151,3 +151,44 @@ Next, the development will focus on the reduction of repetitive code as well as 
 Architectural choices will also be criticly examined and possibly changed elsewhere in the Workspace and its components, for
 example, there is a lot of repition with hooks as well as prop drilling which may be solved with better design or the usage of
 useContext-hooks. The changing of WorkspaceManager-interface's methods to static ones will also be considered.
+
+### 30.5.2022
+Some architectural changes have been made to the React-elements in order to avoid the frequent re-rendering of the entire
+application every time the user changes the color code of a stock, for example. A better architecture for the implementation of
+the modal has also been desgined. Initially, the usage of React contexts was considered, however, this didn't give the necessary
+control over the rendering of sibling components, as information has to always be passed through a parent component that too will
+be re-rendered if the context changes. To create a modal, class-based components are determined to be the best option, as they
+allow other components to set their state re-rendering the component without the need for the parent component to re-render.
+
+The most drastic shift has been made to the architecture of the DatabaseController. Initially, the controller would carry out the
+formation of a query string, the execution of the query as well as the formation and returning of the query result. While this
+isn't necessarily the worst approach, due to the limited total number of queries that the program will likely make, there was a
+lot of repeating code. Before the changes, there were some measures taken to reduce the amount of repition as well as the amount
+of code present. For example, Entities — objects designed to take in a database query result, and convert it to a JSON
+obfuscating the structure of the database somewhat — were introduced to avoid having to craft response JSONs. It quickly became
+clear that the reduction of repetitive code required the separation of queries into classes.
+
+As a result, the following structure was deviced. DatabaseController uses Query-objects to form and execute queries to the
+database. Query-objects can be split, as of now, into 4 separate categories: Fetches, Inserts, Replaces and Deletes (Inserts an
+Replaces being considered Posts, a hypothetical class). These Query-objects contain the code for querying the database, whose
+reference is provided in the constructor. The queries consist of four parts: query string formation, querying of the database,
+formatting of the query result and returing of the formatted result. The query strings are formed using QueryComponent-objects
+that are essentially the building blocks of a query. As of now, these components include: Column, Table, Value, Placeholder and
+Equation. Each instance subclass of Query uses these components to construct the query string, by default, by using the
+formatQuery-method called during query execution. Subclasses may also extend or override the formatQuery-method, in case the
+default behavior is insufficient. After executing the query, Query-class gives one last chance to format the result via the
+formatResult-method, that will take in the query result and output a modified result. When the ExternalStorageAPI (previously
+WorkspaceManager) requests a query from the DatabaseController, the query type is paired up with an appropriate Query using a
+switch-case-structure.
+
+Finally, the WorkspaceManager was renamed to ExternalStorageAPI as it cannot be seen as "managing" a Workspace, rather, it is
+simply an interface through which queries are requested and query results are returned. API has also been decided to be a
+better description due it being used in projects created by other developers. The methods witihn ExternalStorageAPI have also
+been made static. This is because there likely wont be any need for the instantiation of ExternalStorageAPI, after all, it is
+considered an interface, or a link, between the React-app and the DatabaseController, and creating separate links between
+different databases will be unnecessary; a connection to a database can simply be closed, followed by connection to another.
+Making ExternalStorageAPI uninstantiated also makes it easier for React-components to integrate the API to their functioning
+whenever necessary, without having to request the instance from a context, or to receive the instance through props, which
+likely have drilled through parent components that have no need for the API.
+
+Next, the development will shift towards the creation of the Modal-popup. 

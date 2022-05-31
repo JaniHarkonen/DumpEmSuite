@@ -1,35 +1,50 @@
-export default class WorkspaceManager {
-    constructor(ec) {
-        this.externalController = ec;
+export default class ExternalStorageAPI {
+    static externalController;
+
+    static initialize(ec) {
+        if( !ec ) return;
+
+        ExternalStorageAPI.externalController = ec;
     }
 
     /**
      * Returns whether a valid external storage has been assigned.
      * @returns Whether external storage is valid.
      */
-    controllerIsValid() {
-        return this.externalController != null;
+    static controllerIsValid() {
+        return ExternalStorageAPI.externalController != null;
     }
 
-    returnResultOrError(res) {
+    /**
+     * Returns the query result JSON and console.logs the error
+     * message, if the query failed.
+     * @param {JSON} res Result JSON to check and return.
+     * @returns Given query result JSON.
+     */
+    static returnResultOrError(res) {
         if( res.success ) return res.result;
 
         console.log(res.error);
         return null;
     }
 
-    request(req) {
+    /**
+     * Checks the validity of the database controller object and
+     * requests the contoller to perform a query passed in the
+     * given function.
+     * 
+     * This is the standard template for a request and should be
+     * used instead of creating a completely new request-method.
+     * 
+     * *Notice* that the function provided should return the
+     * result of the query.
+     * @param {function} req 
+     * @returns 
+     */
+    static request(req) {
         if( !this.controllerIsValid ) return null;
 
         return this.returnResultOrError(req());
-    }
-
-    /**
-     * A simple method that can be used to check if a variable
-     * stores a WorkspaceManager object.
-     */
-    test() {
-        console.log("Called WorkspaceManager!");
     }
 
     /**
@@ -37,13 +52,17 @@ export default class WorkspaceManager {
      * closing the currently open one.
      * @param {string} ws Filepath to the database to connect to.
      */
-    openWorkspace(ws) {
+    static openWorkspace(ws) {
         if( !ws ) return;
 
         this.externalController.connect(ws);
     }
 
-    getColorCodes() {
+    /**
+     * Returns color codes available for the symbol color picker.
+     * @returns An array of color codes indexed according to their IDs.
+     */
+    static getColorCodes() {
         return this.request(() => {
             return this.externalController.fetch({
                 type: "color-codes"
@@ -56,7 +75,7 @@ export default class WorkspaceManager {
      * array of JSONs.
      * @returns An array of the stocks in JSON-format.
      */
-    getStocks() {
+    static getStocks() {
         return this.request(() => {
             return this.externalController.fetch({
                 type: "stocks"
@@ -70,7 +89,7 @@ export default class WorkspaceManager {
      * @param {integer} tab Tab index.
      * @returns An array of the stocks in JSON-format.
      */
-    getStocksOnTab(tab) {
+    static getStocksOnTab(tab) {
         return this.request(() => {
             return this.externalController.fetch({
                 type: "stocks-tab",
@@ -79,7 +98,16 @@ export default class WorkspaceManager {
         });
     }
 
-    changeColorCode(id, tab, color) {
+    /**
+     * Changes the color code of a given stock on a given tab to
+     * another color. The color ID should be used instead of an
+     * integer representing the color.
+     * @param {integer} id Company ID.
+     * @param {integer} tab Tab index.
+     * @param {integer} color Color ID.
+     * @returns Whether the code change was successful.
+     */
+    static changeColorCode(id, tab, color) {
         return this.request(() => {
             return this.externalController.post({
                 type: "code-change",
@@ -90,7 +118,14 @@ export default class WorkspaceManager {
         });
     }
 
-    tabHasColorCodedStocks = (tab) => {
+    /**
+     * Returns whether a given tab contains any color coded
+     * stocks.
+     * @param {integer} tab Index of the tab to check.
+     * @returns Boolean indicating whether color coded stocks
+     * were found.
+     */
+    static tabHasColorCodedStocks = (tab) => {
         let res = this.request(() => {
             return this.externalController.fetch({
                 type: "coded-tab",
@@ -107,7 +142,7 @@ export default class WorkspaceManager {
      * @param {integer} tab Tab index to remove the stocks from.
      * @returns A response indicating if the query was successful.
      */
-    clearTabStocks(tab) {
+    static clearTabStocks(tab) {
         return this.request(() => {
             return this.externalController.delete({
                 type: "stocks-tab",
@@ -127,7 +162,7 @@ export default class WorkspaceManager {
      * @param {Array} filters Array of color codes acting as the filter.
      * @returns A response indicating if the query was successful.
      */
-    bringStocksFromTab(fromtab, totab, filters) {
+    static bringStocksFromTab(fromtab, totab, filters) {
         return this.request(() => {
             if( !filters ) return null;
 

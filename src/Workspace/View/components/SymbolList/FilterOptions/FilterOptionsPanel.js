@@ -20,14 +20,6 @@ export default function FilterOptionsPanel(props) {
         onBring(bringFilters);
     };
 
-    const handleClearClick = () => {
-        onClear();
-    };
-
-    const handleBringFilterSelection = (selection) => {
-        setBringFilters(selection);
-    };
-
     const handleDisplayFilterSelection = (selection) => {
         setDisplayFilters(selection);
         onDisplayFilterChange(selection);
@@ -51,7 +43,7 @@ export default function FilterOptionsPanel(props) {
 
     return(
         <FullDiv>
-            {renderFilterPane("Bring:", handleBringFilterSelection, bringFilters, enableBring)}
+            {renderFilterPane("Bring:", setBringFilters, bringFilters, enableBring)}
             {renderFilterPane("Filters:", handleDisplayFilterSelection, displayFilters)}
 
             <BottomPane>
@@ -67,7 +59,7 @@ export default function FilterOptionsPanel(props) {
                 <ControlButtonContainer>
                     {
                         enableClear &&
-                        (<ControlButton onClick={handleClearClick}>
+                        (<ControlButton onClick={onClear}>
                             CLEAR
                         </ControlButton>)
                     }

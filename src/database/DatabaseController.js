@@ -1,7 +1,10 @@
-import { makeReturnableError, makeReturnableSuccessful } from "./DatabaseUtils";
-import Stock from "./entities/Stock";
-import CodedStock from "./entities/CodedStock";
-import CodedEntry from "./entities/CodedEntry";
+import { makeReturnableError } from "./DatabaseUtils";
+import FetchColorCodes from "./queries/fetches/FetchColorCodes";
+import FetchColorCodedOnTab from "./queries/fetches/FetchColorCodedOnTab";
+import FetchStocksOnTab from "./queries/fetches/FetchStocksOnTab";
+import InsertBroughtStocksToTab from "./queries/posts/InsertBroughtStocksToTab";
+import ReplaceColorSelection from "./queries/posts/ReplaceColorSelection";
+import DeleteAllStocksOnTab from "./queries/deletes/DeleteAllStocksOnTab";
 
 const sqlite3 = window.require("better-sqlite3");
 
@@ -20,6 +23,7 @@ const sqlite3 = window.require("better-sqlite3");
 export default class DatabaseController {
     constructor() {
         this.targetDatabase = null;
+        this.queryMap = new Map();
     }
 
     /**
@@ -51,6 +55,12 @@ export default class DatabaseController {
         this.targetDatabase = null;
     }
 
+    getEntityForm(Ent, res) {
+        if( !Ent ) return null;
+
+        return (new Ent()).form(res);
+    }
+
     /**
      * Fetches data from the target database, and returns the result in a
      * 'returnable' that will contain, whether the query was successful, an
@@ -69,69 +79,25 @@ export default class DatabaseController {
 
         switch( q.type )
         {
-                // Fetch the basic stock data of all the companies (id, name, ticker symbol, volume)
-            case "stocks":
-            {
-                let res = makeReturnableSuccessful();
-                let qres = this.query("get", `SELECT Company_ID, Company_name, Company_ticker, Company_volume FROM companies;`).rows;
-                res.result = (new Stock()).form(qres);
-
-                return res;
-            }
-            
                 // Fetch the basic stock data of all the companies listed on a certain tab
                 // as well as their color codes
                 // (requires: tab)
             case "stocks-tab":
-            {
-                if( !q.tab ) return makeReturnableError("ERROR: No tab index provided!");
-
-                let res = makeReturnableSuccessful();
-                let qres = this.query("get",
-                    `SELECT cs.Company_ID, cs.Company_name, cs.Company_ticker, cs.Company_volume, ccs.CCode_code_index 
-                     FROM companies cs, colorcodes ccs 
-                     WHERE cs.Company_ID=ccs.Company_ID 
-                     AND ccs.CCode_tab=?`, [q.tab]
-                ).rows;
-                res.result = (new CodedStock()).form(qres);
-
-                return res;
-            }
+                return (new FetchStocksOnTab(this.targetDatabase)).execute({
+                    preparedArguments: [q.tab]
+                });
 
                 // Fetch the company IDs and color codes of all the companies listed on a certain
                 // tab that have a set color code (not -1)
                 // (requires: tab)
             case "coded-tab":
-            {
-                if( !q.tab ) return makeReturnableError("ERROR: No tab index provided!");
-
-                let res = makeReturnableSuccessful();
-                let qres = this.query("get", 
-                    `SELECT Company_ID, CCode_code_index
-                     FROM colorcodes
-                     WHERE CCode_code_index != -1
-                     AND CCode_tab=?`, [q.tab]
-                ).rows;
-                res.result = (new CodedEntry().form(qres));
-
-                return res;
-            }
+                return (new FetchColorCodedOnTab(this.targetDatabase)).execute({
+                    preparedArguments: [q.tab]
+                });
 
                 // Fetch the available color codes for the symbol list color picker
             case "color-codes":
-            {
-                let res = makeReturnableSuccessful() ;
-                let qres = this.query("get", `SELECT Color_ID, Color_color FROM colors;`).rows;
-
-                if( qres.length === 0 ) return res;
-
-                let colors = new Array(qres.length);
-                for( let col of qres )
-                colors[col.Color_ID] = col.Color_color;
-
-                res.result = colors;
-                return res;
-            }
+                return (new FetchColorCodes(this.targetDatabase)).execute();
 
             default: return makeReturnableError("ERROR: Invalid query type!");
         }
@@ -145,46 +111,19 @@ export default class DatabaseController {
                 // Make changes to the color code of a given stock on a given tab
                 // (requires: id, tab, color code index)
             case "code-change":
-            {
-                let res = makeReturnableSuccessful();
-                res.result = this.query("post",
-                    `UPDATE colorcodes 
-                     SET CCode_code_index=? 
-                     WHERE Company_ID=?
-                     AND CCode_tab=?`, [q.color, q.id, q.tab]
-                );
-
-                return res;
-            }
+                return (new ReplaceColorSelection(this.targetDatabase)).execute({
+                    preparedArguments: [q.color, q.id, q.tab]
+                });
 
                 // Brings stocks from a given tab to another if they satisfy a given filter
                 // (requires: source tab, destination tab, filters)
             case "bring-stocks":
-            {
-                let res = makeReturnableSuccessful();
-                let qstr = 
-                    `INSERT INTO colorcodes
-                     SELECT cs.Company_ID, ${q.toTab}, 0
-                     FROM companies cs, colorcodes css
-                     WHERE css.Company_ID = cs.Company_ID
-                     AND css.CCode_tab=?`;
-
-                let inqms = "?";
-
-                if( q.filters.length === 0 )
-                {
-                    res.result = this.query("post", qstr, [q.fromTab]);
-                    return res;
-                }
-
-                for( let i = 1; i < q.filters.length; i++ )
-                inqms += ",?";
-
-                qstr += ` AND css.CCode_code_index in (${inqms});`;
-                res.result = this.query("post", qstr, ([q.fromTab]).concat(q.filters));
-
-                return res;
-            }
+                return (new InsertBroughtStocksToTab(this.targetDatabase, q.toTab)).execute({
+                    queryFormatArguments: {
+                        filters: q.filters
+                    },
+                    preparedArguments: ([q.fromTab]).concat(q.filters)
+                });
 
             default: return makeReturnableError("ERROR: Invalid query type!");
         }
@@ -198,57 +137,9 @@ export default class DatabaseController {
                 // Removes all stocks from a given tab
                 // (requires: tab)
             case "stocks-tab":
-            {
-                let res = makeReturnableSuccessful();
-                res.result = this.query("delete",
-                    `DELETE FROM colorcodes WHERE CCode_tab=?`,
-                    [q.tab]
-                );
-
-                return res;
-            }
-        }
-    }
-
-    /**
-     * Sends a query to the target database using prepared statements. This
-     * method takes in the query type (get, modify), that will have an effect
-     * on the type of information returned as well as a small effect on the
-     * execution. The method also takes in the SQL-query in string format, and
-     * the possible value-array that will be used to replace the question marks
-     * in the prepared statement. When 'getting' information from the database,
-     * the value-array may be left empty.
-     * @param {string} type Type of the query ('get', 'modifiy').
-     * @param {string} q SQL-statement as a string.
-     * @param {Array} vals An array of values for the prepared statement.
-     * @returns The result of the query (fetched rows, or change information).
-     */
-    query(type, q, vals = undefined) {
-        if( !q ) return;
-        if( !type ) return;
-
-        if( type === "get" )
-        {
-            let stmt = this.targetDatabase.prepare(q);
-            return {
-                rows: (!vals) ? stmt.all() : stmt.all(vals)
-            };
-        }
-
-        if( type === "post" || type === "delete" )
-        {
-            let stmt = this.targetDatabase.prepare(q);
-            let res = stmt.run(vals);
-
-            if( type === "post" )
-            return {
-                lastID: res.lastInsertRowid,
-                changes: res.changes
-            };
-            
-            return {
-                removed: res.changes
-            };
+                return (new DeleteAllStocksOnTab(this.targetDatabase)).execute({
+                    preparedArguments: [q.tab]
+                });
         }
     }
 }

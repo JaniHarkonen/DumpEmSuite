@@ -35,7 +35,7 @@ export default function ColorPicker(props) {
                     borderStyle: picks.includes(index) ? "dashed" : "solid"
                 }}
                 onClick={() => {
-                    handleColorPick(index)
+                    handleColorPick(index);
                 }}
             />
         );

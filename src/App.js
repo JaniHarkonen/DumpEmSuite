@@ -1,10 +1,10 @@
 import { useEffect, createContext } from "react";
 import styled from "styled-components";
-import Workspace from "./Workspace/Workspace";
-import SideBar from "./SideBar/SideBar";
+import Workspace from "./layouts/Workspace/Workspace"
+import SideBar from "./layouts/SideBar/SideBar";
 import { getKey } from "./utils/KeyManager";
 import { setColorCodes } from "./utils/CommonVariables";
-import ExternalStorageAPI from "./Workspace/ExternalStorageAPI";
+import ExternalStorageAPI from "./apis/ExternalStorageAPI";
 
 
 const modal = null;

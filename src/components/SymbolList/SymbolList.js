@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SymbolListItem from "./SymbolListItem";
-import { getKey } from "../../../../utils/KeyManager";
+import { getKey } from "../../utils/KeyManager";
 import FilterOptionsPanel from "./FilterOptions/FilterOptionsPanel";
+import ModalAPI from "../../apis/ModalAPI";
+import ClearNotification from "../../modals/ClearNotification";
 
 
 export default function SymbolList(props) {
@@ -35,13 +37,36 @@ export default function SymbolList(props) {
     };
 
     const handleBringClick = (filters) => {
-        onBring(filters);
-        refresh();
+        if( tabStocks.length > 0 )
+        {
+            ModalAPI.popup(
+                <ClearNotification onYes={() => {
+                        onBring(filters);
+                        refresh();
+                    }}
+                />
+            );
+        }
+        else
+        {
+            onBring(filters);
+            refresh();
+        }
     };
 
     const handleClearClick = () => {
-        onClear();
-        refresh();
+        if( tabStocks.length > 0 )
+        {
+            ModalAPI.popup(
+                <ClearNotification onYes={() => {
+                        onClear();
+                        refresh();
+                    }}
+                    caption={"Before clearing..."}
+                    message={"Are you sure you want to remove all of the stocks from the tab?"}
+                />
+            );
+        }
     };
 
     const renderSymbols = (stocks, filters) => {

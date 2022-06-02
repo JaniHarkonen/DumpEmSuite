@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { getKey } from "../utils/KeyManager";
+import { getKey } from "../../utils/KeyManager";
 
 
-export default function Modal(props) {
+export default function ModalView(props) {
     const mode = props.mode || "ok"
     const caption = props.caption || "castur duxille";
     const message = props.message || "No message";
@@ -13,9 +13,7 @@ export default function Modal(props) {
 
     const NotificationButtons = 
         <ButtonContainer>
-            <InputButton onClick={() => {
-                hooks.onOk();
-            }}>
+            <InputButton onClick={hooks.onOk || hooks.onClose}>
                 OK
             </InputButton>
         </ButtonContainer>
@@ -23,15 +21,11 @@ export default function Modal(props) {
 
     const QuestionButtons = 
         <ButtonContainer>
-            <InputButton onClick={() => {
-                hooks.onYes();
-            }}>
+            <InputButton onClick={hooks.onYes}>
                 Yes
             </InputButton>
 
-            <InputButton onClick={() => {
-                hooks.onNo();
-            }}>
+            <InputButton onClick={hooks.onNo || hooks.onClose}>
                 No
             </InputButton>
         </ButtonContainer>
@@ -46,14 +40,16 @@ export default function Modal(props) {
         if( !text ) return "";
 
         const split = text.split("\n");
-        let output = [];
+        const output = [];
 
         for(let part of split)
-        output.push(
-            <p key={"modal-message-fragment-" + getKey()}>
-                {part} <br />
-            </p>
-        );
+        {
+            output.push(
+                <p key={"modal-message-fragment-" + getKey()}>
+                    {part} <br />
+                </p>
+            );
+        }
 
         return output;
     };
@@ -62,9 +58,7 @@ export default function Modal(props) {
         <Content>
             {
                 !disableBackground &&
-                (<Background onClick={() => {
-                    hooks.onBackground();
-                }} />)
+                (<Background onClick={hooks.onBackground || hooks.onClose} />)
             }
 
             <View>
@@ -73,9 +67,7 @@ export default function Modal(props) {
 
                     {
                         !disableClose &&
-                        (<CloseButton onClick={() => {
-                            hooks.onClose();
-                        }} />)
+                        (<CloseButton onClick={hooks.onClose} />)
                 }   
                 </Caption>
 

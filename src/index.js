@@ -5,7 +5,7 @@ import App from './App';
 import { DUMP_EM_CONFIG, setAnalysisTemplates } from './utils/CommonVariables';
 import { readJson } from './utils/FileUtils';
 import DatabaseController from "./database/DatabaseController";
-import ExternalStorageAPI from './Workspace/ExternalStorageAPI';
+import ExternalStorageAPI from "./apis/ExternalStorageAPI";
 
 
     // Load analysis note templates

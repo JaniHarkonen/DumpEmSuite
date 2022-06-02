@@ -204,19 +204,27 @@ The folder structure of the project has been drastically revamped, and as a resu
 removed. The following rules will be used to determine the placement of new files:
 
 ``/src/apis/`` - All APIs should be placed here.
+
 ``/src/assets/`` - Should contain all the external assets used by the application, such as images and sound files. Additional
 folders may be created inside to provide further structure.
+
 ``/src/common/`` - Commonly used styled components should be placed here. May be renames to "commonstyles" in the future.
+
 ``/src/components/`` - Should contain all reusable, small-scale components. These components should not be too dependent on
 other React-components.
+
 ``/src/database/`` - Should contain files that directly interact with or directly help interacting with the database. Should
 not contain any React-components.
+
 ``/src/layouts/`` - Should contain React-components that are used to form the outlook of the application, such as different
 views or sidebars. Components placed here should be singular, used once in the application.
+
 ``/src/modals/`` - Currently, used to store different Modal wrappers that provide the default modal props that will form
 modal views. Wrappers placed here may be later moved to the ``/src/wrappers/`` folder for consistency.
+
 ``/src/utils/`` - Should contain common utilities that may be used by React-application. Highly specific utility functions
 can be placed in the same folders that the components that use them are designed for, such as in the case of DatabaseUtils.js.
+
 ``/src/wrappers/`` - Should contain wrapper components that are used to provide more generic React-components with preset
 props. Files in ``/src/modals/`` may later be moved here.
 

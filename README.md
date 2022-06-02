@@ -203,7 +203,8 @@ display a modal. The architecture of the Modal requires further thought, however
 The folder structure of the project has been drastically revamped, and as a result, new folders have been created and old ones
 removed. The following rules will be used to determine the placement of new files:
 
-
+<br></br>
+<br></br>
 ``/src/apis/`` - All APIs should be placed here.
 
 ``/src/assets/`` - Should contain all the external assets used by the application, such as images and sound files. Additional

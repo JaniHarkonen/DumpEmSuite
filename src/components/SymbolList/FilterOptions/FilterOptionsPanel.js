@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FullDiv } from "../../../../../common/FullDiv";
-import ColorPicker from "../ColorPicker/ColorPicker";
+import { FullDiv } from "../../../common/FullDiv";
+import ColorPicker from "../../ColorPicker/ColorPicker";
 
 export default function FilterOptionsPanel(props) {
     const enableBring = props.enableBring;

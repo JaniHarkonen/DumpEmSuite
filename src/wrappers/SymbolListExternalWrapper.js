@@ -1,6 +1,6 @@
 import React from "react";
-import ExternalStorageAPI from "../../../ExternalStorageAPI";
-import SymbolList from "../../components/SymbolList/SymbolList";
+import ExternalStorageAPI from "../apis/ExternalStorageAPI";
+import SymbolList from "../components/SymbolList/SymbolList";
 
 
 export default function SymbolListExternalWrapper(props) {

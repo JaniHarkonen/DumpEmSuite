@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { getKey } from "../utils/KeyManager";
-import View from "./View/views/View";
-//import ClearNotification from "./modals/ClearNotification";
-import SymbolListExternalWrapper from "./View/views/wrappers/SymbolListExternalWrapper";
+import Modal from "../Modal/Modal";
+import { getKey } from "../../utils/KeyManager";
+import View from "../View/View";
+import SymbolListExternalWrapper from "../../wrappers/SymbolListExternalWrapper";
 
 export default function Workspace(props) {
     const DEBUG_TABS = [
@@ -15,7 +15,6 @@ export default function Workspace(props) {
 
     console.log("render: workspace");
     const [activeTab, openTab] = useState(1);   // Holds the currently open tab
-    //const [isModalActive, setModalActive] = useState(null);
 
 
     const handleTabClick = (tab) => {
@@ -71,13 +70,7 @@ export default function Workspace(props) {
                 {renderActiveTab(activeTab === 1)}
             </ViewContainer>
 
-            {/*
-                isModalActive &&
-                (<ClearNotification 
-                    tab={activeTab}
-                    setModalActive={setModalActive}
-                />)*/
-            }
+            <Modal />
         </Content>
     );
 };

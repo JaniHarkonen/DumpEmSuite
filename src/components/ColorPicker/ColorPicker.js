@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { getKey } from "../../../../../utils/KeyManager";
-import { COLOR_CODES, integerToRGBA } from "../../../../../utils/CommonVariables";
+import { getKey } from "../../utils/KeyManager";
+import { COLOR_CODES, integerToRGBA } from "../../utils/CommonVariables";
 
 export default function ColorPicker(props) {
     const colorOrder = null;

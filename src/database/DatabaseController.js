@@ -23,7 +23,6 @@ const sqlite3 = window.require("better-sqlite3");
 export default class DatabaseController {
     constructor() {
         this.targetDatabase = null;
-        this.queryMap = new Map();
     }
 
     /**
@@ -53,12 +52,6 @@ export default class DatabaseController {
 
         this.targetDatabase.close();
         this.targetDatabase = null;
-    }
-
-    getEntityForm(Ent, res) {
-        if( !Ent ) return null;
-
-        return (new Ent()).form(res);
     }
 
     /**

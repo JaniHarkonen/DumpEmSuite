@@ -191,4 +191,35 @@ Making ExternalStorageAPI uninstantiated also makes it easier for React-componen
 whenever necessary, without having to request the instance from a context, or to receive the instance through props, which
 likely have drilled through parent components that have no need for the API.
 
-Next, the development will shift towards the creation of the Modal-popup. 
+Next, the development will shift towards the creation of the Modal-popup.
+
+### 2.6.2022
+A new Modal-popup has now been implemented using a class component wrapper. This was done to preserve a more organized
+component structure, but chiefly, to avoid re-rendering of the Workspace and its child components — namely the SymbolList, as
+it contains potentially the greatest number of child components. A separate class component was created that wraps the Modal-
+component and notifies the ModalAPI upon mounting. ModalAPI's popup-method can then be called by components that wish to 
+display a modal. The architecture of the Modal requires further thought, however, it is fully functional.
+
+The folder structure of the project has been drastically revamped, and as a result, new folders have been created and old ones
+removed. The following rules will be used to determine the placement of new files:
+
+``/src/apis/`` - All APIs should be placed here.
+``/src/assets/`` - Should contain all the external assets used by the application, such as images and sound files. Additional
+folders may be created inside to provide further structure.
+``/src/common/`` - Commonly used styled components should be placed here. May be renames to "commonstyles" in the future.
+``/src/components/`` - Should contain all reusable, small-scale components. These components should not be too dependent on
+other React-components.
+``/src/database/`` - Should contain files that directly interact with or directly help interacting with the database. Should
+not contain any React-components.
+``/src/layouts/`` - Should contain React-components that are used to form the outlook of the application, such as different
+views or sidebars. Components placed here should be singular, used once in the application.
+``/src/modals/`` - Currently, used to store different Modal wrappers that provide the default modal props that will form
+modal views. Wrappers placed here may be later moved to the ``/src/wrappers/`` folder for consistency.
+``/src/utils/`` - Should contain common utilities that may be used by React-application. Highly specific utility functions
+can be placed in the same folders that the components that use them are designed for, such as in the case of DatabaseUtils.js.
+``/src/wrappers/`` - Should contain wrapper components that are used to provide more generic React-components with preset
+props. Files in ``/src/modals/`` may later be moved here.
+
+Next, the development will focus on the Fundamental Analysis tab and its contents. The tab should have full functionality in
+the next commit, however the graphical makeup will still be lacking. The Macro Analysis tab may also be completed, due its
+simplicity.

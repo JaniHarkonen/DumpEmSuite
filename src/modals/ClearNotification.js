@@ -1,31 +1,24 @@
 import React from "react";
-import Modal from "../../Modal/Modal";
-import ExternalStorageAPI from "../ExternalStorageAPI";
+import ModalAPI from "../apis/ModalAPI";
+import ModalView from "../layouts/Modal/ModalView";
 
 export default function ClearNotification(props) {
     const caption = props.caption || "Before bringing...";
     const message = props.message || "Some of the stocks on this tab are color coded and have to be cleared before bringing!\nWould you like to clear the tab?";
-    const tab = props.tab;
-    const setModalActive = props.setModalActive;
+    const onYes = props.onYes;
 
     return(
-        <Modal
+        <ModalView
             mode={"question"}
             caption={caption}
             message={message}
             hooks={{
                 onYes: () => {
-                    console.log("yes");
-                    /*ExternalStorageAPI.clearTabStocks(tab);
-                    setModalActive(false);*/
-                },
-                onNo: () => {
-                    console.log("no");
-                    /*setModalActive(false);*/
+                    onYes();
+                    ModalAPI.close();
                 },
                 onClose: () => {
-                    console.log("close");
-                    /*setModalActive(false);*/
+                    ModalAPI.close();
                 }
             }}
         />

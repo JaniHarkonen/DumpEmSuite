@@ -3,9 +3,10 @@ import ExternalStorageAPI from "../apis/ExternalStorageAPI";
 import SymbolList from "../components/SymbolList/SymbolList";
 
 
-export default function SymbolListExternalWrapper(props) {
+export default function SymbolListFundamentalWrapper(props) {
     const tab = props.context.tab;
     const enableBring = props.context.enableBring;
+    const onItemClick = props.context.onItemClick;
 
     return(
         <SymbolList
@@ -22,6 +23,12 @@ export default function SymbolListExternalWrapper(props) {
             }}
             onColorCodeChange={(id, newcol) => {
                 ExternalStorageAPI.changeColorCode(id, tab, newcol);
+            }}
+            onItemClick={(symbol) => {
+                onItemClick(symbol);
+            }}
+            onBackground={() => {
+                onItemClick(null);
             }}
         />
     );

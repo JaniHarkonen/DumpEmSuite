@@ -4,6 +4,11 @@
 export const DUMP_EM_CONFIG = "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\config.json";
 
 /**
+ * Path within the Workspace folder where external materials (PDFs and images) are stored.
+ */
+export const MATERIALS_SUBPATH = "\\materials\\";;
+
+/**
  * Contains the default configuration for analysis templates.
  */
 const DEFAULT_ANALYSIS_TEMPLATES = {

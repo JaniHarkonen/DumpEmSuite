@@ -4,6 +4,8 @@ import Modal from "../Modal/Modal";
 import { getKey } from "../../utils/KeyManager";
 import View from "../View/View";
 import SymbolListExternalWrapper from "../../wrappers/SymbolListExternalWrapper";
+import ViewDefaultWrapper from "../../wrappers/ViewDefaultWrapper";
+import ViewFundamentalWrapper from "../../wrappers/ViewFundamentalWrapper";
 
 export default function Workspace(props) {
     const DEBUG_TABS = [
@@ -47,15 +49,20 @@ export default function Workspace(props) {
 
     const renderActiveTab = (first = false) => {
         let tab = activeTab;
+
+        if( tab === 4 )
+        {
+            return(
+                <ViewFundamentalWrapper
+                    tab={tab}
+                />
+            );
+        }
+
         return(
-            <View 
-                firstHalf={{
-                    element: SymbolListExternalWrapper,
-                    context: {
-                        tab: tab,
-                        enableBring: !first
-                    }
-                }}
+            <ViewDefaultWrapper
+                tab={tab}
+                first={first}
             />
         );
     };

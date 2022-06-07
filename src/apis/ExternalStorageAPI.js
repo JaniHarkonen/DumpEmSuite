@@ -1,5 +1,8 @@
+const pathModule = window.require("path");
+
 export default class ExternalStorageAPI {
     static externalController;
+    static openWorkspacePath;
 
     static initialize(ec) {
         if( !ec ) return;
@@ -13,6 +16,14 @@ export default class ExternalStorageAPI {
      */
     static controllerIsValid() {
         return ExternalStorageAPI.externalController != null;
+    }
+
+    /**
+     * Returns the path of the directory constituting the workspace.
+     * @returns Workspace path.
+     */
+    static getOpenWorkspaceDirectory() {
+        return pathModule.dirname(this.openWorkspacePath);
     }
 
     /**
@@ -56,6 +67,7 @@ export default class ExternalStorageAPI {
         if( !ws ) return;
 
         this.externalController.connect(ws);
+        this.openWorkspacePath = ws;
     }
 
     /**
@@ -173,6 +185,27 @@ export default class ExternalStorageAPI {
                 fromTab: fromtab,
                 toTab: totab,
                 filters: filters
+            });
+        });
+    }
+
+    static updateAnalysisOfStock(id, type, updatedAnalysis) {
+        return this.request(() => {
+            return this.externalController.post({
+                type: "stock-analysis",
+                id: id,
+                analysisType: type,
+                analysisText: updatedAnalysis
+            });
+        });
+    }
+
+    static getAnalysisOfStock(id, type) {
+        return this.request(() => {
+            return this.externalController.fetch({
+                type: "stock-analysis",
+                id: id,
+                analysisType: type
             });
         });
     }

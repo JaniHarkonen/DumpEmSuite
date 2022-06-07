@@ -67,6 +67,8 @@ const Base = styled.div`
     border-top-right-radius: 6px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
+
+    overflow-y: hidden;
 `;
 
 const ContentContainer = styled.div`

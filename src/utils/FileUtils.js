@@ -68,3 +68,7 @@ export const getDirectoryFromPath = (path) => {
 export const pathExists = (path) => {
     return fs.existsSync(path);
 };
+
+export const copyFile = (target, destination) => {
+    fs.copyFileSync(target, destination);
+};

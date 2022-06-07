@@ -16,13 +16,19 @@ export default function FilterOptionsPanel(props) {
     const [displayFilters, setDisplayFilters] = useState([]);
 
     
-    const handleBringClick = () => {
+    const handleBringClick = (e) => {
+        e.stopPropagation();
         onBring(bringFilters);
     };
 
     const handleDisplayFilterSelection = (selection) => {
         setDisplayFilters(selection);
         onDisplayFilterChange(selection);
+    };
+
+    const handleClearClick = (e) => {
+        e.stopPropagation();
+        onClear();
     };
 
     const renderFilterPane = (caption, selhook, selection, render = true) => {
@@ -59,7 +65,7 @@ export default function FilterOptionsPanel(props) {
                 <ControlButtonContainer>
                     {
                         enableClear &&
-                        (<ControlButton onClick={onClear}>
+                        (<ControlButton onClick={handleClearClick}>
                             CLEAR
                         </ControlButton>)
                     }

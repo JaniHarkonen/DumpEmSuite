@@ -1,23 +1,30 @@
-/*import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { FullDiv } from "../../../../common/FullDiv";
-import { getKey } from "../../../../utils/KeyManager";
-import { FullImage } from "../../../../common/FullImage";
+import { FullDiv } from "../../common/FullDiv";
+import { getKey } from "../../utils/KeyManager";
+import { FullImage } from "../../common/FullImage";
+import { copyFile } from "../../utils/FileUtils";
 
-import imgFolderWhite from "../../../../assets/img_folder_white.svg";
+import imgFolderWhite from "../../assets/img_folder_white.svg";
 
 const { exec } = window.require("child_process");
 const fs = window.require("fs");
 const pathModule = window.require("path");
 
 export default function FileExplorer(props) {
+    const targetDirectory = props.targetDirectory;
+
+
+    useEffect(() => {
+        refresh();
+    }, []);
 
     const readFolder = (path) => {
         if( !path || path === "" ) return [];
         if( !fs.existsSync(path) ) return [];
 
-        let files = fs.readdirSync(path);
-        let file_objs = [];
+        const files = fs.readdirSync(path);
+        const file_objs = [];
 
         for( let file of files )
         {
@@ -30,13 +37,34 @@ export default function FileExplorer(props) {
         }
 
         return file_objs;
-    }
+    };
+
+    const refresh = () => {
+        setDisplayedFiles(readFolder(targetDirectory));
+    };
+
+    const [displayedFiles, setDisplayedFiles] = useState(readFolder(targetDirectory));
 
     const handleFileClick = (file) => {
         if( !file || file === "" ) return;
 
-        exec("\"" + props.directory + "\\" + file + "\"");
-    }
+        exec("\"" + targetDirectory + "\\" + file + "\"");
+    };
+
+    const handleFileAdditionClick = (e) => {
+        e.stopPropagation();
+
+        const files = e.target.files;
+        const targetDir = targetDirectory;
+
+        if( !fs.existsSync(targetDir) )
+        fs.mkdirSync(targetDir);
+
+        for( let file of files )
+        copyFile(file.path, targetDir + file.name);
+
+        refresh();
+    };
 
     const renderFileList = (files) => {
         if( !files || files.length === 0 )
@@ -58,7 +86,7 @@ export default function FileExplorer(props) {
                 </FileContainer>
             );
         });
-    }
+    };
 
     return(
         <FullDiv>
@@ -72,9 +100,15 @@ export default function FileExplorer(props) {
                         Load file...
                     </LoadFileButtonCaptionContainer>
                 </LoadFileCaptionPanel>
+
+                <LoadFileInput
+                    type="file"
+                    multiple="multiple"
+                    onChange={handleFileAdditionClick}
+                />
             </LoadFileContainer>
 
-            {renderFileList(readFolder(props.directory))}
+            {renderFileList(displayedFiles)}
         </FullDiv>
     );
 }
@@ -120,4 +154,13 @@ const LoadFileButtonCaptionContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-`;*/
+`;
+
+const LoadFileInput = styled.input`
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 0.0;
+`;

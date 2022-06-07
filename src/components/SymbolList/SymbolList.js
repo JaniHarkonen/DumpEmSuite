@@ -10,16 +10,16 @@ import ClearNotification from "../../modals/ClearNotification";
 export default function SymbolList(props) {
     const enableBring = props.enableBring;
     const disableFilterPanel = props.disableFilterPanel;
-    const actions = props.actions;
+    const actions = props;
     const onBring = actions.onBring;
     const onClear = actions.onClear;
+    const onItemClick = actions.onItemClick;
     const onColorCodeChange = actions.onColorCodeChange;
+    const onBackground = actions.onBackground || function() {};
 
     const [displayFilters, setDisplayFilters] = useState([]);
     const [tabStocks, setTabStocks] = useState([]);
 
-
-    console.log("render: symbol list");
 
     useEffect(() => {
         refresh();
@@ -78,6 +78,7 @@ export default function SymbolList(props) {
                     <SymbolListItem
                         stock={stock}
                         onColorCodeChange={onColorCodeChange}
+                        onItemClick={onItemClick}
                     />
                 </SymbolContainer>
             );
@@ -85,7 +86,7 @@ export default function SymbolList(props) {
     };
 
     return(
-        <Content>
+        <Content onClick={onBackground}>
             {
                 !disableFilterPanel &&
                 (

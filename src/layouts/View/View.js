@@ -9,12 +9,9 @@ export default function View(props) {
     const SecondHalf = props.secondHalf?.element;
 
 
-
     return(
         <FullDiv>
-            <Half style={{
-                width: props.stretch ? "100%" : "50%"
-            }}
+            <Half style={{ width: props.stretch ? "100%" : "50%" }}
             >
                 {
                     props.firstHalf &&
@@ -26,16 +23,16 @@ export default function View(props) {
             </Half>
 
             {
-                props.stretch &&
-                <Half>
+                !props.stretch &&
+                (<Half>
                     {
                         props.secondHalf &&
                         (<SecondHalf
                             key={"second-half-" + getKey()}
-                            context={props.firstHalf?.context}
+                            context={props.secondHalf?.context}
                         />)
                     }
-                </Half>
+                </Half>)
             }
         </FullDiv>
     );
@@ -43,6 +40,7 @@ export default function View(props) {
 
 const Half = styled.div`
     position: relative;
+    display: inline-block;
     width: 50%;
     height: 100%;
 `;

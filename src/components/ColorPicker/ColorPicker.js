@@ -34,7 +34,8 @@ export default function ColorPicker(props) {
                     backgroundColor: integerToRGBA(color),
                     borderStyle: picks.includes(index) ? "dashed" : "solid"
                 }}
-                onClick={() => {
+                onClick={(e) => {
+                    e.stopPropagation();
                     handleColorPick(index);
                 }}
             />

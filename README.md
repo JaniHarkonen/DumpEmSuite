@@ -232,3 +232,24 @@ props. Files in ``/src/modals/`` may later be moved here.
 Next, the development will focus on the Fundamental Analysis tab and its contents. The tab should have full functionality in
 the next commit, however the graphical makeup will still be lacking. The Macro Analysis tab may also be completed, due its
 simplicity.
+
+### 7.6.2022
+
+So far, the Fundamental Analysis tab has been completed and the user can now add files to the analysis display that will be
+visible and openable in the FileExplorer. The user can also open, edit and save technical, fundamental and consensus analysis
+notes, however, the analyses will not be removed if the page is cleared, though, this may soon be changed. Wrappers have been
+further utilized in this update, but they have been unsuccessful in mitigating the amount of code. More thought has to be put
+in the implementation wrappers as well as the intersection between the Workspace and the View.
+
+Finally, a new structure for the Workspaces has been implemented. The previous design use the Workspace database file as a
+repository that contains all the relevant information. However, storing of files into the database seems like a sub-optimal
+solution as SQLite only outperforms the file system when reading and writing files less than 100KB in size to a BLOB. In
+addition, storing files in the database would bloat the database file potentially slowing down queries. To prevent potential
+future issues the Workspaces will now have a new structure. The Workspace will be a folder that contains the database (.db)
+file and a ``materials`` folder. The ``materials`` folder will contain other folders named according to the ID of the company
+whose research materials will be stored there. By default, there will be no folders in the ``materials`` folder, however,
+DumpEm Suite will create them as research materials are imported.
+
+In the next update, the functionality to create, open and close Workspaces will be developed. The architecture of Modals may
+also be rethought, as the creation of a Workspace will require more complex input from the user, such as the name of the
+created Workspace.

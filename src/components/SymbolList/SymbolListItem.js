@@ -41,11 +41,13 @@ export default function SymbolListItem(props) {
     const disableColorPicker = props.disableColorPicker;
     const disableChart = props.disableChart;
 
-    console.log("render: symbol list item");
     const [ symbolColorCode, setSymbolColorCode ] = useState(makeColor(symbolColorIndex));
     const [ isColorPickerOpen, openColorPicker ] = useState(false);
 
-    const handleListingClick = () => {
+    
+    const handleListingClick = (e) => {
+        e.stopPropagation();
+
         if( onItemClick )
         onItemClick(symbol);
     }
@@ -76,7 +78,9 @@ export default function SymbolListItem(props) {
         });
     };
 
-    const handleChartClick = () => {
+    const handleChartClick = (e) => {
+        e.stopPropagation();
+
         window.require("electron")
         .shell.openExternal(
             "https://www.tradingview.com/chart/?symbol=" +
@@ -97,7 +101,8 @@ export default function SymbolListItem(props) {
                 style={{
                     backgroundColor: integerToRGBA(symbolColorCode.color)
                 }}
-                onClick={() => {
+                onClick={(e) => {
+                    e.stopPropagation();
                     openColorPicker(true);
                 }}
             />, !disableColorPicker

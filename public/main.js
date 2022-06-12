@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 
 const path = require("path");
 const isDev = require("electron-is-dev");
@@ -37,4 +37,31 @@ app.on("window-all-closed", function() {
 
 app.on("activate", function() {
     if( BrowserWindow.getAllWindows().length === 0 ) createWindow();
+});
+
+    // Handle open dialog requests
+ipcMain.handle("open-dialog", async (event, settings) => {
+
+    return dialog.showOpenDialogSync(null, {
+        title: settings?.title || "Select a file",
+        buttonLabel: settings?.buttonLabel || "Select",
+        filters: settings?.filters || "",
+        properties: settings?.properties?.concat("dontAddToRecent") || [
+            "openFile",
+            "dontAddToRecent"
+        ]
+    });
+});
+
+    // Handle save dialog requests
+ipcMain.handle("save-dialog", async (event, settings) => {
+
+    return dialog.showSaveDialogSync(null, {
+        title: settings?.title || "Save a file",
+        buttonLabel: settings?.buttonLabel || "Save",
+        filters: settings?.filters || "",
+        properties: settings?.properties?.concat("dontAddToRecent") || [
+            "dontAddToRecent"
+        ]
+    });
 });

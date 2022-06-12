@@ -33,6 +33,23 @@ export const readJson = (path) => {
     return JSON.parse(file);
 };
 
+export const writeJson = (path, json) => {
+    if( path == null ) return;
+    if( json == null ) return;
+
+    const json_str = JSON.stringify(json, null, 4);
+    fs.writeFileSync(path, json_str);
+};
+
+export const modifyJson = (path, json) => {
+    if( path == null || path === "" ) return;
+
+    let read_json = readJson(path);
+    if( read_json == null ) return;
+
+    writeJson(path, { ...read_json, ...json });
+};
+
 /**
  * Takes a filename or filepath and removes all forbidden characters from it
  * returning the result.

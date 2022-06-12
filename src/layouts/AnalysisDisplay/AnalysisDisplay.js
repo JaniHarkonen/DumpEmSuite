@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Note from "../../components/Note/Note";
 import { FullDiv } from "../../common/FullDiv";
-import { ANALYSIS_TEMPLATES } from "../../utils/CommonVariables";
+import Config from "../../apis/Config";
 import { getKey } from "../../utils/KeyManager";
 
 export default function AnalysisDisplay(props) {
     const fetchAnalysis = props.fetchAnalysis;
-    const analysisTemplates = ANALYSIS_TEMPLATES;
+    const analysisTemplates = Config.getAnalysisTemplates();
     const onAnalysisUpdate = props.onAnalysisUpdate;
     const analyses = [
         {

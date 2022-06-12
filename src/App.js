@@ -1,58 +1,97 @@
-import { useEffect, createContext } from "react";
+import { useLayoutEffect, useState } from "react";
 import styled from "styled-components";
 import Workspace from "./layouts/Workspace/Workspace"
 import SideBar from "./layouts/SideBar/SideBar";
 import { getKey } from "./utils/KeyManager";
 import { setColorCodes } from "./utils/CommonVariables";
 import ExternalStorageAPI from "./apis/ExternalStorageAPI";
+import Modal from "./layouts/Modal/Modal";
+import Config from "./apis/Config";
 
 
-const modal = null;
+export default function App(props) {
+    const openWorkspaces = props.openWorkspaces;
+    const startupActiveWorkspaceID = props.activeWorkspaceID;
 
-export const ModalContext = createContext(modal);
+    const [activeWorkspace, setActiveWorkspace] = useState(null);
 
-export default function App() {
-    useEffect(() => {
-        setColorCodes(ExternalStorageAPI.getColorCodes());
+
+    useLayoutEffect(() => {
+        const saWorkspace = openWorkspaces[startupActiveWorkspaceID];
+
+        if( saWorkspace != null )
+        {
+            switchWorkspace(saWorkspace, startupActiveWorkspaceID);
+            setColorCodes(ExternalStorageAPI.getColorCodes());
+        }
     }, []);
 
-    const renderTabs = (models) => {
-        if( !models ) return <></>;
+    const openWorkspace = (ws) => {
+        if( !ws ) return;
+        ExternalStorageAPI.openWorkspace(Config.getWorkspacePath(ws));
+
+        return ws;
+    };
+
+    const switchWorkspace = (ws, index) => {
+        if( !ws ) return;
+
+        Config.switchWorkspace(index);
+        setActiveWorkspace(openWorkspace(ws));
+    };
+
+    const closeActiveWorkSpace = () => {
+        Config.closeWorkspace(openWorkspaces.indexOf(activeWorkspace));
+        setActiveWorkspace(null);
+    };
+
+    const renderTabs = (workspaces) => {
+        if( !workspaces ) return <></>;
         
-        return models.map((mod) => {
+        return workspaces.map((ws, index) => {
             return(
                 <Tab
                     key={getKey()}
-                    onClick={() => { console.log("switch workspace") }}
+                    onClick={() => {
+                        switchWorkspace(ws, index);
+                    }}
+                    style={{
+                        backgroundColor: (activeWorkspace === ws) ? "lightgreen" : "green"
+                    }}
                 >
-                    {mod.name}
+                    {ws.name}
                 </Tab>
             );
         });
     };
 
     return (
-        <Base>
-            <ContentContainer>
+            <Base>
+                <ContentContainer>
 
-                <SideBarContainer>
-                    <SideBar />
-                </SideBarContainer>
+                    <SideBarContainer>
+                        <SideBar debugonclose={closeActiveWorkSpace} />
+                    </SideBarContainer>
 
-                <WorkspaceContainer>
+                    <WorkspaceContainer>
 
-                    <TopBar>
-                        {/*renderTabs(props.modelManager.getModels())*/}
-                    </TopBar>
+                        <TopBar>
+                            {renderTabs(openWorkspaces)}
+                        </TopBar>
 
-                    <Content>
-                        <Workspace />
-                    </Content>
+                        {
+                            activeWorkspace &&
+                            (<Content>
+                                <Workspace activeWorkspace={activeWorkspace} />
+                            </Content>)
+                        }
 
-                </WorkspaceContainer>
+                    </WorkspaceContainer>
 
-            </ContentContainer>
-        </Base>
+                    <Modal />
+
+                </ContentContainer>
+            </Base>
     );
 }
 
@@ -103,8 +142,6 @@ const Tab = styled.div`
     width : 128px;
     height: 32px;
     margin-right: 4px;
-
-    background-color: green;
 `;
 
 const Content = styled.div`

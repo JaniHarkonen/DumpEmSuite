@@ -253,3 +253,47 @@ DumpEm Suite will create them as research materials are imported.
 In the next update, the functionality to create, open and close Workspaces will be developed. The architecture of Modals may
 also be rethought, as the creation of a Workspace will require more complex input from the user, such as the name of the
 created Workspace.
+
+### 12.6.2022
+
+In this update, full functionalities to dealing with Workspaces have been added to the side bar. The user can now create new
+Workspaces, open existing databases and close open databases, however it should be noted that the functionality for closing a
+Workspace will most likely be implemented in the form of a button on a tab, rather than as an option in the side bar, as it
+is now. The architecure of the side bar is still a bit off, as the changes to the Workspaces do not yet update the state of
+the App.js, and as a result, DumpEm Suite has to be reloaded every time a Workspace is created, opened or closed.
+
+A new architecture for handling the modal popups has also been implemented. Rather than having all notifications be a
+modified ModalView, there can now be several different types of modals. The basic modal that is used to prompt a user to do
+something is called the Prompt. The Prompt has other less generic wrappers that are frequently used such as the
+MessagePrompt, BinaryPrompt and InputPrompt. MessagePrompts display messages to the user, and have only a single button for
+acknowledgement. BinaryPrompts work the same way as MessagePrompts, however, they present the user two options, a negative
+and a positive option. Finally, InputPrompts are a more complex form of prompt that allow the user to input information that
+will then be utilized by a callback-function when the user clicks "Done".
+
+Two new APIs have also been introduced: Config and DialogAPI. Throughout this project there have been several issues with
+letting the user access the filesystem due to browser sandboxing. Because of this, "hacks" that include <input type="file">
+had to be used as workarounds, but eventually, these too provde insufficient in reaching the requirements. For example, it is
+not possible to have the user select a folder that contains no files, as full path of the folder cannot be extracted without
+the presence of at least one file. To display a file system dialog window Electron's Dialog-API will now be used in order to
+avoid having to add invisible <input>-elements into the DOM and having to deal with sandboxing issues. The DialogAPI can, as
+of now, display open and save file dialog windows as well as folder selection dialog windows. DialogAPI then passes dialog
+window requests to Electron's main process (main.js) via invoke, which then handles the displaying of the dialog window. It's
+recommended that all components that wish to utilize the file system dialog window shift to using the DialogAPI immediately.
+
+Another API addition, Config, has been developed to handle the loading and updating of the configuration file that is used by
+DumpEm Suite to store application settings as well as the workspaces whose tabs were opened and the workspace that was last
+active. The application components can use Config to get the latest state of the configuration as well as post changes to it.
+Configuration handling was extracted to a separate API from the CommonVariabales.js-file CommonVariables is geared more
+towards single variables that, at most, require getters or setters. Making changes to the configuration, however, requires
+the updating of the configuration file as well as other file system operations that have to be imported from other libraries.
+
+With this update, the core functionalities of DumpEm Suite are almost ready. The only core functionality that remains is the
+implementation of the algorithm that scrapes the Kauppalehti stock listings page. Additionally, a "Preferences"-section will
+be added to the side bar, however, this is a bonus feature. Still, there are many aspects of the application that need to be
+fleshed out further on the side of UI graphics as well as the architecture.
+
+Next, the focus will shift to the final round of architecture rethinking. Previously, the architecture was somewhat improved
+in terms of number of renders and amount of prop-drilling, however, there is still some "ugliness" between the Workspace and
+the Views that should be resolved in the next update. There are also other small aspects of architecture that will be ironed
+out, such as the architecture of the FileExplorer, the Sidebar, the DatabaseController and the metadata store in the
+database.

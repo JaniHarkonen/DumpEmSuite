@@ -3,3 +3,37 @@ values (1, 1, -1), (2, 1, -1), (3, 1, -1), (4, 1, -1);
 
 insert into colorcodes
 values (1, 2, 0), (2, 2, 1), (4, 2, 1);
+
+
+Default db setup
+
+CREATE TABLE "colors" (
+	"Color_ID"	INTEGER NOT NULL,
+	"Color_color"	INTEGER NOT NULL,
+	PRIMARY KEY("Color_ID" AUTOINCREMENT)
+);
+
+CREATE TABLE "companies" (
+	"Company_ID"	INTEGER NOT NULL,
+	"Company_name"	TEXT NOT NULL,
+	"Company_ticker"	TEXT NOT NULL,
+	"Company_volume"	REAL NOT NULL,
+	"Company_analysis_technical"	TEXT,
+	"Company_analysis_fundamental"	TEXT,
+	"Company_analysis_consensus"	TEXT,
+	PRIMARY KEY("Company_ID" AUTOINCREMENT)
+);
+
+CREATE TABLE "colorcodes" (
+	"Company_ID"	INTEGER NOT NULL,
+	"CCode_tab"	INTEGER NOT NULL,
+	"CCode_code_index"	INTEGER NOT NULL,
+	FOREIGN KEY("Company_ID") REFERENCES "companies"
+);
+
+INSERT INTO colors VALUES (0, -1);
+INSERT INTO colors VALUES (1, 255000000);
+INSERT INTO colors VALUES (2, 255000);
+INSERT INTO colors VALUES (3, 255);
+INSERT INTO colors VALUES (4, 0);
+INSERT INTO colors VALUES (5, 255255255);

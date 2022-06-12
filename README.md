@@ -271,14 +271,15 @@ and a positive option. Finally, InputPrompts are a more complex form of prompt t
 will then be utilized by a callback-function when the user clicks "Done".
 
 Two new APIs have also been introduced: Config and DialogAPI. Throughout this project there have been several issues with
-letting the user access the filesystem due to browser sandboxing. Because of this, "hacks" that include <input type="file">
-had to be used as workarounds, but eventually, these too provde insufficient in reaching the requirements. For example, it is
-not possible to have the user select a folder that contains no files, as full path of the folder cannot be extracted without
-the presence of at least one file. To display a file system dialog window Electron's Dialog-API will now be used in order to
-avoid having to add invisible <input>-elements into the DOM and having to deal with sandboxing issues. The DialogAPI can, as
-of now, display open and save file dialog windows as well as folder selection dialog windows. DialogAPI then passes dialog
-window requests to Electron's main process (main.js) via invoke, which then handles the displaying of the dialog window. It's
-recommended that all components that wish to utilize the file system dialog window shift to using the DialogAPI immediately.
+letting the user access the filesystem due to browser sandboxing. Because of this, "hacks" that include
+``<input type="file">`` had to be used as workarounds, but eventually, these too provde insufficient in reaching the
+requirements. For example, it is not possible to have the user select a folder that contains no files, as full path of the
+folder cannot be extracted without the presence of at least one file. To display a file system dialog window Electron's
+Dialog-API will now be used in order to avoid having to add invisible ``<input>``-elements into the DOM and having to deal
+with sandboxing issues. The DialogAPI can, as of now, display open and save file dialog windows as well as folder selection
+dialog windows. DialogAPI then passes dialog window requests to Electron's main process (main.js) via invoke, which then
+handles the displaying of the dialog window. It's recommended that all components that wish to utilize the file system
+dialog window shift to using the DialogAPI immediately.
 
 Another API addition, Config, has been developed to handle the loading and updating of the configuration file that is used by
 DumpEm Suite to store application settings as well as the workspaces whose tabs were opened and the workspace that was last

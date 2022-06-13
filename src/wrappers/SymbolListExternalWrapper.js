@@ -1,4 +1,3 @@
-import React from "react";
 import ExternalStorageAPI from "../apis/ExternalStorageAPI";
 import SymbolList from "../components/SymbolList/SymbolList";
 

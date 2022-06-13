@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FullDiv } from "../../common/FullDiv";
 import { getKey } from "../../utils/KeyManager";
@@ -9,7 +9,6 @@ import imgFolderWhite from "../../assets/img_folder_white.svg";
 
 const { exec } = window.require("child_process");
 const fs = window.require("fs");
-const pathModule = window.require("path");
 
 export default function FileExplorer(props) {
     const targetDirectory = props.targetDirectory;
@@ -73,13 +72,13 @@ export default function FileExplorer(props) {
                 <FileContainer>
                     No files or analysis yet...
                 </FileContainer>
-            )
+            );
         }
 
         return files.map((file) => {
             return(
                 <FileContainer
-                    key={"fe-file-" + getKey()}
+                    key={"file-explorer-file-" + getKey()}
                     onClick={() => { handleFileClick(file); }}
                 >
                     {file}

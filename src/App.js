@@ -7,24 +7,55 @@ import { setColorCodes } from "./utils/CommonVariables";
 import ExternalStorageAPI from "./apis/ExternalStorageAPI";
 import Modal from "./layouts/Modal/Modal";
 import Config from "./apis/Config";
+import ModalAPI from "./apis/ModalAPI";
+import DialogAPI from "./apis/DialogAPI";
+import CreateWorkspacePrompt from "./modals/prompts/CreateWorkspacePrompt";
+import imgCreateWorkspace from "./assets/img_chart.svg";
+import imgOpenWorkspace from "./assets/img_chart.svg";
 
 
 export default function App(props) {
-    const openWorkspaces = props.openWorkspaces;
+    const defaultOpenWorkspaces = props.openWorkspaces;
     const startupActiveWorkspaceID = props.activeWorkspaceID;
 
+    const makeOption = (tooltip, image, onClick) => {
+        return {
+            tooltip: tooltip,
+            image: image,
+            onClick: onClick
+        };
+    };
+
+    const options = [
+        makeOption("Create a new workspace", imgCreateWorkspace, () => {
+            ModalAPI.popup(
+                <CreateWorkspacePrompt onDone={handleWorkspaceCreate} />
+            );
+        }),
+
+        makeOption("Open an existing workspace", imgOpenWorkspace, () => {
+            handleWorkspaceOpen();
+        }),
+
+        makeOption("Close current workspace", imgOpenWorkspace, () => {
+            handleCloseActiveWorkSpace();
+        })
+    ];
+
     const [activeWorkspace, setActiveWorkspace] = useState(null);
+    const [openWorkspaces, setOpenWorkspaces] = useState([]);
 
 
     useLayoutEffect(() => {
-        const saWorkspace = openWorkspaces[startupActiveWorkspaceID];
+        const saWorkspace = defaultOpenWorkspaces[startupActiveWorkspaceID];
 
         if( saWorkspace != null )
         {
             switchWorkspace(saWorkspace, startupActiveWorkspaceID);
+            setOpenWorkspaces(defaultOpenWorkspaces);
             setColorCodes(ExternalStorageAPI.getColorCodes());
         }
-    }, []);
+    }, []); 
 
     const openWorkspace = (ws) => {
         if( !ws ) return;
@@ -40,9 +71,32 @@ export default function App(props) {
         setActiveWorkspace(openWorkspace(ws));
     };
 
-    const closeActiveWorkSpace = () => {
-        Config.closeWorkspace(openWorkspaces.indexOf(activeWorkspace));
-        setActiveWorkspace(null);
+    const handleWorkspaceCreate = (name) => {
+        DialogAPI.showOpenFolder({ title: "Select the destination folder..." }, (ws) => {
+            if( ws == null ) return;
+
+            ModalAPI.close();
+            
+            const changes = Config.createWorkspace(ws[0], name);
+            setActiveWorkspace(openWorkspace(changes.workspaces[changes.activeWorkspaceID]));
+            setOpenWorkspaces(changes.workspaces);
+        });
+    };
+
+    const handleWorkspaceOpen = () => {
+        DialogAPI.showOpenFolder({ title: "Open existing workspace..." }, (ws) => {
+            if( ws == null ) return;
+
+            const changes = Config.openWorkspace(ws[0]);
+            setActiveWorkspace(openWorkspace(changes.workspaces[changes.activeWorkspaceID]));
+            setOpenWorkspaces(changes.workspaces);
+        });
+    };
+
+    const handleCloseActiveWorkSpace = () => {
+        const changes = Config.closeWorkspace(openWorkspaces.indexOf(activeWorkspace));
+        setActiveWorkspace(openWorkspace(changes.workspaces[changes.activeWorkspaceID]));
+        setOpenWorkspaces(changes.workspaces);
     };
 
     const renderTabs = (workspaces) => {
@@ -70,7 +124,7 @@ export default function App(props) {
                 <ContentContainer>
 
                     <SideBarContainer>
-                        <SideBar debugonclose={closeActiveWorkSpace} />
+                        <SideBar options={options} />
                     </SideBarContainer>
 
                     <WorkspaceContainer>
@@ -93,7 +147,7 @@ export default function App(props) {
                 </ContentContainer>
             </Base>
     );
-}
+};
 
 const Base = styled.div`
     position: absolute;

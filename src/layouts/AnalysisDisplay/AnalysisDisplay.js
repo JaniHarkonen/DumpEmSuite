@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Note from "../../components/Note/Note";
 import { FullDiv } from "../../common/FullDiv";
@@ -61,7 +61,7 @@ export default function AnalysisDisplay(props) {
 
         return(
             <AnalysisTabButton
-                key={getKey()}
+                key={"analysis-display-analysis-tab-button-" + getKey()}
                 onClick={() => {
                     handleAnalysisTabChange(index);
                 }}

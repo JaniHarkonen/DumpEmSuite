@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { getKey } from "../../utils/KeyManager";
-import View from "../View/View";
-import SymbolListExternalWrapper from "../../wrappers/SymbolListExternalWrapper";
 import ViewDefaultWrapper from "../../wrappers/ViewDefaultWrapper";
 import ViewFundamentalWrapper from "../../wrappers/ViewFundamentalWrapper";
 
@@ -32,7 +30,7 @@ export default function Workspace(props) {
 
         return tablist.map((tab, index) => {
             return(
-                <TabContainer key={"wsview-" + getKey()}>
+                <TabContainer key={"workspace-view-tab-" + getKey()}>
                     <WSTab
                         onClick={() => {
                             handleTabClick(index + 1);

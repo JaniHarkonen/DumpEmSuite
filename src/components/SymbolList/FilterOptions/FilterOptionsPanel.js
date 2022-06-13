@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { FullDiv } from "../../../common/FullDiv";
 import ColorPicker from "../../ColorPicker/ColorPicker";
@@ -47,7 +47,7 @@ export default function FilterOptionsPanel(props) {
         );
     };
 
-    return(
+    return (
         <FullDiv>
             {renderFilterPane("Bring:", setBringFilters, bringFilters, enableBring)}
             {renderFilterPane("Filters:", handleDisplayFilterSelection, displayFilters)}

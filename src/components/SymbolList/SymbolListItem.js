@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { FullImage } from "../../common/FullImage";
 import ColorPicker from "../ColorPicker/ColorPicker";
@@ -64,7 +64,7 @@ export default function SymbolListItem(props) {
 
     const renderOptionPanel = (content, condition) => {
         return(
-            <OptionPanel key={getKey()}>
+            <OptionPanel key={"symbol-list-item-" + getKey()}>
                 {condition && content}
             </OptionPanel>
         );

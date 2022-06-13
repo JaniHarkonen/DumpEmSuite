@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { FullDiv } from "../../common/FullDiv"
 import { getKey } from "../../utils/KeyManager";
@@ -16,7 +15,7 @@ export default function View(props) {
                 {
                     props.firstHalf &&
                     (<FirstHalf
-                        key={"first-half-" + getKey()}
+                        key={"view-first-half-" + getKey()}
                         context={props.firstHalf.context}
                     />)
                 }
@@ -28,7 +27,7 @@ export default function View(props) {
                     {
                         props.secondHalf &&
                         (<SecondHalf
-                            key={"second-half-" + getKey()}
+                            key={"view-second-half-" + getKey()}
                             context={props.secondHalf?.context}
                         />)
                     }

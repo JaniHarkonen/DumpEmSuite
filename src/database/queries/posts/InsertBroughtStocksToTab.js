@@ -26,7 +26,7 @@ export default class InsertBroughtStocksToTab extends Insert {
         q.conditions = [
             new Equation(new Column("Company_ID", "css"), q.columns[0], "="),
             new Equation(new Column("CCode_tab", "css"), new Placeholder(), "=")
-        ]
+        ];
 
         this.values = q;
     }

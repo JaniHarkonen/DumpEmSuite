@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import styled from "styled-components";
 import SymbolListItem from "./SymbolListItem";
 import { getKey } from "../../utils/KeyManager";
@@ -37,32 +37,10 @@ export default function SymbolList(props) {
         return stocks;
     };
 
-    /*const createClearNotification = (title, message, onYes) => {
-        return(
-            <BinaryPrompt
-                title={title}
-                message={message}
-                choices={{
-                    negative: {
-                        caption: "No"
-                    },
-                    positive: {
-                        caption: "Yes",
-                        onClick: onYes
-                    }
-                }}
-            />
-        );
-    };*/
-
     const handleBringClick = (filters) => {
         if( tabStocks.length > 0 )
         {
             ModalAPI.popup(
-                /*createClearNotification("Before bringing...", "Some of the stocks on this tab are color coded and have to be cleared before bringing!\nWould you like to clear the tab?", () => {
-                    onBring(filters);
-                    refresh();
-                })*/
                 <BringStocksPrompt onYes={() => {
                     onBring(filters);
                     refresh();
@@ -80,10 +58,6 @@ export default function SymbolList(props) {
         if( tabStocks.length > 0 )
         {
             ModalAPI.popup(
-                /*createClearNotification("Before clearing...", "Are you sure you want to remove all of the stocks from the tab?", () => {
-                    onClear();
-                    refresh();
-                })*/
                 <ClearTabPrompt onYes={() => {
                     onClear();
                     refresh();
@@ -97,7 +71,7 @@ export default function SymbolList(props) {
 
         return filterStocks(stocks, filters).map((stock) => {
             return(
-                <SymbolContainer key={"symbol-" + getKey()}>
+                <SymbolContainer key={"symbol-list-symbol-" + getKey()}>
                     <SymbolListItem
                         stock={stock}
                         onColorCodeChange={onColorCodeChange}

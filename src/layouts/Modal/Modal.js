@@ -1,7 +1,7 @@
-import React from "react";
+import { Component } from "react";
 import ModalAPI from "../../apis/ModalAPI";
 
-export default class Modal extends React.Component {
+export default class Modal extends Component {
     constructor(props) {
         super(props);
 

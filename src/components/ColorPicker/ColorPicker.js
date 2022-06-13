@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { getKey } from "../../utils/KeyManager";
 import { COLOR_CODES, integerToRGBA } from "../../utils/CommonVariables";
@@ -29,7 +28,7 @@ export default function ColorPicker(props) {
     const renderColorPane = (color, index) => {
         return(
             <ColorPane
-                key={getKey()}
+                key={"color-picker-color-pane-" + getKey()}
                 style={{
                     backgroundColor: integerToRGBA(color),
                     borderStyle: picks.includes(index) ? "dashed" : "solid"

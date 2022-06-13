@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SymbolListFundamentalWrapper from "./SymbolListFundamentalWrapper";
 import View from "../layouts/View/View";
 import Analysis from "../layouts/Analysis/Analysis";

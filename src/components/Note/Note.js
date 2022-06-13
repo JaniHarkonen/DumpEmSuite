@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import useStateRef from "react-usestateref";
 import styled from "styled-components";
 import { FullDiv } from "../../common/FullDiv";
@@ -53,7 +53,7 @@ export default function Note(props) {
                 onChange={handleTextInput}
             />
         </FullDiv>
-    )
+    );
 }
 
 const NoteInput = styled.textarea`

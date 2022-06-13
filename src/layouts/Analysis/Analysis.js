@@ -1,4 +1,3 @@
-import React from "react";
 import { FullDiv } from "../../common/FullDiv";
 import FileExplorer from "../../components/FileExplorer/FileExplorer";
 import styled from "styled-components";

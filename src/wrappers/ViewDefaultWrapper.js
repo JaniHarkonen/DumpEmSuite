@@ -1,4 +1,3 @@
-import React from "react";
 import SymbolListExternalWrapper from "./SymbolListExternalWrapper";
 import View from "../layouts/View/View";
 

@@ -98,10 +98,14 @@ export default class Config {
         };
 
             // Modify the configuration and update the file
+        this.config.activeWorkspaceID = this.config.openWorkspaces.length;
         this.config.openWorkspaces.push(ws);
         this.updateConfig();
 
-        return this.config.openWorkspaces;
+        return {
+            workspaces: this.config.openWorkspaces,
+            activeWorkspaceID: this.config.activeWorkspaceID
+        };
     }
 
     static createWorkspace(path, name) {
@@ -122,8 +126,7 @@ export default class Config {
 
         fs.mkdirSync(path + "\\materials", { recursive: true });
         fs.copyFileSync(db, path + "\\" + name + ".db");
-
-        this.config.activeWorkspaceID = this.config.openWorkspaces.length;
+        
         return this.openWorkspace(path);
     }
 
@@ -138,7 +141,10 @@ export default class Config {
 
         this.updateConfig();
 
-        return this.config.openWorkspaces;
+        return {
+            workspaces: this.config.openWorkspaces,
+            activeWorkspaceID: this.config.activeWorkspaceID
+        };
     }
 
     static getWorkspacePath(workspace) {

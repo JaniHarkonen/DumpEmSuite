@@ -298,3 +298,8 @@ in terms of number of renders and amount of prop-drilling, however, there is sti
 the Views that should be resolved in the next update. There are also other small aspects of architecture that will be ironed
 out, such as the architecture of the FileExplorer, the Sidebar, the DatabaseController and the metadata store in the
 database.
+
+###
+- tidying up the codebase
+- created a general TabBar, improved SideBar architecture
+- assets are now referenced via the "assets.js"

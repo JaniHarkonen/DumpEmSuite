@@ -64,11 +64,14 @@ export default class Config {
 
     static openWorkspace(path) {
         if( 
-            !this.isConfigValid()       ||
-            !fs.existsSync(path)        ||
-            this.isWorkspaceOpen(path)
+            !this.isConfigValid()               ||
+            !fs.existsSync(path)                ||
+            this.isWorkspaceOpen(path + "\\")
         )
-        return this.config.openWorkspaces;
+        return {
+            workspaces: this.config.openWorkspaces,
+            activeWorkspaceID: this.config.activeWorkspaceID
+        };
 
             // Find the .db file constituting the Workspace
         const files = fs.readdirSync(path);
@@ -135,8 +138,9 @@ export default class Config {
 
         this.config.openWorkspaces.splice(workspaceID, 1);
 
-            // No need to switch tabs, if the closed tab is the first one
-        if( workspaceID > 0 )
+            // Switch tabs if the active tab is the closed tab or
+            // to the right of it
+        if( workspaceID >= this.config.activeWorkspaceID )
         this.config.activeWorkspaceID = workspaceID - 1;
 
         this.updateConfig();

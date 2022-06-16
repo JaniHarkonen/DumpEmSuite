@@ -2,150 +2,92 @@ import { useLayoutEffect, useState } from "react";
 import styled from "styled-components";
 import Workspace from "./layouts/Workspace/Workspace"
 import SideBar from "./layouts/SideBar/SideBar";
-import { getKey } from "./utils/KeyManager";
 import { setColorCodes } from "./utils/CommonVariables";
 import ExternalStorageAPI from "./apis/ExternalStorageAPI";
 import Modal from "./layouts/Modal/Modal";
 import Config from "./apis/Config";
-import ModalAPI from "./apis/ModalAPI";
-import DialogAPI from "./apis/DialogAPI";
-import CreateWorkspacePrompt from "./modals/prompts/CreateWorkspacePrompt";
-import imgCreateWorkspace from "./assets/img_chart.svg";
-import imgOpenWorkspace from "./assets/img_chart.svg";
+import TabBar, { extractTabsFromArray } from "./components/TabBar/TabBar";
 
 
 export default function App(props) {
     const defaultOpenWorkspaces = props.openWorkspaces;
     const startupActiveWorkspaceID = props.activeWorkspaceID;
 
-    const makeOption = (tooltip, image, onClick) => {
-        return {
-            tooltip: tooltip,
-            image: image,
-            onClick: onClick
-        };
-    };
-
-    const options = [
-        makeOption("Create a new workspace", imgCreateWorkspace, () => {
-            ModalAPI.popup(
-                <CreateWorkspacePrompt onDone={handleWorkspaceCreate} />
-            );
-        }),
-
-        makeOption("Open an existing workspace", imgOpenWorkspace, () => {
-            handleWorkspaceOpen();
-        }),
-
-        makeOption("Close current workspace", imgOpenWorkspace, () => {
-            handleCloseActiveWorkSpace();
-        })
-    ];
-
-    const [activeWorkspace, setActiveWorkspace] = useState(null);
-    const [openWorkspaces, setOpenWorkspaces] = useState([]);
+    const [activeWorkspaceIndex, setActiveWorkspace] = useState(null);
+    const [openWorkspaces, setOpenWorkspaces] = useState(defaultOpenWorkspaces);
 
 
     useLayoutEffect(() => {
-        const saWorkspace = defaultOpenWorkspaces[startupActiveWorkspaceID];
-
-        if( saWorkspace != null )
+        if( defaultOpenWorkspaces[startupActiveWorkspaceID] != null )
         {
-            switchWorkspace(saWorkspace, startupActiveWorkspaceID);
-            setOpenWorkspaces(defaultOpenWorkspaces);
+            switchWorkspace(startupActiveWorkspaceID);
             setColorCodes(ExternalStorageAPI.getColorCodes());
         }
-    }, []); 
+    }, []);
 
-    const openWorkspace = (ws) => {
-        if( !ws ) return;
+    const openWorkspace = (workspaceIndex) => {
+        const ws = openWorkspaces[workspaceIndex];
         ExternalStorageAPI.openWorkspace(Config.getWorkspacePath(ws));
-
-        return ws;
     };
 
-    const switchWorkspace = (ws, index) => {
-        if( !ws ) return;
-
+    const switchWorkspace = (index) => {
         Config.switchWorkspace(index);
-        setActiveWorkspace(openWorkspace(ws));
+        openWorkspace(index);
+        setActiveWorkspace(index);
     };
 
-    const handleWorkspaceCreate = (name) => {
-        DialogAPI.showOpenFolder({ title: "Select the destination folder..." }, (ws) => {
-            if( ws == null ) return;
+    const updateWorkspacesBasedOnConfigChanges = (changes) => {
+        if( !changes ) return;
 
-            ModalAPI.close();
-            
-            const changes = Config.createWorkspace(ws[0], name);
-            setActiveWorkspace(openWorkspace(changes.workspaces[changes.activeWorkspaceID]));
-            setOpenWorkspaces(changes.workspaces);
-        });
-    };
-
-    const handleWorkspaceOpen = () => {
-        DialogAPI.showOpenFolder({ title: "Open existing workspace..." }, (ws) => {
-            if( ws == null ) return;
-
-            const changes = Config.openWorkspace(ws[0]);
-            setActiveWorkspace(openWorkspace(changes.workspaces[changes.activeWorkspaceID]));
-            setOpenWorkspaces(changes.workspaces);
-        });
-    };
-
-    const handleCloseActiveWorkSpace = () => {
-        const changes = Config.closeWorkspace(openWorkspaces.indexOf(activeWorkspace));
-        setActiveWorkspace(openWorkspace(changes.workspaces[changes.activeWorkspaceID]));
+        openWorkspace(changes.activeWorkspaceID);
+        setActiveWorkspace(changes.activeWorkspaceID);
         setOpenWorkspaces(changes.workspaces);
     };
 
-    const renderTabs = (workspaces) => {
-        if( !workspaces ) return <></>;
-        
-        return workspaces.map((ws, index) => {
-            return(
-                <Tab
-                    key={getKey()}
-                    onClick={() => {
-                        switchWorkspace(ws, index);
-                    }}
-                    style={{
-                        backgroundColor: (activeWorkspace === ws) ? "lightgreen" : "green"
-                    }}
-                >
-                    {ws.name}
-                </Tab>
-            );
-        });
+    const handleCloseWorkSpace = (index) => {
+        const changes = Config.closeWorkspace(index);
+        updateWorkspacesBasedOnConfigChanges(changes);
     };
 
     return (
-            <Base>
-                <ContentContainer>
+        <Base>
+            <ContentContainer>
 
-                    <SideBarContainer>
-                        <SideBar options={options} />
-                    </SideBarContainer>
+                <SideBarContainer>
+                    <SideBar updateWorkspaces={updateWorkspacesBasedOnConfigChanges} />
+                </SideBarContainer>
 
-                    <WorkspaceContainer>
+                <WorkspaceContainer>
 
-                        <TopBar>
-                            {renderTabs(openWorkspaces)}
-                        </TopBar>
+                    <TopBar>
+                        <TabBar
+                            keyFixes={{ prefix: "workspace-tab" }}
+                            tabElement={Tab}
+                            tabs={extractTabsFromArray(openWorkspaces, { titleAs: "name" })}
+                            activeTabIndex={activeWorkspaceIndex}
+                            onTabClick={switchWorkspace}
+                            activeStyle={{
+                                backgroundColor: "lightgreen"
+                            }}
+                            closeButton={TabCloseButton}
+                            allowCloseByDefault={true}
+                            onClose={handleCloseWorkSpace}
+                        />
+                    </TopBar>
 
-                        {
-                            activeWorkspace &&
-                            (<Content>
-                                <Workspace activeWorkspace={activeWorkspace} />
-                            </Content>)
-                        }
+                    {
+                        openWorkspaces[activeWorkspaceIndex] &&
+                        (<Content>
+                            <Workspace activeWorkspace={openWorkspaces[activeWorkspaceIndex]} />
+                        </Content>)
+                    }
 
-                    </WorkspaceContainer>
+                </WorkspaceContainer>
 
-                    <Modal />
+                <Modal />
 
-                </ContentContainer>
-            </Base>
+            </ContentContainer>
+        </Base>
     );
 };
 
@@ -196,6 +138,18 @@ const Tab = styled.div`
     width : 128px;
     height: 32px;
     margin-right: 4px;
+
+    background-color: green;
+`;
+
+const TabCloseButton = styled.div`
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+
+    background-color: #B70000;
 `;
 
 const Content = styled.div`

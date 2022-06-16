@@ -1,27 +1,79 @@
 import styled from "styled-components";
 import ImageButton from "../../components/ImageButton/ImageButton";
+import ModalAPI from "../../apis/ModalAPI";
+import DialogAPI from "../../apis/DialogAPI";
+import Config from "../../apis/Config";
+import CreateWorkspacePrompt from "../../modals/prompts/CreateWorkspacePrompt";
+import { images } from "../../assets/assets";
 import { getKey } from "../../utils/KeyManager";
 
 export default function SideBar(props) {
-    const options = props.options;
+    const updateWorkspaces = props.updateWorkspaces;
 
-    const renderOptions = (opts) => {
-        if( !opts ) return <></>;
+    const makeOption = (tooltip, image, onClick) => {
+        return {
+            tooltip: tooltip,
+            image: image,
+            onClick: onClick
+        };
+    };
 
-        return options.map((opt) => {
-            return(
-                <OptionPanelContainer key={"side-bar-option-button" + getKey()}>
-                    <ImageButton
-                        tooltip={opt.tooltip}
-                        image={opt.image}
-                        onClick={opt.onClick}
-                    />
-                </OptionPanelContainer>
+    const options = [
+        makeOption("Create a new workspace", images.folder.white, () => {
+            ModalAPI.popup(
+                <CreateWorkspacePrompt onDone={handleWorkspaceCreate} />
             );
+        }),
+
+        makeOption("Open an existing workspace", images.folder.white, () => {
+            handleWorkspaceOpen();
+        })
+    ];
+
+
+    const handleWorkspaceCreate = (name) => {
+        DialogAPI.showOpenFolder({ title: "Select the destination folder..." }, (ws) => {
+            if( ws == null ) return;
+
+            ModalAPI.close();
+            
+            const changes = Config.createWorkspace(ws[0], name);
+            updateWorkspaces(changes);
         });
     };
 
-    return(
+    const handleWorkspaceOpen = () => {
+        DialogAPI.showOpenFolder({ title: "Open existing workspace..." }, (ws) => {
+            if( ws == null ) return;
+
+            const changes = Config.openWorkspace(ws[0]);
+            updateWorkspaces(changes);
+        });
+    };
+
+    const renderOptionPanel = (option) => {
+        if( !option ) return <></>;
+
+        return (
+            <OptionPanelContainer key={"sidebar-option-panel-" + getKey()}>
+                <ImageButton
+                    tooltip={option.tooltip}
+                    image={option.image}
+                    onClick={option.onClick}
+                />
+            </OptionPanelContainer>
+        );
+    };
+
+    const renderOptions = (optionArray) => {
+        if( !optionArray ) return [];
+
+        return optionArray.map((option) => {
+            return renderOptionPanel(option);
+        });
+    };
+
+    return (
         <Content>
             <OptionContainer>
                 {renderOptions(options)}

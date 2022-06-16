@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { getKey } from "../../utils/KeyManager";
 import ViewDefaultWrapper from "../../wrappers/ViewDefaultWrapper";
 import ViewFundamentalWrapper from "../../wrappers/ViewFundamentalWrapper";
+import TabBar from "../../components/TabBar/TabBar";
 
 export default function Workspace(props) {
     const DEBUG_TABS = [
-        "Volume",
-        "Price action",
-        "TA #1",
-        "Fundamental"
+        { title: "Volume" },
+        { title: "Price action" },
+        { title: "TA #1" },
+        { title: "Fundamental" }
     ];
 
-    const [activeTab, openTab] = useState(1);   // Holds the currently open tab
+    const [activeTabIndex, openTab] = useState(1);   // Holds the currently open tab
 
 
     useEffect(() => {
@@ -20,46 +20,22 @@ export default function Workspace(props) {
     }, [props.activeWorkspace]);
 
     const handleTabClick = (tab) => {
-        if( !tab ) return;
-
-        openTab(tab);
+        openTab(tab + 1);
     };
 
-    const renderTabs = (tablist) => {
-        if( !tablist ) return <></>;
-
-        return tablist.map((tab, index) => {
-            return(
-                <TabContainer key={"workspace-view-tab-" + getKey()}>
-                    <WSTab
-                        onClick={() => {
-                            handleTabClick(index + 1);
-                        }}
-
-                        style={{
-                            backgroundColor: (activeTab - 1 === index) ? "#BCBCBC" : "auto"
-                        }}
-                    >
-                        {tab}
-                    </WSTab>
-                </TabContainer>
-            );
-        });
-    };
-
-    const renderActiveTab = (first = false) => {
-        let tab = activeTab;
+    const renderActiveView = (first = false) => {
+        let tab = activeTabIndex;
 
         if( tab === 4 )
         {
-            return(
+            return (
                 <ViewFundamentalWrapper
                     tab={tab}
                 />
             );
         }
 
-        return(
+        return (
             <ViewDefaultWrapper
                 tab={tab}
                 first={first}
@@ -69,12 +45,21 @@ export default function Workspace(props) {
 
     return(
         <Content>
-            <TabBar>
-                {renderTabs(DEBUG_TABS)}
-            </TabBar>
+            <TabBarContainer>
+                <TabBar
+                    keyFixes={{ prefix: "workspace-view-tab" }}
+                    tabElement={WSTab}
+                    tabs={DEBUG_TABS}
+                    activeTabIndex={activeTabIndex - 1}
+                    onTabClick={handleTabClick}
+                    activeStyle={{
+                        backgroundColor: "#BCBCBC"
+                    }}
+                />
+            </TabBarContainer>
 
             <ViewContainer>
-                {renderActiveTab(activeTab === 1)}
+                {renderActiveView(activeTabIndex === 1)}
             </ViewContainer>
         </Content>
     );
@@ -88,7 +73,7 @@ const Content = styled.div`
     height: 100%;
 `;
 
-const TabBar = styled.div`
+const TabBarContainer = styled.div`
     position: relative;
     width: 100%;
     height: 32px;
@@ -96,26 +81,18 @@ const TabBar = styled.div`
     background-color: orange;
 `;
 
-const TabContainer = styled.div`
+const WSTab = styled.div`
     position: relative;
     display: inline-block;
     width: 128px;
     height: 100%;
     margin-right: 4px;
+
+    background-color: gray;
 `;
 
 const ViewContainer = styled.div`
     position: relative;
     width: 100%;
     height: calc(100% - 32px);
-`;
-
-const WSTab = styled.div`
-    position: absolute;
-    left: 0px;
-    top : 0px;
-    width: 100%;
-    height: 100%;
-
-    background-color: gray;
 `;

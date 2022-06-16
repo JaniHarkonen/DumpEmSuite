@@ -4,8 +4,7 @@ import { FullDiv } from "../../common/FullDiv";
 import { getKey } from "../../utils/KeyManager";
 import { FullImage } from "../../common/FullImage";
 import { copyFile } from "../../utils/FileUtils";
-
-import imgFolderWhite from "../../assets/img_folder_white.svg";
+import { images } from "../../assets/assets";
 
 const { exec } = window.require("child_process");
 const fs = window.require("fs");
@@ -91,7 +90,7 @@ export default function FileExplorer(props) {
         <FullDiv>
             <LoadFileContainer>
                 <LoadFileIconPanel>
-                    <FullImage src={imgFolderWhite} />
+                    <FullImage src={images.folder.white} />
                 </LoadFileIconPanel>
 
                 <LoadFileCaptionPanel>

@@ -2,9 +2,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import { FullImage } from "../../common/FullImage";
 import ColorPicker from "../ColorPicker/ColorPicker";
-import imgChart from "../../assets/img_chart.svg";
 import { integerToRGBA, getColorCode } from "../../utils/CommonVariables";
 import { getKey } from "../../utils/KeyManager";
+import { images } from "../../assets/assets";
 
 /**
  * This function is used by SymbolListItem only, but is hoisted due to
@@ -112,7 +112,7 @@ export default function SymbolListItem(props) {
 
         makeOptionPanel(
             <FullImage
-                src={imgChart}
+                src={images.chart}
                 onClick={handleChartClick}
             />, !disableChart
         )

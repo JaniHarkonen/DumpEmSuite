@@ -2,7 +2,7 @@ import { useState, useLayoutEffect } from "react";
 import styled from "styled-components";
 import SymbolListItem from "./SymbolListItem";
 import { getKey } from "../../utils/KeyManager";
-import FilterOptionsPanel from "./FilterOptions/FilterOptionsPanel";
+import FilterOptionsPanel from "../FilterOptions/FilterOptionsPanel";
 import ModalAPI from "../../apis/ModalAPI";
 import ClearTabPrompt from "../../modals/prompts/ClearTabPrompt";
 import BringStocksPrompt from "../../modals/prompts/BringStocksPrompt";

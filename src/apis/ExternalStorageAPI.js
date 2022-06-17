@@ -201,6 +201,8 @@ export default class ExternalStorageAPI {
     }
 
     static getAnalysisOfStock(id, type) {
+        if( id <= 0 ) return null;
+        
         return this.request(() => {
             return this.externalController.fetch({
                 type: "stock-analysis",

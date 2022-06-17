@@ -301,5 +301,11 @@ database.
 
 ###
 - tidying up the codebase
+
 - created a general TabBar, improved SideBar architecture
 - assets are now referenced via the "assets.js"
+
+- created GridLayout
+- improved view architecture with GridLayout
+
+- 

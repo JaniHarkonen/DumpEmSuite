@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import ViewDefaultWrapper from "../../wrappers/ViewDefaultWrapper";
-import ViewFundamentalWrapper from "../../wrappers/ViewFundamentalWrapper";
 import TabBar from "../../components/TabBar/TabBar";
+import FilterView from "../views/FilterView/FilterView";
+import { getKey } from "../../utils/KeyManager";
+import FundamentalView from "../views/FundamentalView/FundamentalView";
 
 export default function Workspace(props) {
     const DEBUG_TABS = [
@@ -12,7 +13,7 @@ export default function Workspace(props) {
         { title: "Fundamental" }
     ];
 
-    const [activeTabIndex, openTab] = useState(1);   // Holds the currently open tab
+    const [activeTabIndex, openTab] = useState(1);
 
 
     useEffect(() => {
@@ -23,22 +24,23 @@ export default function Workspace(props) {
         openTab(tab + 1);
     };
 
-    const renderActiveView = (first = false) => {
+    const renderActiveView = (isFirstTab = false) => {
         let tab = activeTabIndex;
 
         if( tab === 4 )
         {
             return (
-                <ViewFundamentalWrapper
+                <FundamentalView
                     tab={tab}
                 />
             );
         }
 
         return (
-            <ViewDefaultWrapper
+            <FilterView
+                key={"workspace-view-" + getKey()}
                 tab={tab}
-                first={first}
+                isFirstTab={isFirstTab}
             />
         );
     };

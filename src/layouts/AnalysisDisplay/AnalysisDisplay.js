@@ -27,8 +27,8 @@ export default function AnalysisDisplay(props) {
         }
     ];
 
-    const [ analysisText, setAnalysisText ] = useState("");
-    const [ openAnalysis, setOpenAnalysis ] = useState(null);
+    const [ analysisText, setAnalysisText ] = useState(null);
+    const [ openAnalysis, setOpenAnalysis ] = useState("");
 
 
     useEffect(() => {
@@ -38,8 +38,15 @@ export default function AnalysisDisplay(props) {
     const setAnalysis = (analysis) => {
         if( !analysis ) return "";
 
-        setAnalysisText(fetchAnalysis(analysis.key) || analysis.template);
-        setOpenAnalysis(analysis);
+        const fetchedAnalysis = fetchAnalysis(analysis.key);
+
+        if( !fetchedAnalysis.isSuccessful )
+        setOpenAnalysis(null);
+        else
+        {
+            setAnalysisText(fetchedAnalysis.analysis || analysis.template);
+            setOpenAnalysis(analysis);
+        }
     };
 
     const handleAnalysisTabChange = (tabIndex) => {
@@ -74,18 +81,21 @@ export default function AnalysisDisplay(props) {
     };
     
     return(
-        <FullDiv>
-            <TopBarContainer>
-               {renderAnalysisTabButtons(analyses)}
-            </TopBarContainer>
+        openAnalysis &&
+        (
+            <FullDiv>
+                <TopBarContainer>
+                {renderAnalysisTabButtons(analyses)}
+                </TopBarContainer>
 
-            <NoteContainer>
-                <Note
-                    content={analysisText}
-                    updateContent={handleAnalysisUpdate}
-                />
-            </NoteContainer>
-        </FullDiv>
+                <NoteContainer>
+                    <Note
+                        content={analysisText}
+                        updateContent={handleAnalysisUpdate}
+                    />
+                </NoteContainer>
+            </FullDiv>
+        )
     );
 }
 

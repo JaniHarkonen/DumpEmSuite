@@ -1,10 +1,10 @@
-import ExternalStorageAPI from "../apis/ExternalStorageAPI";
-import SymbolList from "../components/SymbolList/SymbolList";
+import ExternalStorageAPI from "../../../apis/ExternalStorageAPI";
+import SymbolList from "../../../components/SymbolList/SymbolList";
 
 
 export default function SymbolListExternalWrapper(props) {
-    const tab = props.context.tab;
-    const enableBring = props.context.enableBring;
+    const tab = props.tab;
+    const enableBring = props.enableBring;
 
     return(
         <SymbolList

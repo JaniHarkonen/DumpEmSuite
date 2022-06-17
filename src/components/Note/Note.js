@@ -3,6 +3,7 @@ import useStateRef from "react-usestateref";
 import styled from "styled-components";
 import { FullDiv } from "../../common/FullDiv";
 
+
 export default function Note(props) {
     const content = props.content;
     const updateContent = props.updateContent || function(updatedText){ };
@@ -39,7 +40,7 @@ export default function Note(props) {
         }
     };
 
-    return(
+    return (
         <FullDiv>
             <NoteInput
                 id=""

@@ -1,6 +1,6 @@
-import styled from "styled-components";
 import { getKey } from "../../utils/KeyManager";
 import { COLOR_CODES, integerToRGBA } from "../../utils/CommonVariables";
+import { Styles } from "./ColorPicker.styles";
 
 export default function ColorPicker(props) {
     const colorOrder = null;
@@ -26,8 +26,8 @@ export default function ColorPicker(props) {
     };
 
     const renderColorPane = (color, index) => {
-        return(
-            <ColorPane
+        return (
+            <Styles.ColorPane
                 key={"color-picker-color-pane-" + getKey()}
                 style={{
                     backgroundColor: integerToRGBA(color),
@@ -60,26 +60,9 @@ export default function ColorPicker(props) {
         return result;
     };
 
-    return(
-        <Content>
+    return (
+        <Styles.Content>
             {renderColorPanes()}
-        </Content>
+        </Styles.Content>
     );
 }
-
-const Content = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    gap: 5px;
-`;
-
-const ColorPane = styled.div`
-    position: relative;
-    flex: 1;
-
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-`;

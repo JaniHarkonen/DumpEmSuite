@@ -15,7 +15,7 @@ export default function FundamentalView(props) {
             { width: 1, height: 2 },
             <SymbolListFundamentalWrapper
                 tab={tab}
-                enalbeBring={true}
+                enableBring={true}
                 onItemClick={(symbol) => {
                     setSelectedSymbol(symbol);
                 }}
@@ -54,4 +54,4 @@ export default function FundamentalView(props) {
             elements={elements}
         />
     );
-};
+}

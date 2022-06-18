@@ -1,11 +1,11 @@
 import { useState, useLayoutEffect } from "react";
-import styled from "styled-components";
 import SymbolListItem from "./SymbolListItem";
 import { getKey } from "../../utils/KeyManager";
 import FilterOptionsPanel from "../FilterOptions/FilterOptionsPanel";
 import ModalAPI from "../../apis/ModalAPI";
 import ClearTabPrompt from "../../modals/prompts/ClearTabPrompt";
 import BringStocksPrompt from "../../modals/prompts/BringStocksPrompt";
+import { Styles } from "./SymbolList.styles";
 
 
 export default function SymbolList(props) {
@@ -70,24 +70,24 @@ export default function SymbolList(props) {
         if( !stocks ) return <></>;
 
         return filterStocks(stocks, filters).map((stock) => {
-            return(
-                <SymbolContainer key={"symbol-list-symbol-" + getKey()}>
+            return (
+                <Styles.SymbolContainer key={"symbol-list-symbol-" + getKey()}>
                     <SymbolListItem
                         stock={stock}
                         onColorCodeChange={onColorCodeChange}
                         onItemClick={onItemClick}
                     />
-                </SymbolContainer>
+                </Styles.SymbolContainer>
             );
         });
     };
 
-    return(
-        <Content onClick={onBackground}>
+    return (
+        <Styles.Content onClick={onBackground}>
             {
                 !disableFilterPanel &&
                 (
-                    <FilterContainer>
+                    <Styles.FilterContainer>
                         <FilterOptionsPanel 
                             onDisplayFilterChange={setDisplayFilters}
                             onBring={handleBringClick}
@@ -99,68 +99,17 @@ export default function SymbolList(props) {
                                 stocksCount: tabStocks.length
                             }}
                         />
-                    </FilterContainer>
+                    </Styles.FilterContainer>
                 )
             }
 
-            <ListAlignWrapper>
-                <ScrollableList>
-                    <ListContainer>
+            <Styles.ListAlignWrapper>
+                <Styles.ScrollableList>
+                    <Styles.ListContainer>
                         {renderSymbols(tabStocks, displayFilters)}
-                    </ListContainer>
-                </ScrollableList>
-            </ListAlignWrapper>
-        </Content>
+                    </Styles.ListContainer>
+                </Styles.ScrollableList>
+            </Styles.ListAlignWrapper>
+        </Styles.Content>
     );
 }
-
-const Content = styled.div`
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-
-    background-color: #C0C0E5;
-
-    overflow: hidden;
-`;
-
-const ListAlignWrapper = styled.div`
-    position: relative;
-    width: 100%;
-    height: calc(100% - 32px);
-
-    display: flex;
-    justify-content: center;
-`;
-
-const ScrollableList = styled.div`
-    position: relative;
-    width: 90%;
-    height: 100%%;
-
-    overflow-x: hidden;
-    overflow-y: auto;
-`;
-
-const ListContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: auto;
-`;
-
-const SymbolContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: 128px;
-
-    margin-top: 8px;
-    margin-bottom: 8px;
-`;
-
-const FilterContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: 128px;
-`;

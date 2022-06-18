@@ -33,7 +33,7 @@ export default function GridLayout(props) {
             {renderContent(elements)}
         </Layout>
     );
-};
+}
 
 const Layout = styled.div`
     position: absolute;

@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import ImageButton from "../../components/ImageButton/ImageButton";
 import ModalAPI from "../../apis/ModalAPI";
 import DialogAPI from "../../apis/DialogAPI";
@@ -6,6 +5,7 @@ import Config from "../../apis/Config";
 import CreateWorkspacePrompt from "../../modals/prompts/CreateWorkspacePrompt";
 import { images } from "../../assets/assets";
 import { getKey } from "../../utils/KeyManager";
+import { Styles } from "./SideBar.styles";
 
 export default function SideBar(props) {
     const updateWorkspaces = props.updateWorkspaces;
@@ -55,13 +55,13 @@ export default function SideBar(props) {
         if( !option ) return <></>;
 
         return (
-            <OptionPanelContainer key={"sidebar-option-panel-" + getKey()}>
+            <Styles.OptionPanelContainer key={"sidebar-option-panel-" + getKey()}>
                 <ImageButton
                     tooltip={option.tooltip}
                     image={option.image}
                     onClick={option.onClick}
                 />
-            </OptionPanelContainer>
+            </Styles.OptionPanelContainer>
         );
     };
 
@@ -74,35 +74,10 @@ export default function SideBar(props) {
     };
 
     return (
-        <Content>
-            <OptionContainer>
+        <Styles.Content>
+            <Styles.OptionContainer>
                 {renderOptions(options)}
-            </OptionContainer>
-        </Content>
+            </Styles.OptionContainer>
+        </Styles.Content>
     );
-};
-
-const Content = styled.div`
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    justify-content: center;
-    background-color: yellow;
-`;
-
-const OptionContainer = styled.div`
-    position: relative;
-    width: 90%;
-    height: 100%;
-`;
-
-const OptionPanelContainer = styled.div`
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1/1;
-    margin-bottom: 1em;
-`;
+}

@@ -7,7 +7,7 @@ export default function SymbolListFundamentalWrapper(props) {
     const enableBring = props.enableBring;
     const onItemClick = props.onItemClick;
 
-    return(
+    return (
         <SymbolList
             enableBring={enableBring}
             disableFilterPanel={false}
@@ -31,4 +31,4 @@ export default function SymbolListFundamentalWrapper(props) {
             }}
         />
     );
-};
+}

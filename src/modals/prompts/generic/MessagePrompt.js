@@ -19,7 +19,7 @@ export default function MessagePrompt(props) {
         };
     };
 
-    return(
+    return (
         <Prompt
             {...{
                     ...props,
@@ -28,4 +28,4 @@ export default function MessagePrompt(props) {
             }
         />
     );
-};
+}

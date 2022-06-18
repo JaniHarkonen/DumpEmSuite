@@ -40,16 +40,6 @@ export const writeJson = (path, json) => {
     const json_str = JSON.stringify(json, null, 4);
     fs.writeFileSync(path, json_str);
 };
-
-export const modifyJson = (path, json) => {
-    if( path == null || path === "" ) return;
-
-    let read_json = readJson(path);
-    if( read_json == null ) return;
-
-    writeJson(path, { ...read_json, ...json });
-};
-
 /**
  * Takes a filename or filepath and removes all forbidden characters from it
  * returning the result.
@@ -74,18 +64,4 @@ export const getDirectoryFromPath = (path) => {
     if( path == null || path === "" ) return "";
 
     return pathModule.dirname(path);
-};
-
-/**
- * Returns whether a given path exists. The path may be a filename
- * or a directory.
- * @param {string} path Path to check.
- * @returns Whether the path exists.
- */
-export const pathExists = (path) => {
-    return fs.existsSync(path);
-};
-
-export const copyFile = (target, destination) => {
-    fs.copyFileSync(target, destination);
 };

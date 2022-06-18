@@ -2,13 +2,16 @@ import View, { makeViewElement } from "../View";
 import SymbolListExternalWrapper from "./SymbolListExternalWrapper";
 
 export default function FilterView(props) {
+    const tab = props.tab;
+    const isFirstTab = props.isFirstTab;
+
     const elements = [
         makeViewElement(
             { x: 1, y: 1 },
             { width: 1, height: 2 },
             <SymbolListExternalWrapper
-                tab={props.tab}
-                enalbeBring={!props.isFirstTab}
+                tab={tab}
+                enableBring={!isFirstTab}
             />
         )
     ];
@@ -16,4 +19,4 @@ export default function FilterView(props) {
     return (
         <View elements={elements} />
     );
-};
+}

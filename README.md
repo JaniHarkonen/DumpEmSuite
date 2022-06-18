@@ -308,4 +308,8 @@ database.
 - created GridLayout
 - improved view architecture with GridLayout
 
-- 
+- FileUtils should not contain functions that are wrappers of ones found in the fs-module, rather they should be commonly
+  used sequences that are related to dealing with the file system
+
+- split FileExplorer further into a FileLoadButton
+- implemented GridLayout further

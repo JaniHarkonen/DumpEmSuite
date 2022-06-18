@@ -1,11 +1,12 @@
-import { useState } from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
 import { FullDiv } from "../../common/FullDiv";
 import ColorPicker from "../ColorPicker/ColorPicker";
+import GridLayout from "../GridLayout/GridLayout";
+import FilterOptionsPanelControl from "./FilterOptionsPanelControl";
 
 export default function FilterOptionsPanel(props) {
-    const enableBring = props.enableBring;
-    const enableClear = props.enableClear;
+    const enableBring = props.enableBring || false;
+    const enableClear = props.enableClear || false;
     const stocksDisplayed = props.stats.stocksDisplayed;
     const stocksCount = props.stats.stocksCount;
     const onBring = props.onBring;
@@ -31,99 +32,64 @@ export default function FilterOptionsPanel(props) {
         onClear();
     };
 
-    const renderFilterPane = (caption, selhook, selection, render = true) => {
-        if( render === false ) return <FilterPane />;
-
-        return(
-            <FilterPane>
-                <FilterCaptionPane>{caption}</FilterCaptionPane>
-                <ColorPickerContainer>
-                    <ColorPicker
-                        selection={selection}
-                        onPick={selhook}
-                    />
-                </ColorPickerContainer>
-            </FilterPane>
-        );
+    const makeOptionPanel = (position, dimensions, element, renderCondition = true) => {
+        return {
+            position: position,
+            dimensions: dimensions,
+            element: (renderCondition === true) ? element : <></>
+        };
     };
 
     return (
         <FullDiv>
-            {renderFilterPane("Bring:", setBringFilters, bringFilters, enableBring)}
-            {renderFilterPane("Filters:", handleDisplayFilterSelection, displayFilters)}
-
-            <BottomPane>
-                <ControlButtonContainer>
-                    {
-                        enableBring &&
-                        (<ControlButton onClick={handleBringClick}>
-                            BRING
-                        </ControlButton>)
-                    }
-                </ControlButtonContainer>
-
-                <ControlButtonContainer>
-                    {
-                        enableClear &&
-                        (<ControlButton onClick={handleClearClick}>
-                            CLEAR
-                        </ControlButton>)
-                    }
-                </ControlButtonContainer>
-            </BottomPane>
-
-            <BottomPane>
-                Displayed: {stocksDisplayed} <br />
-                Total: {stocksCount}
-            </BottomPane>
+            <GridLayout
+                dimensions={{
+                    width: 2,
+                    height: 6
+                }}
+                elements={[
+                    makeOptionPanel({ x: 1, y: 1 }, { width: 1, height: 2 },
+                        "Bring:",
+                        enableBring
+                    ),
+                    makeOptionPanel({ x: 2, y: 1 }, { width: 1, height: 2 },
+                        "Filters:"
+                    ),
+                    makeOptionPanel({ x: 1, y: 3 }, { width: 1, height: 2 },
+                        <ColorPicker
+                            selection={bringFilters}
+                            onPick={setBringFilters}
+                        />,
+                        enableBring
+                    ),
+                    makeOptionPanel({ x: 2, y: 3 }, { width: 1, height: 2 },
+                        <ColorPicker
+                            selection={displayFilters}
+                            onPick={handleDisplayFilterSelection}
+                        />
+                    ),
+                    makeOptionPanel({ x: 1, y: 5 }, { width: 1, height: 1 },
+                        <FilterOptionsPanelControl
+                            caption="BRING"
+                            onClick={handleBringClick}
+                        />,
+                        enableBring
+                    ),
+                    makeOptionPanel({ x: 1, y: 6 }, { width: 1, height: 1 },
+                        <FilterOptionsPanelControl
+                            caption="CLEAR"
+                            onClick={handleClearClick}
+                        />,
+                        enableClear
+                    ),
+                    makeOptionPanel({ x: 2, y: 5 }, { width: 1, height: 2 },
+                        <React.Fragment>
+                            Displayed: {stocksDisplayed} <br />
+                            Total: {stocksCount}
+                        </React.Fragment>
+                    ),
+                ]}
+            />
         </FullDiv>
     );
 }
-
-const FilterPane = styled.div`
-    position: relative;
-    display: inline-block;
-    width: 50%;
-    height: 67%;
-`;
-
-const FilterCaptionPane = styled.div`
-    position: relative;
-    width: 100%;
-    height: 50%;
-`;
-
-const ColorPickerContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: 50%;
-`;
-
-const BottomPane = styled.div`
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-
-    width: 50%;
-    height: 33%;
-`;
-
-const ControlButtonContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: 50%;
-`;
-
-const ControlButton = styled.div`
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 100%;
-    height: 100%;
-    
-    background-color: red;
-    color: white;
-    font-weight: bold;
-`;

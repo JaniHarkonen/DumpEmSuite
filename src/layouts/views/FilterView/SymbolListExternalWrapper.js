@@ -6,7 +6,7 @@ export default function SymbolListExternalWrapper(props) {
     const tab = props.tab;
     const enableBring = props.enableBring;
 
-    return(
+    return (
         <SymbolList
             enableBring={enableBring}
             disableFilterPanel={false}
@@ -24,4 +24,4 @@ export default function SymbolListExternalWrapper(props) {
             }}
         />
     );
-};
+}

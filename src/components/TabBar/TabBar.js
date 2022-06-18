@@ -96,4 +96,4 @@ export default function ViewTabBar(props) {
             {renderTabs(tabs, activeTabIndex)}
         </FullDiv>
     );
-};
+}

@@ -1,7 +1,7 @@
 import BinaryPrompt from "./generic/BinaryPrompt";
 
 export default function ClearTabPrompt(props) {
-    return(
+    return (
         <BinaryPrompt
             title="Before clearing..."
             message="Are you sure you want to remove all of the stocks from the tab?"
@@ -16,4 +16,4 @@ export default function ClearTabPrompt(props) {
             }}
         />
     );
-};
+}

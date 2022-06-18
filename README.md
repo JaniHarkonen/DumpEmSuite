@@ -299,17 +299,42 @@ the Views that should be resolved in the next update. There are also other small
 out, such as the architecture of the FileExplorer, the Sidebar, the DatabaseController and the metadata store in the
 database.
 
-###
-- tidying up the codebase
+### 18.6.2022
 
-- created a general TabBar, improved SideBar architecture
-- assets are now referenced via the "assets.js"
+Architecture finalizations have been implemented to the Sidebar, FileExplorer, and to the intersection between Workspaces
+and Views. A general ``TabBar``-component was created to render a bar of tabs, and is being used by the Sidebar,
+AnalysisDisplay and App to form their tabs. The operation between App and SideBar was further improved by moving a bulk of
+configuration handling to the SideBar. Workspace Views now utilize a GridLayout, which is a layout component that accepts an
+array of elements that are to be laid out in a grid of predefined size. The introduction of the GridLayout required a re-
+write of the View layouts leading to changes in the folder strucutre of the projects. Views and their wrappers are now
+stored in a ``views`` folder where each view is contained within their own folder along with the wrappers that configure the
+view components with their specific settings. As a result, the ``wrappers``-folder has also been removed. GridLayout was also
+implemented in FilterOptionsPanel and will likely be implemented further to reduce code repitition. As of now, the length of
+the code of a component ranges between 50 and 100 lines of code. Finally, the "Load file"-button in the FileExplorer
+component was separated into its own component to further the separation of concerns.
 
-- created GridLayout
-- improved view architecture with GridLayout
+In the beginning faces of the project, a decision was made to utilize the "styled-components"-library to implement styling in
+to the React-components. styled-components allows the developer to create React-like-components that can be embedded into a
+the HTML like other React-components. Styled components are essentially HTML-tags that have been imbued with a default set of
+CSS-attributes. The styled components can then be rendered by the React-components by referencing them by their given names.
+Developers tend to declare the styled components in the same file as the React-components that utilize them, however, this
+increases the length of the file, sometimes substantially. To combat this, a new file layout has been implemented where the
+styles are inserted into a separate ".styles.js"-file that follows the naming convention: ``ComponentName.styles.js``. The
+styled components are declared as usual and added to an exported JSON containing a field for each of the components. The
+React-component then imports this JSON (named ``Styles``) and references the components within: ``<Styles.StyledComponent/>``.
 
-- FileUtils should not contain functions that are wrappers of ones found in the fs-module, rather they should be commonly
-  used sequences that are related to dealing with the file system
+A decision has been made to create an ``assets.js``-file inside the ``assets``-folder that will then be used to reference
+static external assets — such as images or sounds — within the React-components. Directly importing the assets should be
+avoided in case assets are renamed, and in order to promote consistency. The ``assets.js`` also allows for the grouping of
+assets under categories, as they are exported inside JSONs.
 
-- split FileExplorer further into a FileLoadButton
-- implemented GridLayout further
+Finally, the role of FileUtils has also been reconsidered. FileUtils will no longer store wrappers of functions found within
+the fs-module, such as ``fs.copyFileSync``. Instead, only commonly used sequences relating to the usage of file system
+features should be added to the FileUtils, for example, the reading of JSONs from dynamic external sources. If a component
+wishes to utilize file system features, it should import ``fs`` rather than importing them from FileUtils.
+
+With this update, the architecture of the program is finally complete, though there may be some slight changes to the
+structure of the database with regards to the storage of certain metadata to aid backwards compatibility. In the next update,
+some of the missing features will be added and completed, which includes: preference settings, scraper, "MACRO"-view and the
+ability to remove files from the research materials. Moving of Analysis and AnalysisDisplay to the ``components``-folder will
+also be considered.

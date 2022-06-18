@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import { useState } from "react";
 import { FullImage } from "../../common/FullImage";
 import ColorPicker from "../ColorPicker/ColorPicker";
-import imgChart from "../../assets/img_chart.svg";
 import { integerToRGBA, getColorCode } from "../../utils/CommonVariables";
 import { getKey } from "../../utils/KeyManager";
+import { images } from "../../assets/assets";
+import { Styles } from "./SymbolListItem.styles";
 
 /**
  * This function is used by SymbolListItem only, but is hoisted due to
@@ -55,18 +55,18 @@ export default function SymbolListItem(props) {
     const renderInfoPanel = (info) => {
         if( !info ) return <></>;
 
-        return(
-            <InfoPanel>
-                <InfoText>{ info }</InfoText>
-            </InfoPanel>
+        return (
+            <Styles.InfoPanel>
+                <Styles.InfoText>{ info }</Styles.InfoText>
+            </Styles.InfoPanel>
         );
     };
 
     const renderOptionPanel = (content, condition) => {
-        return(
-            <OptionPanel key={getKey()}>
+        return (
+            <Styles.OptionPanel key={"symbol-list-item-" + getKey()}>
                 {condition && content}
-            </OptionPanel>
+            </Styles.OptionPanel>
         );
     };
 
@@ -97,7 +97,7 @@ export default function SymbolListItem(props) {
 
     const optionPanels = [
         makeOptionPanel(
-            <ColorPickerButton 
+            <Styles.ColorPickerButton 
                 style={{
                     backgroundColor: integerToRGBA(symbolColorCode.color)
                 }}
@@ -112,15 +112,15 @@ export default function SymbolListItem(props) {
 
         makeOptionPanel(
             <FullImage
-                src={imgChart}
+                src={images.chart}
                 onClick={handleChartClick}
             />, !disableChart
         )
     ];
 
-    return(
-        <Content>
-            <Backdrop style={{
+    return (
+        <Styles.Content>
+            <Styles.Backdrop style={{
                 backgroundColor: integerToRGBA(symbolColorCode.color, 4/9)
             }} />
             {
@@ -134,111 +134,21 @@ export default function SymbolListItem(props) {
                 )
                 :
                 <>
-                    <InfoPanelContainer onClick={handleListingClick} >
+                    <Styles.InfoPanelContainer onClick={handleListingClick} >
 
                         {renderInfoPanel(symbolName)}
                         {renderInfoPanel(symbolTicker)}
                         {renderInfoPanel(symbolVolume)}
 
-                    </InfoPanelContainer>
+                    </Styles.InfoPanelContainer>
 
-                    <OptionPanelContainer>
-                        <OptionPanelWrapper>
+                    <Styles.OptionPanelContainer>
+                        <Styles.OptionPanelWrapper>
                         {renderOptionPanels(optionPanels)}
-                        </OptionPanelWrapper>
-                    </OptionPanelContainer>
+                        </Styles.OptionPanelWrapper>
+                    </Styles.OptionPanelContainer>
                 </>
             }
-        </Content>
+        </Styles.Content>
     );
 }
-
-const Content = styled.div`
-    position: absolute;
-    left: 0px;
-    top : 0px;
-    width: 100%;
-    height: 100%;
-
-    background-color: white;
-
-    border-style: solid;
-    border-width: 1px;
-    border-color: #626270;
-
-    &:hover {
-        opacity: 0.8;
-    }
-`;
-
-const Backdrop = styled.div`
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-
-    background-color: white;
-`;
-
-const InfoPanelContainer = styled.div`
-    position: relative;
-    width: 85%;
-    height: 100%;
-    font-size: 0;
-
-    display: inline-block;
-`;
-
-const InfoPanel = styled.div`
-    position: relative;
-    width: 50%;
-    height: 50%;
-
-    display: inline-block;
-`;
-
-const InfoText = styled.div`
-    position: absolute;
-    display: flex;
-    align-items: center;
-
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    font-size: 16px;
-`;
-
-const OptionPanelContainer = styled.div`
-    position: relative;
-    width: 15%;
-    height: 100%;
-
-    display: inline-block;
-`;
-
-const OptionPanelWrapper = styled.div`
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-`;
-
-const OptionPanel = styled.div`
-    position: relative;
-    width: 100%;
-    height: 33%;
-`;
-
-const ColorPickerButton = styled.div`
-    position: relative;
-    left: -1px;
-    top: -1px;
-    width: 100%;
-    height: 100%;
-
-    border-style: solid;
-    border-width: 1px;
-`;

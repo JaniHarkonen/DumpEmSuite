@@ -9,14 +9,9 @@
             "name": "HOHOHOO",
             "source": "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\shit-ws\\",
             "format": ".db"
-        },
-        {
-            "name": "grapailija",
-            "source": "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\grapailija\\",
-            "format": ".db"
         }
     ],
-    "activeWorkspaceID": 2,
+    "activeWorkspaceID": 1,
     "templates": {
         "technical": "--- TECHNICAL ANALYSIS AND PRICE TARGETS ---\n\nLIKELY PROFIT TARGET(S): x.yy ; z.ww\t\tAVG: +a.bb%\nLIKELY RISK(S): \t\t e.ff ; g.hh\t\tAVG: -c.dd%\n\n\t\t\t\t\t\t\t\t\t\t\tRR : 1 : i.jj\n\nTA summary.\n\nRECOMMENDATION: Entry strategy and conditions.\n\n\t\t\t\tExit strategy and coniditions.",
         "fundamental": "--- FUNDAMENTALS ---\n\nOperations: description.\n\nIMPORTANT: Q2 results will be released on 20.8.\n\n-- 2020 --\n- observation\n\t-> conclusion\n\n\n-- 2021 --\n- observation\n\t-> conclusion\n\n\n-- THESIS --\nnarrative\n\nPros. positive scenarios\n\nCons. negative scenarios\n\nSummary. outlook, main negative factors, main positive factors\n\n\nRECOMMENDATION: action",

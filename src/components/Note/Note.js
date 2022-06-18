@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import useStateRef from "react-usestateref";
-import styled from "styled-components";
 import { FullDiv } from "../../common/FullDiv";
+import { Styles } from "./Note.styles";
+import "fixedsys-css/css/fixedsys.css";
+
 
 export default function Note(props) {
     const content = props.content;
@@ -21,6 +23,8 @@ export default function Note(props) {
     }, [content]);
 
     const handleTextInput = (e) => {
+        e.stopPropagation();
+
         setText(e.target.value);
         setContentHasChanged(true);
     };
@@ -39,13 +43,14 @@ export default function Note(props) {
         }
     };
 
-    return(
+    return (
         <FullDiv>
-            <NoteInput
+            <Styles.NoteInput
+                className="fixedsys-default"
                 id=""
                 style={{
-                    fontFamily: "Courier New",
-                    fontSize: "14px",
+                    /*fontFamily: "Courier New",
+                    fontSize: "14px",*/
                     backgroundColor: (contentHasChanged) ? "#FFF980" : "#FFF9E8",
                     tabSize: 4
                 }}
@@ -53,18 +58,5 @@ export default function Note(props) {
                 onChange={handleTextInput}
             />
         </FullDiv>
-    )
+    );
 }
-
-const NoteInput = styled.textarea`
-    position: relative;
-    left: 0px;
-    top: 0px;
-    width: calc(100% - 6px);
-    height: calc(100% - 6px);
-    border: none;
-    outline: none;
-    resize: none;
-
-    border-radius: 8px;
-`;

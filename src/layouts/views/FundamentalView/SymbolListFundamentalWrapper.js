@@ -1,13 +1,13 @@
-import React from "react";
-import ExternalStorageAPI from "../apis/ExternalStorageAPI";
-import SymbolList from "../components/SymbolList/SymbolList";
+import ExternalStorageAPI from "../../../apis/ExternalStorageAPI";
+import SymbolList from "../../../components/SymbolList/SymbolList";
 
 
-export default function SymbolListExternalWrapper(props) {
-    const tab = props.context.tab;
-    const enableBring = props.context.enableBring;
+export default function SymbolListFundamentalWrapper(props) {
+    const tab = props.tab;
+    const enableBring = props.enableBring;
+    const onItemClick = props.onItemClick;
 
-    return(
+    return (
         <SymbolList
             enableBring={enableBring}
             disableFilterPanel={false}
@@ -23,6 +23,12 @@ export default function SymbolListExternalWrapper(props) {
             onColorCodeChange={(id, newcol) => {
                 ExternalStorageAPI.changeColorCode(id, tab, newcol);
             }}
+            onItemClick={(symbol) => {
+                onItemClick(symbol);
+            }}
+            onBackground={() => {
+                onItemClick(null);
+            }}
         />
     );
-};
+}

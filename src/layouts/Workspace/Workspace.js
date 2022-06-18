@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import { useState, useEffect } from "react";
+import TabBar from "../../components/TabBar/TabBar";
+import FilterView from "../views/FilterView/FilterView";
 import { getKey } from "../../utils/KeyManager";
-import View from "../View/View";
-import SymbolListExternalWrapper from "../../wrappers/SymbolListExternalWrapper";
-import ViewDefaultWrapper from "../../wrappers/ViewDefaultWrapper";
-import ViewFundamentalWrapper from "../../wrappers/ViewFundamentalWrapper";
+import FundamentalView from "../views/FundamentalView/FundamentalView";
+import { Styles } from "./Workspace.styles";
 
 export default function Workspace(props) {
     const DEBUG_TABS = [
-        "Volume",
-        "Price action",
-        "TA #1",
-        "Fundamental"
+        { title: "Volume" },
+        { title: "Price action" },
+        { title: "TA #1" },
+        { title: "Fundamental" }
     ];
 
-    const [activeTab, openTab] = useState(1);   // Holds the currently open tab
+    const [activeTabIndex, openTab] = useState(1);
 
 
     useEffect(() => {
@@ -22,102 +21,48 @@ export default function Workspace(props) {
     }, [props.activeWorkspace]);
 
     const handleTabClick = (tab) => {
-        if( !tab ) return;
-
-        openTab(tab);
+        openTab(tab + 1);
     };
 
-    const renderTabs = (tablist) => {
-        if( !tablist ) return <></>;
-
-        return tablist.map((tab, index) => {
-            return(
-                <TabContainer key={"wsview-" + getKey()}>
-                    <WSTab
-                        onClick={() => {
-                            handleTabClick(index + 1);
-                        }}
-
-                        style={{
-                            backgroundColor: (activeTab - 1 === index) ? "#BCBCBC" : "auto"
-                        }}
-                    >
-                        {tab}
-                    </WSTab>
-                </TabContainer>
-            );
-        });
-    };
-
-    const renderActiveTab = (first = false) => {
-        let tab = activeTab;
+    const renderActiveView = (isFirstTab = false) => {
+        let tab = activeTabIndex;
 
         if( tab === 4 )
         {
-            return(
-                <ViewFundamentalWrapper
+            return (
+                <FundamentalView
                     tab={tab}
                 />
             );
         }
 
-        return(
-            <ViewDefaultWrapper
+        return (
+            <FilterView
+                key={"workspace-view-" + getKey()}
                 tab={tab}
-                first={first}
+                isFirstTab={isFirstTab}
             />
         );
     };
 
-    return(
-        <Content>
-            <TabBar>
-                {renderTabs(DEBUG_TABS)}
-            </TabBar>
+    return (
+        <Styles.Content>
+            <Styles.TabBarContainer>
+                <TabBar
+                    keyFixes={{ prefix: "workspace-view-tab" }}
+                    tabElement={Styles.WSTab}
+                    tabs={DEBUG_TABS}
+                    activeTabIndex={activeTabIndex - 1}
+                    onTabClick={handleTabClick}
+                    activeStyle={{
+                        backgroundColor: "#BCBCBC"
+                    }}
+                />
+            </Styles.TabBarContainer>
 
-            <ViewContainer>
-                {renderActiveTab(activeTab === 1)}
-            </ViewContainer>
-        </Content>
+            <Styles.ViewContainer>
+                {renderActiveView(activeTabIndex === 1)}
+            </Styles.ViewContainer>
+        </Styles.Content>
     );
-};
-
-const Content = styled.div`
-    position: absolute;
-    left: 0px;
-    top : 0px;
-    width: 100%;
-    height: 100%;
-`;
-
-const TabBar = styled.div`
-    position: relative;
-    width: 100%;
-    height: 32px;
-
-    background-color: orange;
-`;
-
-const TabContainer = styled.div`
-    position: relative;
-    display: inline-block;
-    width: 128px;
-    height: 100%;
-    margin-right: 4px;
-`;
-
-const ViewContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: calc(100% - 32px);
-`;
-
-const WSTab = styled.div`
-    position: absolute;
-    left: 0px;
-    top : 0px;
-    width: 100%;
-    height: 100%;
-
-    background-color: gray;
-`;
+}

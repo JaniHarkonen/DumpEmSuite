@@ -47,7 +47,7 @@ export default function InputPrompt(props) {
         };
     };
 
-    return(
+    return (
         <Prompt
             {...{
                     ...props,
@@ -56,4 +56,4 @@ export default function InputPrompt(props) {
             }
         />
     );
-};
+}

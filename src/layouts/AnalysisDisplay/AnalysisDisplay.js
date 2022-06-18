@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import { useState, useEffect } from "react";
 import Note from "../../components/Note/Note";
 import { FullDiv } from "../../common/FullDiv";
 import Config from "../../apis/Config";
-import { getKey } from "../../utils/KeyManager";
+import TabBar from "../../components/TabBar/TabBar";
+import { Styles } from "./AnalysisDisplay.styles";
 
 export default function AnalysisDisplay(props) {
     const fetchAnalysis = props.fetchAnalysis;
@@ -12,23 +12,26 @@ export default function AnalysisDisplay(props) {
     const analyses = [
         {
             key: "technical",
+            index: 0,
             title: "Technical",
             template: analysisTemplates.technical
         },
         {
             key: "fundamental",
+            index: 1,
             title: "Fundamental",
             template: analysisTemplates.fundamental
         },
         {
             key: "consensus",
+            index: 2,
             title: "Consensus",
             template: analysisTemplates.consensus
         }
     ];
 
-    const [ analysisText, setAnalysisText ] = useState("");
-    const [ openAnalysis, setOpenAnalysis ] = useState(null);
+    const [ analysisText, setAnalysisText ] = useState(null);
+    const [ openAnalysis, setOpenAnalysis ] = useState("");
 
 
     useEffect(() => {
@@ -38,8 +41,15 @@ export default function AnalysisDisplay(props) {
     const setAnalysis = (analysis) => {
         if( !analysis ) return "";
 
-        setAnalysisText(fetchAnalysis(analysis.key) || analysis.template);
-        setOpenAnalysis(analysis);
+        const fetchedAnalysis = fetchAnalysis(analysis.key);
+
+        if( !fetchedAnalysis.isSuccessful )
+        setOpenAnalysis(null);
+        else
+        {
+            setAnalysisText(fetchedAnalysis.analysis || analysis.template);
+            setOpenAnalysis(analysis);
+        }
     };
 
     const handleAnalysisTabChange = (tabIndex) => {
@@ -49,78 +59,28 @@ export default function AnalysisDisplay(props) {
     const handleAnalysisUpdate = (updatedText) => {
         onAnalysisUpdate(openAnalysis.key, updatedText);
     };
-
-    const renderAnalysisTabButtons = (analysisTabs) => {
-        return analysisTabs.map((analysis, index) => {
-            return renderAnalysisTabButton(analysis.title, index);
-        });
-    };
-
-    const renderAnalysisTabButton = (title, index) => {
-        if( !title ) return <></>;
-
-        return(
-            <AnalysisTabButton
-                key={getKey()}
-                onClick={() => {
-                    handleAnalysisTabChange(index);
-                }}
-            >
-                <AnalysisTabCaption>
-                    {title}
-                </AnalysisTabCaption>
-            </AnalysisTabButton>
-        );
-    };
     
-    return(
-        <FullDiv>
-            <TopBarContainer>
-               {renderAnalysisTabButtons(analyses)}
-            </TopBarContainer>
+    return (
+        openAnalysis &&
+        (
+            <FullDiv>
+                <Styles.TopBarContainer>
+                    <TabBar
+                        keyFixes={{ prefix: "analysis-display-analysis-tab" }}
+                        tabElement={Styles.AnalysisTabButton}
+                        tabs={analyses}
+                        activeTabIndex={openAnalysis.index}
+                        onTabClick={handleAnalysisTabChange}
+                    />
+                </Styles.TopBarContainer>
 
-            <NoteContainer>
-                <Note
-                    content={analysisText}
-                    updateContent={handleAnalysisUpdate}
-                />
-            </NoteContainer>
-        </FullDiv>
+                <Styles.NoteContainer>
+                    <Note
+                        content={analysisText}
+                        updateContent={handleAnalysisUpdate}
+                    />
+                </Styles.NoteContainer>
+            </FullDiv>
+        )
     );
 }
-
-const TopBarContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: 32px;
-
-    display: flex;
-    align-items: flex-end;
-`;
-
-const AnalysisTabButton = styled.div`
-    position: relative;
-    width: 128px;
-    height: 28px;
-
-    display: inline-block;
-    margin-right: 8px;
-    vertical-align: top;
-
-    background-color: white;
-`;
-
-const AnalysisTabCaption = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-`;
-
-const NoteContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: calc(100% - 32px);
-`;

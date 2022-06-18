@@ -1,7 +1,7 @@
 import InputPrompt from "./generic/InputPrompt";
 
 export default function CreateWorkspacePrompt(props) {
-    return(
+    return (
         <InputPrompt
             title="Create a workspace..."
             inputCaption="Enter workspace name: "
@@ -12,4 +12,4 @@ export default function CreateWorkspacePrompt(props) {
             }}
         />
     );
-};
+}

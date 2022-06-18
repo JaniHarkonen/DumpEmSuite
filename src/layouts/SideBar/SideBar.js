@@ -1,17 +1,14 @@
-import styled from "styled-components";
 import ImageButton from "../../components/ImageButton/ImageButton";
-import { getKey } from "../../utils/KeyManager";
 import ModalAPI from "../../apis/ModalAPI";
-import CreateWorkspacePrompt from "../../modals/prompts/CreateWorkspacePrompt";
-import imgCreateWorkspace from "../../assets/img_chart.svg";
-import imgOpenWorkspace from "../../assets/img_chart.svg";
-import Config from "../../apis/Config";
 import DialogAPI from "../../apis/DialogAPI";
-
-
+import Config from "../../apis/Config";
+import CreateWorkspacePrompt from "../../modals/prompts/CreateWorkspacePrompt";
+import { images } from "../../assets/assets";
+import { getKey } from "../../utils/KeyManager";
+import { Styles } from "./SideBar.styles";
 
 export default function SideBar(props) {
-    const DEBUGonclose = props.debugonclose;
+    const updateWorkspaces = props.updateWorkspaces;
 
     const makeOption = (tooltip, image, onClick) => {
         return {
@@ -22,18 +19,14 @@ export default function SideBar(props) {
     };
 
     const options = [
-        makeOption("Create a new workspace", imgCreateWorkspace, () => {
+        makeOption("Create a new workspace", images.folder.white, () => {
             ModalAPI.popup(
                 <CreateWorkspacePrompt onDone={handleWorkspaceCreate} />
             );
         }),
 
-        makeOption("Open an existing workspace", imgOpenWorkspace, () => {
+        makeOption("Open an existing workspace", images.folder.white, () => {
             handleWorkspaceOpen();
-        }),
-
-        makeOption("Close current workspace", imgOpenWorkspace, () => {
-            DEBUGonclose();
         })
     ];
 
@@ -42,8 +35,10 @@ export default function SideBar(props) {
         DialogAPI.showOpenFolder({ title: "Select the destination folder..." }, (ws) => {
             if( ws == null ) return;
 
-            Config.createWorkspace(ws[0], name);
             ModalAPI.close();
+            
+            const changes = Config.createWorkspace(ws[0], name);
+            updateWorkspaces(changes);
         });
     };
 
@@ -51,63 +46,38 @@ export default function SideBar(props) {
         DialogAPI.showOpenFolder({ title: "Open existing workspace..." }, (ws) => {
             if( ws == null ) return;
 
-            Config.openWorkspace(ws[0]);
+            const changes = Config.openWorkspace(ws[0]);
+            updateWorkspaces(changes);
         });
     };
 
-    const renderOptions = (opts) => {
-        if( !opts ) return <></>;
+    const renderOptionPanel = (option) => {
+        if( !option ) return <></>;
 
-        return options.map((opt) => {
-            return(
-                <OptionPanelContainer key={getKey()}>
-                    <ImageButton
-                        tooltip={opt.tooltip}
-                        image={opt.image}
-                        onClick={opt.onClick}
-                    />
-                </OptionPanelContainer>
-            );
+        return (
+            <Styles.OptionPanelContainer key={"sidebar-option-panel-" + getKey()}>
+                <ImageButton
+                    tooltip={option.tooltip}
+                    image={option.image}
+                    onClick={option.onClick}
+                />
+            </Styles.OptionPanelContainer>
+        );
+    };
+
+    const renderOptions = (optionArray) => {
+        if( !optionArray ) return [];
+
+        return optionArray.map((option) => {
+            return renderOptionPanel(option);
         });
     };
 
-    return(
-        <Content>
-            <OptionContainer>
+    return (
+        <Styles.Content>
+            <Styles.OptionContainer>
                 {renderOptions(options)}
-            </OptionContainer>
-        </Content>
+            </Styles.OptionContainer>
+        </Styles.Content>
     );
-};
-
-const Content = styled.div`
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    justify-content: center;
-    background-color: yellow;
-`;
-
-const OptionContainer = styled.div`
-    position: relative;
-    width: 90%;
-    height: 100%;
-`;
-
-const OptionPanelContainer = styled.div`
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1/1;
-    margin-bottom: 1em;
-`;
-
-const HiddenFileInput = styled.input`
-    position: absolute;
-    width: 0px;
-    height: 0px;
-    opacity: 0.0;
-`;
+}

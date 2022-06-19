@@ -47,6 +47,13 @@ export default function FileExplorer(props) {
         exec("\"" + targetDirectory + "\\" + file + "\"");
     };
 
+    const handleFileRemove = (e, file) => {
+        e.stopPropagation();
+
+        fs.unlinkSync(targetDirectory +file);
+        refresh();
+    };
+
     const handleFileAdditionClick = (e) => {
         e.stopPropagation();
 
@@ -79,6 +86,10 @@ export default function FileExplorer(props) {
                     onClick={() => { handleFileClick(file); }}
                 >
                     {file}
+
+                    <Styles.FileCloseButton
+                        onClick={(e) => { handleFileRemove(e, file); }}
+                    />
                 </Styles.FileContainer>
             );
         });

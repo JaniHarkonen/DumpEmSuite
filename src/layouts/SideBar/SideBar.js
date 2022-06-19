@@ -3,6 +3,7 @@ import ModalAPI from "../../apis/ModalAPI";
 import DialogAPI from "../../apis/DialogAPI";
 import Config from "../../apis/Config";
 import CreateWorkspacePrompt from "../../modals/prompts/CreateWorkspacePrompt";
+import DEMSSettingsWindow from "../../modals/windows/DEMSSettingsWindow/DEMSSettingsWindow";
 import { images } from "../../assets/assets";
 import { getKey } from "../../utils/KeyManager";
 import { Styles } from "./SideBar.styles";
@@ -27,6 +28,12 @@ export default function SideBar(props) {
 
         makeOption("Open an existing workspace", images.folder.white, () => {
             handleWorkspaceOpen();
+        }),
+
+        makeOption("DumpEm Suite settings", images.gear, () => {
+            ModalAPI.popup(
+                <DEMSSettingsWindow />
+            );
         })
     ];
 

@@ -3,9 +3,11 @@ import FetchColorCodes from "./queries/fetches/FetchColorCodes";
 import FetchColorCodedOnTab from "./queries/fetches/FetchColorCodedOnTab";
 import FetchStocksOnTab from "./queries/fetches/FetchStocksOnTab";
 import FetchStockAnalysis from "./queries/fetches/FetchStockAnalysis";
+import FetchMacroAnalysis from "./queries/fetches/FetchMacroAnalysis";
 import InsertBroughtStocksToTab from "./queries/posts/InsertBroughtStocksToTab";
 import ReplaceColorSelection from "./queries/posts/ReplaceColorSelection";
 import ReplaceUpdatedAnalysis from "./queries/posts/ReplaceUpdatedAnalysis";
+import ReplaceUpdatedMacroAnalysis from "./queries/posts/ReplaceUpdatedMacroAnalysis";
 import DeleteAllStocksOnTab from "./queries/deletes/DeleteAllStocksOnTab";
 
 const sqlite3 = window.require("better-sqlite3");
@@ -101,6 +103,10 @@ export default class DatabaseController {
                     preparedArguments: [q.id]
                 });
 
+                // Fetch the macro analysis note text content
+            case "macro-analysis":
+                return (new FetchMacroAnalysis(this.targetDatabase)).execute();
+
             default: return makeReturnableError("ERROR: Invalid query type!");
         }
     }
@@ -132,6 +138,13 @@ export default class DatabaseController {
             case "stock-analysis":
                 return (new ReplaceUpdatedAnalysis(this.targetDatabase, q.analysisType)).execute({
                     preparedArguments: [q.analysisText, q.id]
+                });
+            
+                // Updates the macroeconomic analysis
+                // (requires: updated analysis text)
+            case "macro-analysis":
+                return (new ReplaceUpdatedMacroAnalysis(this.targetDatabase)).execute({
+                    preparedArguments: [q.analysisText]
                 });
 
             default: return makeReturnableError("ERROR: Invalid query type!");

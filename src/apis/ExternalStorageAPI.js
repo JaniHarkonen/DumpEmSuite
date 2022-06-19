@@ -211,4 +211,21 @@ export default class ExternalStorageAPI {
             });
         });
     }
+
+    static getMacroAnalysis() {
+        return this.request(() => {
+            return this.externalController.fetch({
+                type: "macro-analysis"
+            });
+        });
+    }
+
+    static updateMacroAnalysis(updatedAnalysis) {
+        return this.request(() => {
+            return this.externalController.post({
+                type: "macro-analysis",
+                analysisText: updatedAnalysis
+            });
+        });
+    }
 };

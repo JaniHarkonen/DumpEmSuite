@@ -4,13 +4,15 @@ import FilterView from "../views/FilterView/FilterView";
 import { getKey } from "../../utils/KeyManager";
 import FundamentalView from "../views/FundamentalView/FundamentalView";
 import { Styles } from "./Workspace.styles";
+import MacroView from "../views/MacroView/MacroView";
 
 export default function Workspace(props) {
     const DEBUG_TABS = [
         { title: "Volume" },
         { title: "Price action" },
         { title: "TA #1" },
-        { title: "Fundamental" }
+        { title: "Fundamental" },
+        { title: "MACRO" }
     ];
 
     const [activeTabIndex, openTab] = useState(1);
@@ -27,22 +29,35 @@ export default function Workspace(props) {
     const renderActiveView = (isFirstTab = false) => {
         let tab = activeTabIndex;
 
-        if( tab === 4 )
+        switch( DEBUG_TABS[tab-1].title )
         {
-            return (
-                <FundamentalView
-                    tab={tab}
-                />
-            );
+            case "Fundamental":
+            {
+                return (
+                    <FundamentalView
+                        tab={tab}
+                    />
+                );
+            }
+
+            case "MACRO":
+            {
+                return <MacroView />
+            }
+            
+            default:
+            {
+                return (
+                    <FilterView
+                        key={"workspace-view-" + getKey()}
+                        tab={tab}
+                        isFirstTab={isFirstTab}
+                    />
+                );
+            }
         }
 
-        return (
-            <FilterView
-                key={"workspace-view-" + getKey()}
-                tab={tab}
-                isFirstTab={isFirstTab}
-            />
-        );
+        
     };
 
     return (

@@ -1,6 +1,6 @@
-import { useState } from "react";
 import Prompt from "./Prompt";
 import ModalAPI from "../../../apis/ModalAPI";
+import useInputField from "../../../hooks/useInputField";
 
 export default function InputPrompt(props) {
     const inputCaption = props.inputCaption || "";
@@ -8,12 +8,7 @@ export default function InputPrompt(props) {
     const disableCloseOnDone = props.disableCloseOnDone;
     const onDone = props.onDone;
 
-    const [input, setInput] = useState(defaultInput);
-
-
-    const handleInputChange = (e) => {
-        setInput(e.target.value);
-    };
+    const [input, handleInputChange] = useInputField(defaultInput);
 
     const createForm = () => {
         return {

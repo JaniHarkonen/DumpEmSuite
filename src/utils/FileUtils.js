@@ -33,6 +33,12 @@ export const readJson = (path) => {
     return JSON.parse(file);
 };
 
+/**
+ * Writes the contents of a JSON-object into an external .json-file located
+ * in a given file path.
+ * @param {string} path Path of the destination .json-file.
+ * @param {JSON} json JSON-object to write into the destination file.
+ */
 export const writeJson = (path, json) => {
     if( path == null ) return;
     if( json == null ) return;

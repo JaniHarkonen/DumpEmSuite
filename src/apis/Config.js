@@ -39,7 +39,19 @@ export default class Config {
             };
         }
 
-        return this.config.templates;
+        return {
+            technical: this.config.templates.technical.content,
+            fundamental: this.config.templates.fundamental.content,
+            consensus: this.config.templates.consensus.content
+        };
+    }
+
+    static getAnalysisPaths() {
+        return {
+            technical: this.config.templates.technical.filepath,
+            fundamental: this.config.templates.fundamental.filepath,
+            consensus: this.config.templates.consensus.filepath
+        };
     }
 
     static getOpenWorkspaces() {
@@ -155,5 +167,15 @@ export default class Config {
         if( !workspace ) return "";
 
         return workspace.source + workspace.name + workspace.format;
+    }
+
+    static changeAnalysisTemplate(templateIdentifier, templatePath) {
+        if( !templateIdentifier ) return;
+        if( !templatePath ) return;
+        if( !fs.existsSync(templatePath) ) return;
+
+        this.config.templates[templateIdentifier].content = fs.readFileSync(templatePath, "utf8").toString();
+        this.config.templates[templateIdentifier].filepath = templatePath;
+        this.updateConfig();
     }
 }

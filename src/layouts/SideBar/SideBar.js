@@ -30,7 +30,7 @@ export default function SideBar(props) {
             handleWorkspaceOpen();
         }),
 
-        makeOption("DumpEm Suite settings", images.gear, () => {
+        makeOption("Configure DumpEm Suite settings", images.gear, () => {
             ModalAPI.popup(
                 <DEMSSettingsWindow />
             );

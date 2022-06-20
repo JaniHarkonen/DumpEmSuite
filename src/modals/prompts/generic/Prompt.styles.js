@@ -1,5 +1,14 @@
 import styled from "styled-components";
 
+const dimensions = {
+    Caption: {
+        height: "32px"
+    },
+    ControlContainer: {
+        height: "32px"
+    }
+};
+
 const Content = styled.div`
     position: fixed;
     display: flex;
@@ -41,7 +50,7 @@ const Caption = styled.div`
     align-items: center;
 
     width: 100%;
-    height: 32px;
+    height: ${dimensions.Caption.height};
 
     border-bottom-style: solid;
 `;
@@ -49,20 +58,18 @@ const Caption = styled.div`
 const BodyContainer = styled.div`
     position: relative;
     width: 100%;
-    height: calc(100% - 92px);
+    height: calc(100% - calc(${dimensions.Caption.height} + ${dimensions.ControlContainer.height} + 3px));
     overflow-y: hidden;
 `;
 
 const ControlContainer = styled.div`
     position: relative;
     width: 100%;
-    height: 32px;
+    height: ${dimensions.ControlContainer.height};
 
     display: flex;
     justify-content: center;
     gap: 1em;
-
-    background-color: red;
 `;
 
 const CloseButton = styled.div`
@@ -95,5 +102,7 @@ export const Styles = {
     BodyContainer: BodyContainer,
     ControlContainer: ControlContainer,
     CloseButton: CloseButton,
-    ControlButton: ControlButton
+    ControlButton: ControlButton,
+    
+    dimensions: dimensions
 };

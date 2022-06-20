@@ -65,7 +65,12 @@ export default function ModalView(props) {
             <Styles.View>
                 {renderTitle(title, { renderClose: !disableClose })}
 
-                <Styles.BodyContainer>
+                <Styles.BodyContainer
+                    style={!controls ? {
+                        width: "100%",
+                        height: `calc(100% - ${Styles.dimensions.Caption.height})`
+                    }: {}}
+                >
                     {Body}
                 </Styles.BodyContainer>
 

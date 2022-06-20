@@ -1,0 +1,67 @@
+Virtuaaliesittelyssä näytillä olevien organisaatioiden osoitteen hahmottamiseksi, tietopaneelinäkymään tarvittiin kartta, joka näyttää organisaatioiden toimipisteet. Esittely käyttää kartan toteutukseen OpenLayers-kirjastoa, joka on avoimen lähdekoodin karttaratkaisu. OpenLayers on maksuton eikä veloita kehittäjiä sijaintikyselyistä. Lisäksi esittely hyödynsi Nominatim-osoitepalvelun tarjoamaa rajapintaa tilanteissa, joissa organisaatiot olivat toimittaneet osoitteen, mutta eivät toimipisteidensä koordinaatteja. 
+
+(kuva kartasta) 
+
+https://nominatim.org 
+
+https://openlayers.org 
+
+ 
+
+Karttanäkymä piirretään React-komponentin mukana, mutta OpenLayers-kirjasto, jota käytetään ei ole React-implementaatio. Sen sijaan OpenLayersin tavallista JavaScriptiä hyödyntävää versiota on suosittu. Kartta haetaan React-komponentin latautuessa hyödyntämällä ensisijaisesti organisaatiotietokannasta saatuja koordinaatteja karttamerkkien asettamiseen. Mikäli tietokannassa oli saatavilla vain osoite komponentti lähettää kyselyn Nominatim-rajapintaan. Kyselyn onnistuessa komponentti saa vastaukseksi osoitteen koordinaatit, joita se käyttää hakemaan kartan ja asettamaan karttamerkit. 
+
+ 
+
+Kartan lisäys komponenttiin tapahtuu luomalla ensin uusi karttaolio (Map), jolle annetaan näkymän keskipiste, ulkoasun tyyppi sekä kohde <div>-tagi React-komponentissa, johon kartta tullaan piirtämään. Kartan keskipiste lasketaan organisaation toimipisteiden koordinaattien keskiarvon perusteella, jolloin kartta näyttää kaikki toimipisteet. Kartan ulkoasuksi asetetaan TileLayer, jonka lähteenä toimii OSM. TileLayer hakee kartan tietoa “laatoittain”; karttatieto on asetettu ruudukkoon, joka on keskipisteen ympärillä, ja kun käyttäjä liikuttaa keskipistettä, näkymän ulkopuolelle jääneet ruudut poistetaan ja uudet ruudut tietoineen ladataan. OSM, OpenStreetMap, on vapaasti käytettäviä karttoja tuottava palvelu.  Kun kartan sisältävä React-komponentti piirretään, kartta etsii valmistuessaan kohde <div>-elementin ja asettaa kartan toimintoineen siihen. React-komponentti piirtää karttamerkit, mutta OpenLayersin kartta asettaa merkit oikeille paikoilleen. Kartta piirretään uudelleen vain, jos “Yhteystiedot”-välilehti, jossa kartta on, ladataan uudelleen. 
+
+https://openlayers.org 
+
+https://www.openstreetmap.org/about 
+
+(havainnollistava kuva kartan luomisesta) 
+
+ 
+
+ 
+
+6.2	Karttanäkymän vaihtoehtoiset toteutukset 
+
+ 
+
+Toiminnallisessa opinnäytetyössään “Paikkatietorajapintojen ja karttakirjastojen hyödyntäminen ReactJS-sovelluksessa" Nestori Metsäranta tarkastelee erilaisten paikkatietorajapintojen ja karttakirjastojen hyödyntämistä React-sovelluksessa. Tarkasteltaviksi karttakirjastoiksi valittiin OpenLayers, Leaflet ja Mapbox GL, joita käyttäen toteutettiin pieni React-sovellus, jossa käyttäjä pystyi näkemään kartan, liikuttamaan karttaa ja zoomata karttanäkymässä sisään ja ulos. Ohjelmiston kehityksessä noudatettiin sovellettua vesiputousmallia aloittaen suunnittelulla, edeten toteutukseen sekä päättäen testauksella. Opinnäytetyön tavoitteena oli “päästä syvemmälle eri karttakirjastojen tarjoamiin vaihtoehtoihin ja vertailla niitä” (12). 
+
+Johdanto, 12-13, 
+
+ 
+
+OpenLayers-kirjaston toteutuksen pohjana Metsäranta käytti Matthew Brownin Medium-artikkelia “How to Use OpenLayers Maps in React”, sillä dokumentaatiota ja neuvoja kirjaston integraatiosta React-sovellukseen oli tarjolla niukasti. Matthew Brown päätyi hyödyntämään artikkelissaan OpenLayersin tavallista JavaScript versiota, vaikka React-integraatio olikin saatavilla, koska integraation ei nähty olevan aktiivisessa kehityksessä, eikä kovin suosittu. Myös Metsärannan toteutuksessa käytettiin tavallista JavaScript versiota OpenLayersista.  
+
+ 15, 18 
+
+https://medium.com/swlh/how-to-incorporate-openlayers-maps-into-react-65b411985744 
+
+ 
+
+Toteutuksessa React-komponentti, joka piirtää kartan, sisältää kolme muuta React-komponenttia, jotka muodostavat karttanäkymän: <Map>, <Layers> ja <TileLayer>. <Map>-komponentin alaisuudessa on <Layers>-komponentin, joka sisältää kartan käyttämät ulkoasut; tässä tapauksessa <TileLayer>-komponentin. <Map>-komponentti sisältää kartan muodostuksen luoden karttaolion, jolle asetetaan Mapin isäntäkomponentilta saatu keskipiste, zoomaustaso sekä <Layers>-komponenttiin käärityt ulkoasut. Samalla kartalle määritellään <div>-elementti, johon näkymä tullaan piirtämään kartan latauduttua. <TileLayer>-komponentti sisältää kartan ulkoasun määrittelyn. Kartta käyttää TileLayer-tyyppistä ulkoasua, joka hakee karttatietoa “laatoittain” näkymän keskipisteen ympäriltä sen paikan muuttuessa. Lähteenä TileLayer käyttää <Map>-komponentin isäntäkomponentilta saatua OSM-, OpenStreetMap, paikannusrajapintaa, jonka karttatieto piirretään ulkoasuun. Opinnäytetyössä ei käsitelty karttamerkkien asettelua. 
+
+19-20 
+
+ 
+
+ 
+
+6.3	Karttanäkymän parantaminen 
+
+ 
+
+Metsärannan toteutus valittiin vertailtavaksi, sillä opinnäytetyössä verrataan erilaisia karttaratkaisuja, joiden käyttöä harkittiin myös Karelian toteutuksessa. Jokaisella vertailtavalla karttakirjastolla toteutettiin Reactia hyödyntäen pieni karttanäkymä, joka oli hyvin samanlainen kuin oma toteutuksemme. OpenLayersin käyttöönotossa Metsäranta kohtasi samoja ongelmia kuin kehitystiimimme. OpenLayersin React-integraatioon ei ollut tarjolla juurikaan dokumentaatiota, ja saatavilla oli vain yksi Reactin kanssa yhteensopiva kirjasto, jonka suosio latausmäärän perusteella oli vähäinen. Epäsuositun kirjaston hyödyntäminen ei ole suositeltavaa, sillä sen kehitys tulevaisuudessa voi jäädä vähäiseksi, eikä ilmeneviä bugeja välttämättä korjata ajoissa, tai lainkaan. Molemmissa toteutuksissa päädyttiin käyttämään tavallista JavaScriptiä OpenLayersin integrointiin. 
+
+https://www.npmjs.com/package/react-openlayers 
+
+ 
+
+Opinnäytetyössään Metsäranta harkitsi GoogleMaps-karttakirjaston hyödyntämistä, mutta kirjasto hylättiin samoista syistä kuin Karelian toteutuksessa. GoogleMaps on Googlen kehittämä ja ylläpitämä karttakirjasto, jota hyödynnetään esimerkiksi Googlen samannimisessä karttapalvelussa. GoogleMaps toimii samalla tavalla kuin OpenLayers, mutta tarjoaa enemmän toimintoja, kuten reitin laskun ja reittiohjeiden esityksen. Toisin kuin OpenLayers, GoogleMaps on maksullinen, minkä vuoksi GoogleMaps hylättiin Karelian toteutuksessa sekä Metsärannan toteutuksissa. GoogleMapsin karttarajapintaan tehtyjen kyselyiden kuukausihinnat tuhatta kyselyä kohden vaihtelevat $2—$14 välillä. Vaikka kulut eivät ole korkeat, rajapintaan rekisteröityminen ja kustannusten käsittely olisi aiheuttanut toimeksiantajan puolelta ylimääräisiä toimenpiteitä. Koska karttanäkymä oli melko yksinkertainen, OpenLayersin tarjoamat ilmaiset toiminnot nähtiin riittäviksi. 
+
+Metsärannan toteutuksessa karttanäkymä koostuu kolmesta komponentista: <Map>, <Layers> ja <TileLayer>. Ehdotan, että samaa rakennetta käytettäisiin myös Karelian toteutuksessa, jossa karttanäkymä toteutettiin kokonaisuudessaan yhteen React-komponenttiin. Mikäli karttaan lisättäisiin tulevaisuudessa erilaisia toimintoja, karttakomponentissa olevan koodin määrä kasvaisi haitaten ohjelman selkeyttä. Hajauttamalla karttanäkymän osia useampaan komponenttiin ratkaisun skaalautuvuus paranisi tilanteessa, jossa karttaan haluttaisiin lisätä useita ulkoasuja. Tällöin ulkoasut voitaisiin toteuttaa erillisinä komponentteina, jotka asetettaisiin <Layers>-komponentin alaisuuteen, jolloin <Map>-komponentti hakisi ne automaattisesti. Karelian ratkaisussa kaikki ulkoasut on määriteltävä samassa komponentissa, jolloin uusien ulkoasujen lisääminen merkitsisi uuden koodin lisäämistä karttakomponenttiin.
+
+Vaikka Metsäranta kertoi opinnäytetyössään pettyneensä OpenLayers-kirjastoon React dokumentaation vähäisyyden takia, mielestäni OpenLayersin käyttöä voidaan silti jatkaa. Olettaen, että toimeksiantajan vaatimukset kartalle ovat pysyneet pitkälti samoina, OpenLayersilla toteuttu näkymä toimii edelleen toimeksiantajan vaatimusten mukaisesti. Tavallisella JavaScriptillä toteutettu karttaratkaisu toimii Reactin rinnalla odotetusti, mutta karttanäkymän skaalautuvuutta voidaan parantaa Metsärannan esittämällä komponenttien hajautuksella.

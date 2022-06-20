@@ -6,6 +6,7 @@ import { Styles } from "./FileExplorer.styles";
 
 const { exec } = window.require("child_process");
 const fs = window.require("fs");
+const pathModule = window.require("path");
 
 export default function FileExplorer(props) {
     const targetDirectory = props.targetDirectory;
@@ -54,17 +55,16 @@ export default function FileExplorer(props) {
         refresh();
     };
 
-    const handleFileAdditionClick = (e) => {
-        e.stopPropagation();
-
-        const files = e.target.files;
+    const handleFileAdditionClick = (selectedFiles) => {
+        const files = selectedFiles;
         const targetDir = targetDirectory;
 
+            // Create a research materials folder for the stock if it doesn't exist
         if( !fs.existsSync(targetDir) )
         fs.mkdirSync(targetDir);
 
         for( let file of files )
-        fs.copyFileSync(file.path, targetDir + file.name);
+        fs.copyFileSync(file, targetDir + pathModule.basename(file));
 
         refresh();
     };
@@ -99,8 +99,11 @@ export default function FileExplorer(props) {
         <FullDiv>
             <FileLoadButton
                 caption="Load file..."
-                allowMultiple
                 onFileLoad={handleFileAdditionClick}
+                dialogSettings={{
+                    title: "Import research material(s)",
+                    multiSelections: true
+                }}
             />
 
             {renderFileList(displayedFiles)}

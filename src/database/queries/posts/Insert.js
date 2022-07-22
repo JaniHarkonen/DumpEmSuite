@@ -17,7 +17,7 @@ export default class Insert extends Query {
 
         switch( this.valueType )
         {
-            case "value": qstr += `VALUES(${generateQueryList(this.values)});`; break;
+            case "value": qstr += `VALUES (${generateQueryList(this.values)});`; break;
             case "query": qstr += this.values.formatQuery(); break;
         }
 

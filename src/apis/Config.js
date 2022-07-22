@@ -1,3 +1,4 @@
+import { COMMON_PATHS } from "../utils/CommonVariables";
 import { readJson, writeJson } from "../utils/FileUtils";
 const fs = window.require("fs");
 const pathModule = window.require("path");
@@ -135,11 +136,11 @@ export default class Config {
 
             // Create the Workspace folder structure
         path += "\\" + name;
-        const db = process.cwd() + "\\config\\default.db";
+        const db = process.cwd() + COMMON_PATHS.folders.config + "\\" + COMMON_PATHS.files.defaultDb;
 
         if( !fs.existsSync(db) ) return this.config.openWorkspaces;
 
-        fs.mkdirSync(path + "\\materials", { recursive: true });
+        fs.mkdirSync(path + COMMON_PATHS.folders.materialsSub, { recursive: true });
         fs.copyFileSync(db, path + "\\" + name + ".db");
         
         return this.openWorkspace(path);

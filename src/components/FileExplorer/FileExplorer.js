@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { FullDiv } from "../../common/FullDiv";
 import { getKey } from "../../utils/KeyManager";
 import FileLoadButton from "../FileLoadButton/FileLoadButton";
@@ -12,7 +12,7 @@ export default function FileExplorer(props) {
     const targetDirectory = props.targetDirectory;
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         refresh();
     }, []);
 

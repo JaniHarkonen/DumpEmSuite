@@ -1,6 +1,7 @@
+import ColorPicker from "../ColorPicker/ColorPicker";
+
 import { useState } from "react";
 import { FullImage } from "../../common/FullImage";
-import ColorPicker from "../ColorPicker/ColorPicker";
 import { integerToRGBA, getColorCode } from "../../utils/CommonVariables";
 import { getKey } from "../../utils/KeyManager";
 import { images } from "../../assets/assets";
@@ -22,12 +23,23 @@ const makeColor = (index) => {
     };
 };
 
+/**
+ * Returns a JSON representing an option panel which can then be passed onto
+ * the renderOptionPanel-function.
+ * 
+ * @param {JSX} element A JSX-element that will draw the option panel.
+ * @param {Boolean} condition Condition under which the element will be drawn
+ * in the UI.
+ * 
+ * @returns A JSON with a structure of an option panel.
+ */
 const makeOptionPanel = (element, condition) => {
     return {
         element: element,
         condition: condition
     };
 };
+
 
 export default function SymbolListItem(props) {
     const symbol = props.stock;
@@ -94,6 +106,29 @@ export default function SymbolListItem(props) {
         openColorPicker(false);
     };
 
+    const currencyVolumeToString = (currencyVolume) => {
+        let volumeString = currencyVolume.toFixed(2);
+        let formattedString = "";
+
+        const s = volumeString.length;
+        const cutoff = s - 5;
+        const separation = 3;
+        for( let i = 0; i < s; i++ )
+        {
+            const char = volumeString.charAt(i);
+            formattedString += char;
+
+                // Only add commas to the characteristic
+            if( i > cutoff )
+            continue;
+
+                // Add a comma every 3 digits
+            if( (s - separation - i - 1) % 3 === 0 )
+            formattedString += ",";
+        }
+
+        return "€" + formattedString;
+    };
 
     const optionPanels = [
         makeOptionPanel(
@@ -138,13 +173,13 @@ export default function SymbolListItem(props) {
 
                         {renderInfoPanel(symbolName)}
                         {renderInfoPanel(symbolTicker)}
-                        {renderInfoPanel(symbolVolume)}
+                        {renderInfoPanel(currencyVolumeToString(symbolVolume))}
 
                     </Styles.InfoPanelContainer>
 
                     <Styles.OptionPanelContainer>
                         <Styles.OptionPanelWrapper>
-                        {renderOptionPanels(optionPanels)}
+                            {renderOptionPanels(optionPanels)}
                         </Styles.OptionPanelWrapper>
                     </Styles.OptionPanelContainer>
                 </>

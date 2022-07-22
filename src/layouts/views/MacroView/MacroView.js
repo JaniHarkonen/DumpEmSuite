@@ -1,37 +1,21 @@
 import Note from "../../../components/Note/Note";
-import styled from "styled-components";
 import ExternalStorageAPI from "../../../apis/ExternalStorageAPI";
+import { Styles } from "./MacroView.styles";
 
-export default function FilterView(props) {
+export default function FilterView() {
 
     const handleMacroAnalysisUpdate = (updatedAnalysis) => {
         ExternalStorageAPI.updateMacroAnalysis(updatedAnalysis);
     };
 
     return (
-        <Content>
-            <NoteContainer>
+        <Styles.Content>
+            <Styles.NoteContainer>
                 <Note
                     content={ExternalStorageAPI.getMacroAnalysis()}
                     updateContent={handleMacroAnalysisUpdate}
                 />
-            </NoteContainer>
-        </Content>
+            </Styles.NoteContainer>
+        </Styles.Content>
     );
 }
-
-const Content = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-const NoteContainer = styled.div`
-    position: relative;
-    width: 50%;
-    height: 50%;
-`;

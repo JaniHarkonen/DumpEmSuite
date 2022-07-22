@@ -24,6 +24,11 @@ const WSTab = styled.div`
     margin-right: 4px;
 
     background-color: gray;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #A8A8A8;
+    }
 `;
 
 const ViewContainer = styled.div`

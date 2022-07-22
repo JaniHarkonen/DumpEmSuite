@@ -54,7 +54,7 @@ export default function Note(props) {
                     backgroundColor: (contentHasChanged) ? "#FFF980" : "#FFF9E8",
                     tabSize: 4
                 }}
-                value={text}
+                value={text || ""}
                 onChange={handleTextInput}
             />
         </FullDiv>

@@ -211,4 +211,65 @@ export default class ExternalStorageAPI {
             });
         });
     }
+
+    static getMacroAnalysis() {
+        return this.request(() => {
+            return this.externalController.fetch({
+                type: "macro-analysis"
+            });
+        });
+    }
+
+    static updateMacroAnalysis(updatedAnalysis) {
+        return this.request(() => {
+            return this.externalController.post({
+                type: "macro-analysis",
+                analysisText: updatedAnalysis
+            });
+        });
+    }
+
+    static setCompanyCollection(companies) {
+
+            // Transactions have to be utilized to improve performance
+        this.externalController.beginTransaction();
+
+            // Insert a new collection of companies into the database
+        for( let company of companies )
+        {
+                // Insert company
+            let result = this.request(() => {
+                return this.externalController.post({
+                    type: "company",
+                    companyName: company.name,
+                    companyTicker: company.ticker,
+                    companyVolume: company.volume
+                });
+            });
+
+            // Insert stock to first tab
+            this.request(() => {
+                return this.externalController.post({
+                    type: "stock",
+                    id: result.lastID,
+                    tab: 1,
+                    codeIndex: company.colorCode
+                });
+            });
+        }
+
+        this.externalController.endTransaction();
+
+        return {
+            success: true
+        };
+    }
+
+    static clearCompanies() {
+        return this.request(() => {
+            return this.externalController.delete({
+                type: "companies"
+            });
+        });
+    }
 };

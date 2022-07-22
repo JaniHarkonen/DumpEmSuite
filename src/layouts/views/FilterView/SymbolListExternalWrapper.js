@@ -5,6 +5,7 @@ import SymbolList from "../../../components/SymbolList/SymbolList";
 export default function SymbolListExternalWrapper(props) {
     const tab = props.tab;
     const enableBring = props.enableBring;
+    const customBring = props.customBring;
 
     return (
         <SymbolList
@@ -13,7 +14,7 @@ export default function SymbolListExternalWrapper(props) {
             refresh={() => {
                 return ExternalStorageAPI.getStocksOnTab(tab);
             }}
-            onBring={(filters) => {
+            onBring={customBring || function(filters) {
                 ExternalStorageAPI.bringStocksFromTab(tab - 1, tab, filters);
             }}
             onClear={() => {

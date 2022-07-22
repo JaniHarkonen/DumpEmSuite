@@ -6,6 +6,17 @@ const FileContainer = styled.div`
     height: 48px;
 `;
 
+const FileCloseButton = styled.div`
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 16px;
+    height: 16px;
+
+    background-color: black;
+`;
+
 export const Styles = {
-    FileContainer: FileContainer
+    FileContainer: FileContainer,
+    FileCloseButton: FileCloseButton
 };

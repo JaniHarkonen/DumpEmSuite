@@ -1,12 +1,31 @@
 /**
- * Path within the Workspace folder where external materials (PDFs and images) are stored.
+ * Contains common folder paths and file names.
+ * - Folders are listed under 'folders'-key
+ * - Files are listed under 'files'-key
  */
-export const MATERIALS_SUBPATH = "\\materials\\";
+export const COMMON_PATHS = {
+    folders: {
+        materialsSub: "\\materials",
+        config: "\\config"
+    },
+    files: {
+        defaultDb: "default.db"
+    }
+};
 
 /**
  * JSON-object containing all available color codes.
  */
 export var COLOR_CODES = [];
+
+/**
+ * JSON-object containing the color codes for the automatic
+ * volume filter.
+ */
+export const VOLUME_FILTER_COLOR_CODES = {
+    rejected: 1,
+    accepted: 2
+};
 
 /**
  * Sets the available color codes in the order where their array

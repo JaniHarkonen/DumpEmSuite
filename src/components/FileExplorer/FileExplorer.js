@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { FullDiv } from "../../common/FullDiv";
 import { getKey } from "../../utils/KeyManager";
 import FileLoadButton from "../FileLoadButton/FileLoadButton";
@@ -6,12 +6,13 @@ import { Styles } from "./FileExplorer.styles";
 
 const { exec } = window.require("child_process");
 const fs = window.require("fs");
+const pathModule = window.require("path");
 
 export default function FileExplorer(props) {
     const targetDirectory = props.targetDirectory;
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         refresh();
     }, []);
 
@@ -47,17 +48,23 @@ export default function FileExplorer(props) {
         exec("\"" + targetDirectory + "\\" + file + "\"");
     };
 
-    const handleFileAdditionClick = (e) => {
+    const handleFileRemove = (e, file) => {
         e.stopPropagation();
 
-        const files = e.target.files;
+        fs.unlinkSync(targetDirectory +file);
+        refresh();
+    };
+
+    const handleFileAdditionClick = (selectedFiles) => {
+        const files = selectedFiles;
         const targetDir = targetDirectory;
 
+            // Create a research materials folder for the stock if it doesn't exist
         if( !fs.existsSync(targetDir) )
         fs.mkdirSync(targetDir);
 
         for( let file of files )
-        fs.copyFileSync(file.path, targetDir + file.name);
+        fs.copyFileSync(file, targetDir + pathModule.basename(file));
 
         refresh();
     };
@@ -79,6 +86,10 @@ export default function FileExplorer(props) {
                     onClick={() => { handleFileClick(file); }}
                 >
                     {file}
+
+                    <Styles.FileCloseButton
+                        onClick={(e) => { handleFileRemove(e, file); }}
+                    />
                 </Styles.FileContainer>
             );
         });
@@ -88,8 +99,11 @@ export default function FileExplorer(props) {
         <FullDiv>
             <FileLoadButton
                 caption="Load file..."
-                allowMultiple
                 onFileLoad={handleFileAdditionClick}
+                dialogSettings={{
+                    title: "Import research material(s)",
+                    multiSelections: true
+                }}
             />
 
             {renderFileList(displayedFiles)}

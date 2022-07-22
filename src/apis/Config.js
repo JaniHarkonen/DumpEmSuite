@@ -1,3 +1,4 @@
+import { COMMON_PATHS } from "../utils/CommonVariables";
 import { readJson, writeJson } from "../utils/FileUtils";
 const fs = window.require("fs");
 const pathModule = window.require("path");
@@ -39,7 +40,19 @@ export default class Config {
             };
         }
 
-        return this.config.templates;
+        return {
+            technical: this.config.templates.technical.content,
+            fundamental: this.config.templates.fundamental.content,
+            consensus: this.config.templates.consensus.content
+        };
+    }
+
+    static getAnalysisPaths() {
+        return {
+            technical: this.config.templates.technical.filepath,
+            fundamental: this.config.templates.fundamental.filepath,
+            consensus: this.config.templates.consensus.filepath
+        };
     }
 
     static getOpenWorkspaces() {
@@ -123,11 +136,11 @@ export default class Config {
 
             // Create the Workspace folder structure
         path += "\\" + name;
-        const db = process.cwd() + "\\config\\default.db";
+        const db = process.cwd() + COMMON_PATHS.folders.config + "\\" + COMMON_PATHS.files.defaultDb;
 
         if( !fs.existsSync(db) ) return this.config.openWorkspaces;
 
-        fs.mkdirSync(path + "\\materials", { recursive: true });
+        fs.mkdirSync(path + COMMON_PATHS.folders.materialsSub, { recursive: true });
         fs.copyFileSync(db, path + "\\" + name + ".db");
         
         return this.openWorkspace(path);
@@ -155,5 +168,15 @@ export default class Config {
         if( !workspace ) return "";
 
         return workspace.source + workspace.name + workspace.format;
+    }
+
+    static changeAnalysisTemplate(templateIdentifier, templatePath) {
+        if( !templateIdentifier ) return;
+        if( !templatePath ) return;
+        if( !fs.existsSync(templatePath) ) return;
+
+        this.config.templates[templateIdentifier].content = fs.readFileSync(templatePath, "utf8").toString();
+        this.config.templates[templateIdentifier].filepath = templatePath;
+        this.updateConfig();
     }
 }

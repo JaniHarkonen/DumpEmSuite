@@ -1,11 +1,25 @@
+import DialogAPI from "../../apis/DialogAPI";
+
 import { Styles } from "./FileLoadButton.styles";
-import { images } from "../../assets/assets";
 import { FullImage } from "../../common/FullImage";
+import { images } from "../../assets/assets";
+
 
 export default function FileLoadButton(props) {
     const caption = props.caption;
-    const allowMultiple = props.allowMultiple || false;
     const onFileLoad = props.onFileLoad;
+    const dialogSettings = props.dialogSettings;
+
+
+    const handleFileSelection = (e) => {
+        e.stopPropagation();
+
+        DialogAPI.showOpenFile(dialogSettings, (selectedFiles) => {
+            if( selectedFiles == null ) return;
+
+            onFileLoad(selectedFiles);
+        });
+    };
 
     return (
         <Styles.Content>
@@ -20,9 +34,7 @@ export default function FileLoadButton(props) {
             </Styles.LoadFileCaptionPanel>
 
             <Styles.LoadFileInput
-                type="file"
-                multiple={allowMultiple}
-                onChange={onFileLoad}
+                onClick={handleFileSelection}
             />
         </Styles.Content>
     );

@@ -52,7 +52,8 @@ export default class DialogAPI {
     static showOpenFile(settings, callback) {
         ipcRenderer.invoke("open-dialog", {
             title: settings.title,
-            buttonLable: settings.buttonLabel,
+            buttonLabel: settings.buttonLabel,
+            filters: settings.filters,
             properties: ["openFile"].concat(settings.multiSelections && "multiSelections")
         })
         .then((response) => {

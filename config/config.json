@@ -4,17 +4,21 @@
             "name": "Workspace 2022",
             "source": "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\test-ws\\",
             "format": ".db"
-        },
-        {
-            "name": "HOHOHOO",
-            "source": "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\shit-ws\\",
-            "format": ".db"
         }
     ],
-    "activeWorkspaceID": 1,
+    "activeWorkspaceID": 0,
     "templates": {
-        "technical": "--- TECHNICAL ANALYSIS AND PRICE TARGETS ---\n\nLIKELY PROFIT TARGET(S): x.yy ; z.ww\t\tAVG: +a.bb%\nLIKELY RISK(S): \t\t e.ff ; g.hh\t\tAVG: -c.dd%\n\n\t\t\t\t\t\t\t\t\t\t\tRR : 1 : i.jj\n\nTA summary.\n\nRECOMMENDATION: Entry strategy and conditions.\n\n\t\t\t\tExit strategy and coniditions.",
-        "fundamental": "--- FUNDAMENTALS ---\n\nOperations: description.\n\nIMPORTANT: Q2 results will be released on 20.8.\n\n-- 2020 --\n- observation\n\t-> conclusion\n\n\n-- 2021 --\n- observation\n\t-> conclusion\n\n\n-- THESIS --\nnarrative\n\nPros. positive scenarios\n\nCons. negative scenarios\n\nSummary. outlook, main negative factors, main positive factors\n\n\nRECOMMENDATION: action",
-        "consensus": "--- CONSENSUS ---\n\n-- MarketScreener --\nanalyst sentiment\n\nRECOMMENDATION (x/10)\n\n\n-- Shareville --\nuser sentiment"
+        "technical": {
+            "filepath": "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\jörböloid technical.txt",
+            "content": "hello joe\r\njoe 4 mega foe\r\n\r\n\r\n\ttab \ttab \tjoe4foe-trading.com"
+        },
+        "fundamental": {
+            "filepath": "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\jörböloid fundamental.txt",
+            "content": "<fundamental template>"
+        },
+        "consensus": {
+            "filepath": "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\jörböloid consensus.txt",
+            "content": "animation in 2016"
+        }
     }
 }

@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
 import Note from "../../components/Note/Note";
-import { FullDiv } from "../../common/FullDiv";
 import Config from "../../apis/Config";
 import TabBar from "../../components/TabBar/TabBar";
+
+import { FullDiv } from "../../common/FullDiv";
+import { useState, useLayoutEffect } from "react";
 import { Styles } from "./AnalysisDisplay.styles";
+
 
 export default function AnalysisDisplay(props) {
     const fetchAnalysis = props.fetchAnalysis;
@@ -34,7 +36,7 @@ export default function AnalysisDisplay(props) {
     const [ openAnalysis, setOpenAnalysis ] = useState("");
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setAnalysis(analyses[0]);
     }, []);
 

@@ -1,0 +1,10 @@
+--- CONSENSUS ---
+
+-- MarketScreener --
+analyst sentiment
+
+RECOMMENDATION (x/10)
+
+
+-- Shareville --
+user sentiment

@@ -338,3 +338,43 @@ structure of the database with regards to the storage of certain metadata to aid
 some of the missing features will be added and completed, which includes: preference settings, scraper, "MACRO"-view and the
 ability to remove files from the research materials. Moving of Analysis and AnalysisDisplay to the ``components``-folder will
 also be considered.
+
+### 22.7.2022
+
+Finally, the most important goals set in the previous diary entry have been met, however. Unfortunately, some of the goals
+have not been implemented due to the enormous detour that the development took since the last update. In this version, the
+Kauppalehti-scraper, along with the ability to import the scraped stocks into the database, has been added. Furthermore, there
+now exists a "MACRO"-view, and the user can now remove research materials on the "Fundamental"-view. Other features, such as
+improved backwards compatibility via meta-data stored in the database, have been left out and likely will not be added to the
+final version in order to allocate more time towards investment research given the market conditions. Another crucial part
+that was not implemented was the connection-per-query-policy for the database controller. The implementation of this policy
+should be looked into in future versions of DumpEm Suite.
+
+The "detour" pertains to the development of the Kauppalehti-scraper. The initial idea was to give the user an ability to
+change the scraper used for extracting stock data from the Kauppalehti-website through the preference settings window. The
+scraper itself was to be written in a scripting language called ScrapeScript, which would've been designed for the sole
+purpose of writing scrapers for DumpEm Suite. Changing the scraper in preference settings would've resulted in the
+ScrapeScript file being compiled into a set of instructions that would then be ran by the ScrapeScript interpreter when
+scraping the Kauppalehti-website.
+
+The reason for creating ScrapeScript was to circumvent the need for having to compile and publish a new version of DumpEm
+Suite each time Kauppalehti-website's HTML changes. The user would simply have to update or write a new iteration of the
+Kauppalehti-scraper that they could then compile and set as the default scraper in preference settings. It turns out, however,
+that writing a custom scripting language with a syntax similar to that of JavaScript is quite difficult and time consuming.
+Writing the ScrapeScript compiler has become a project in and of itself, and it seems unlikely that its development will be
+over anytime soon. Indeed, it is very possible that a complete re-write of the compiler is necessary due to the many weird
+architecture choises resulting from experimentation and prototyping.
+
+The DatabaseController was also changed a bit in this version with the inclusion of the feature to start and end database
+transactions. When the scraper adds scraped stock data into the database, it does so by sending an "INSERT INTO"-query for
+each company. This turned out to be extremely slow to the point that it took ~30 seconds to insert 146 companies. Such
+performance is inexcusable, especially for such a low number of entries. The issue was that SQLite, by default, execute each
+query as a single transaction — and transactions are slow (and 146 transactions is SUPER slow). Luckily, SQLite — like many
+other database types — allows bundling multiple queries into a single transaction block via the use of "BEGIN TRANSACTION"-
+and "COMMIT"-queries. When a transaction is started with "BEGIN TRANSACTION", all the following queries will be placed into
+a single transaction that can then be executed at once by calling "COMMIT". The beginTransaction- and endTransaction-methods
+in DatabaseController now facilitate this.
+
+The development for the first version of DumpEm Suite is now coming to a close. The next update will likely be the last one,
+and it is set to contain the final UI, which as of now is horrible. Some bugs will also be ironed out and some small
+features will be added in.

@@ -12,6 +12,9 @@ export default class Delete extends Query {
 
 
     formatQuery(qfargs = null) {
+        if( this.conditions )
         return `DELETE FROM ${this.table} WHERE ${generateQueryList(this.conditions)}`;
+
+        return `DELETE FROM ${this.table}`;
     }
 }

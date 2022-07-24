@@ -46,11 +46,11 @@ export default function Note(props) {
     return (
         <FullDiv>
             <Styles.NoteInput
-                className="fixedsys-default"
-                id=""
+                //className="fixedsys-default"
+                //id=""
                 style={{
-                    /*fontFamily: "Courier New",
-                    fontSize: "14px",*/
+                    fontFamily: "Courier New",
+                    fontSize: "14px",
                     backgroundColor: (contentHasChanged) ? "#FFF980" : "#FFF9E8",
                     tabSize: 4
                 }}

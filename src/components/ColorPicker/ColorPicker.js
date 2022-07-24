@@ -2,6 +2,7 @@ import { getKey } from "../../utils/KeyManager";
 import { COLOR_CODES, integerToRGBA } from "../../utils/CommonVariables";
 import { Styles } from "./ColorPicker.styles";
 
+
 export default function ColorPicker(props) {
     const colorOrder = null;
     const disableMultiSelection = props.disableMultiSelection;

@@ -1,7 +1,10 @@
+import FileItem from "./FileItem";
+import FileLoadButton from "../FileLoadButton/FileLoadButton";
+import OpenExplorerButton from "../OpenExplorerButton/OpenExplorerButton";
+
 import { useState, useLayoutEffect } from "react";
 import { FullDiv } from "../../common/FullDiv";
 import { getKey } from "../../utils/KeyManager";
-import FileLoadButton from "../FileLoadButton/FileLoadButton";
 import { Styles } from "./FileExplorer.styles";
 
 const { exec } = window.require("child_process");
@@ -10,6 +13,8 @@ const pathModule = window.require("path");
 
 export default function FileExplorer(props) {
     const targetDirectory = props.targetDirectory;
+
+    const [displayedFiles, setDisplayedFiles] = useState(null);
 
 
     useLayoutEffect(() => {
@@ -33,14 +38,12 @@ export default function FileExplorer(props) {
             file_objs.push(file);
         }
 
-        return file_objs;
+        return file_objs.sort();
     };
 
     const refresh = () => {
         setDisplayedFiles(readFolder(targetDirectory));
     };
-
-    const [displayedFiles, setDisplayedFiles] = useState(readFolder(targetDirectory));
 
     const handleFileClick = (file) => {
         if( !file || file === "" ) return;
@@ -48,9 +51,7 @@ export default function FileExplorer(props) {
         exec("\"" + targetDirectory + "\\" + file + "\"");
     };
 
-    const handleFileRemove = (e, file) => {
-        e.stopPropagation();
-
+    const handleFileRemove = (file) => {
         fs.unlinkSync(targetDirectory +file);
         refresh();
     };
@@ -73,40 +74,54 @@ export default function FileExplorer(props) {
         if( !files || files.length === 0 )
         {
             return (
-                <Styles.FileContainer>
+                <>
                     No files or analysis yet...
-                </Styles.FileContainer>
+                </>
             );
         }
 
         return files.map((file) => {
             return (
-                <Styles.FileContainer
+                <Styles.FileItemContainer
                     key={"file-explorer-file-" + getKey()}
-                    onClick={() => { handleFileClick(file); }}
                 >
-                    {file}
-
-                    <Styles.FileCloseButton
-                        onClick={(e) => { handleFileRemove(e, file); }}
+                    <FileItem
+                        targetFile={file}
+                        onClick={() => { handleFileClick(file); }}
+                        onRemove={() => { handleFileRemove(file);  }}
                     />
-                </Styles.FileContainer>
+                </Styles.FileItemContainer>
             );
         });
     };
 
     return (
         <FullDiv>
-            <FileLoadButton
-                caption="Load file..."
-                onFileLoad={handleFileAdditionClick}
-                dialogSettings={{
-                    title: "Import research material(s)",
-                    multiSelections: true
-                }}
-            />
+            <Styles.ControlPanel>
+                <Styles.FileLoadButtonContainer>
+                    <FileLoadButton
+                        caption="Load file..."
+                        onFileLoad={handleFileAdditionClick}
+                        dialogSettings={{
+                            title: "Import research material(s)",
+                            multiSelections: true
+                        }}
+                    />
+                </Styles.FileLoadButtonContainer>
 
-            {renderFileList(displayedFiles)}
+                <Styles.OpenExplorerButtonContainer>
+                    <OpenExplorerButton
+                        path={targetDirectory}
+                    />
+                </Styles.OpenExplorerButtonContainer>
+            </Styles.ControlPanel>
+            <Styles.MaterialsContainer>
+                <Styles.MaterialsAligner>
+                    <Styles.MaterialsGrid>
+                        {renderFileList(displayedFiles)}
+                    </Styles.MaterialsGrid>
+                </Styles.MaterialsAligner>
+            </Styles.MaterialsContainer>
         </FullDiv>
     );
 }

@@ -17,6 +17,6 @@ const NoteContainer = styled.div`
 `;
 
 export const Styles = {
-    Content: Content,
-    NoteContainer: NoteContainer
+    Content,
+    NoteContainer
 };

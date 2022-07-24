@@ -34,7 +34,7 @@ export default class FetchStockAnalysis extends Fetch {
         let row = super.formatResult(result)[0];
 
         return {
-            analysis: row.Company_analysis_technical || row.Company_analysis_fundamental || row.Company_analysis_consensus
+            analysis: row?.Company_analysis_technical || row?.Company_analysis_fundamental || row?.Company_analysis_consensus
         };
     }
 }

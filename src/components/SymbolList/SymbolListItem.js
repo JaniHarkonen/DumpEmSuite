@@ -52,6 +52,10 @@ export default function SymbolListItem(props) {
     const onItemClick = props.onItemClick;
     const disableColorPicker = props.disableColorPicker;
     const disableChart = props.disableChart;
+    const isSelected = props.isSelected || false;
+
+    const highlightIntensityDefault = 1/4;
+    const highlightIntensitySelected = 1/2;
 
     const [ symbolColorCode, setSymbolColorCode ] = useState(makeColor(symbolColorIndex));
     const [ isColorPickerOpen, openColorPicker ] = useState(false);
@@ -95,7 +99,7 @@ export default function SymbolListItem(props) {
 
         window.require("electron")
         .shell.openExternal(
-            "https://www.tradingview.com/chart/?symbol=" +
+            "https://www.tradingview.com/chart/?symbol=OMXHEX%3A" +
             symbolTicker
         );
     };
@@ -134,7 +138,7 @@ export default function SymbolListItem(props) {
         makeOptionPanel(
             <Styles.ColorPickerButton 
                 style={{
-                    backgroundColor: integerToRGBA(symbolColorCode.color)
+                    backgroundColor: (symbolColorCode.color === -1) ? "gray" : integerToRGBA(symbolColorCode.color)
                 }}
                 onClick={(e) => {
                     e.stopPropagation();
@@ -146,26 +150,37 @@ export default function SymbolListItem(props) {
         makeOptionPanel(<></>, false),
 
         makeOptionPanel(
-            <FullImage
-                src={images.chart}
-                onClick={handleChartClick}
-            />, !disableChart
+            <Styles.ChartButtonContainer>
+                <Styles.ChartButton>
+                    <FullImage
+                        src={images.chart}
+                        onClick={handleChartClick}
+                    />
+                </Styles.ChartButton>
+            </Styles.ChartButtonContainer>,
+            !disableChart
         )
     ];
 
     return (
-        <Styles.Content>
+        <Styles.Content style={{
+            borderStyle: isSelected ? "dashed" : "none"
+        }}>
             <Styles.Backdrop style={{
-                backgroundColor: integerToRGBA(symbolColorCode.color, 4/9)
+                backgroundColor: integerToRGBA(symbolColorCode.color, isSelected ? highlightIntensitySelected : highlightIntensityDefault)
             }} />
             {
                 isColorPickerOpen === true ? 
                 (
-                    <ColorPicker 
-                        selection={[symbolColorCode.index]}
-                        onPick={handleColorCodeChange}
-                        disableMultiSelection={true}
-                    />
+                    <Styles.ColorPickerContainer>
+                        <Styles.ColorPickerAligner>
+                            <ColorPicker
+                                selection={[symbolColorCode.index]}
+                                onPick={handleColorCodeChange}
+                                disableMultiSelection={true}
+                            />
+                        </Styles.ColorPickerAligner>
+                    </Styles.ColorPickerContainer>
                 )
                 :
                 <>

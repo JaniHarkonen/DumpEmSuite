@@ -9,9 +9,9 @@ const Content = styled.div`
 
     background-color: white;
 
-    border-style: solid;
     border-width: 1px;
-    border-color: #626270;
+    border-radius: 12px;
+    border-top-right-radius: 0px;
 
     &:hover {
         opacity: 0.8;
@@ -26,6 +26,8 @@ const Backdrop = styled.div`
     height: 100%;
 
     background-color: white;
+
+    border-radius: 12px;
 `;
 
 const InfoPanelContainer = styled.div`
@@ -79,25 +81,87 @@ const OptionPanel = styled.div`
     height: 33%;
 `;
 
-const ColorPickerButton = styled.div`
-    position: relative;
-    left: -1px;
-    top: -1px;
+const ColorPickerContainer = styled.div`
+    position: absolute;
+    left: 0px;
+    top: 0px;
     width: 100%;
     height: 100%;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const ColorPickerAligner = styled.div`
+    position: relative;
+    width: auto;
+    height: 75%;
+    padding: 5px;
+
+    border-radius: 8px;
+
+    background-color: white;
+`;
+
+const ColorPickerButton = styled.div`
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    right: 0px;
+    top: 0px;
+    width: 90%;
+    height: 50%;
+
     border-style: solid;
-    border-width: 1px;
+    border-width: 2px;
+
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
+const ChartButtonContainer = styled.div`
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    justify-content: center;
+    align-items: center;
+`;
+
+const ChartButton = styled.div`
+    position: relative;
+    width: 75%;
+    height: 75%;
+
+    &:hover {
+        cursor: pointer;
+        width: 85%;
+        height: 85%;
+    }
 `;
 
 export const Styles = {
-    Content: Content,
-    Backdrop: Backdrop,
-    InfoPanelContainer: InfoPanelContainer,
-    InfoPanel: InfoPanel,
-    InfoText: InfoText,
-    OptionPanelContainer: OptionPanelContainer,
-    OptionPanelWrapper: OptionPanelWrapper,
-    OptionPanel: OptionPanel,
-    ColorPickerButton: ColorPickerButton
+    Content,
+    Backdrop,
+    InfoPanelContainer,
+    InfoPanel,
+    InfoText,
+    OptionPanelContainer,
+    OptionPanelWrapper,
+    OptionPanel,
+    ColorPickerContainer,
+    ColorPickerAligner,
+    ColorPickerButton,
+    ChartButtonContainer,
+    ChartButton,
 };

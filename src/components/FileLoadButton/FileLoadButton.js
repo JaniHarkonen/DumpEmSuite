@@ -24,7 +24,9 @@ export default function FileLoadButton(props) {
     return (
         <Styles.Content>
             <Styles.LoadFileIconPanel>
-                <FullImage src={images.folder.white} />
+                <Styles.LoadIconContainer>
+                    <Styles.LoadIconAligner><FullImage src={images.folder.add.white} /></Styles.LoadIconAligner>
+                </Styles.LoadIconContainer>
             </Styles.LoadFileIconPanel>
 
             <Styles.LoadFileCaptionPanel>

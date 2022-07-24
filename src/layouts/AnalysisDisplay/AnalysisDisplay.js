@@ -2,7 +2,6 @@ import Note from "../../components/Note/Note";
 import Config from "../../apis/Config";
 import TabBar from "../../components/TabBar/TabBar";
 
-import { FullDiv } from "../../common/FullDiv";
 import { useState, useLayoutEffect } from "react";
 import { Styles } from "./AnalysisDisplay.styles";
 
@@ -65,13 +64,15 @@ export default function AnalysisDisplay(props) {
     return (
         openAnalysis &&
         (
-            <FullDiv>
+            <Styles.Content>
                 <Styles.TopBarContainer>
                     <TabBar
                         keyFixes={{ prefix: "analysis-display-analysis-tab" }}
                         tabElement={Styles.AnalysisTabButton}
+                        tabElementContentWrapper={Styles.TabButtonContentAligner}
                         tabs={analyses}
                         activeTabIndex={openAnalysis.index}
+                        activeStyle={{ backgroundColor: "#FFF9E8" }}
                         onTabClick={handleAnalysisTabChange}
                     />
                 </Styles.TopBarContainer>
@@ -82,7 +83,7 @@ export default function AnalysisDisplay(props) {
                         updateContent={handleAnalysisUpdate}
                     />
                 </Styles.NoteContainer>
-            </FullDiv>
+            </Styles.Content>
         )
     );
 }

@@ -4,9 +4,11 @@ import DialogAPI from "../../apis/DialogAPI";
 import Config from "../../apis/Config";
 import CreateWorkspacePrompt from "../../modals/prompts/CreateWorkspacePrompt";
 import DEMSSettingsWindow from "../../modals/windows/DEMSSettingsWindow/DEMSSettingsWindow";
+
 import { images } from "../../assets/assets";
 import { getKey } from "../../utils/KeyManager";
 import { Styles } from "./SideBar.styles";
+
 
 export default function SideBar(props) {
     const updateWorkspaces = props.updateWorkspaces;
@@ -20,7 +22,7 @@ export default function SideBar(props) {
     };
 
     const options = [
-        makeOption("Create a new workspace", images.folder.white, () => {
+        makeOption("Create a new workspace", images.plus.green, () => {
             ModalAPI.popup(
                 <CreateWorkspacePrompt onDone={handleWorkspaceCreate} />
             );
@@ -63,11 +65,13 @@ export default function SideBar(props) {
 
         return (
             <Styles.OptionPanelContainer key={"sidebar-option-panel-" + getKey()}>
-                <ImageButton
-                    tooltip={option.tooltip}
-                    image={option.image}
-                    onClick={option.onClick}
-                />
+                <Styles.ImageButtonContainer>
+                    <ImageButton
+                        tooltip={option.tooltip}
+                        image={option.image}
+                        onClick={option.onClick}
+                    />
+                </Styles.ImageButtonContainer>
             </Styles.OptionPanelContainer>
         );
     };

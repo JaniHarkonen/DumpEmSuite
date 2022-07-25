@@ -8,6 +8,7 @@ import folderWhite from "./images/img_folder_white.svg";
 import folderAddWhite from "./images/img_folder_add_white.svg";
 import gear from "./images/img_gear.svg";
 import closeSquareWhite from "./images/img_close_square_white.svg";
+import closeSquareBlack from "./images/img_close_square_black.svg";
 import importWhite from "./images/img_import_white.svg";
 import brushBlack from "./images/img_brush_black.svg";
 import plusGreen from "./images/img_plus_green.svg";
@@ -17,6 +18,7 @@ import fileText from "./images/img_file_text.svg";
 import fileImage from "./images/img_file_image.svg";
 import filePDF from "./images/img_file_pdf.svg";
 import minusRedWhite from "./images/img_minus_redwhite.svg";
+import changeWhite from "./images/img_change_white.svg";
 
 /**
  * Contains references to all available image assets coupled with
@@ -32,7 +34,8 @@ export const images = {
     },
     close: {
         square: {
-            white: closeSquareWhite
+            white: closeSquareWhite,
+            black: closeSquareBlack
         }
     },
     import: {
@@ -56,6 +59,9 @@ export const images = {
     },
     minus: {
         redWhite: minusRedWhite
+    },
+    change: {
+        white: changeWhite
     }
 };
 

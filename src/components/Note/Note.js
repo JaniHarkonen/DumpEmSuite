@@ -18,6 +18,13 @@ export default function Note(props) {
     const [contentHasChanged, setContentHasChanged, contentHasChangedRef] = useStateRef(false);
 
 
+        // Update the text content and reset color upon switching tabs
+    useLayoutEffect(() => {
+        setContentHasChanged(false);
+        setText(content);
+    }, [content]);
+
+        // 
     useLayoutEffect(() => {
         document.addEventListener("keydown", handleKeyboardShortcuts);
 
@@ -27,7 +34,7 @@ export default function Note(props) {
         return () => {
             document.removeEventListener("keydown", handleKeyboardShortcuts);
         };
-    }, [content, textRef, cursorPositionREF.current]);
+    }, [textRef, cursorPositionREF.current]);
 
     const handleTextInput = (e) => {
         e.stopPropagation();
@@ -39,7 +46,7 @@ export default function Note(props) {
     const handleKeyboardShortcuts = (e) => {
         if( e.ctrlKey )
         {
-            if( e.key === "s" )
+            if( e.key.toLowerCase() === "s" )
             {
                 if( contentHasChangedRef.current === true )
                 {

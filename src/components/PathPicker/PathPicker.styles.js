@@ -13,12 +13,16 @@ const FileInput = styled.input`
 
 const FileLoadButtonContainer = styled.div`
     position: relative;
+    margin-left: 5px;
+    width: 98px;
+    height: 24px;
+
     display: inline-block;
-    height: 25%;
+    vertical-align: top;
 `;
 
 export const Styles = {
-    HalfDiv: HalfDiv,
-    FileInput: FileInput,
-    FileLoadButtonContainer: FileLoadButtonContainer
+    HalfDiv,
+    FileInput,
+    FileLoadButtonContainer
 };

@@ -51,11 +51,19 @@ export default function FilterOptionsPanel(props) {
                 }}
                 elements={[
                     makeOptionPanel({ x: 1, y: 2 }, { width: 1, height: 2 },
-                        <Styles.FilterCaptionText>Bring filters:</Styles.FilterCaptionText>,
+                        <Styles.FilterCaptionText
+                            title="Color codes of the stocks to bring"
+                        >
+                            Bring filters:
+                        </Styles.FilterCaptionText>,
                         enableBring
                     ),
                     makeOptionPanel({ x: 2, y: 2 }, { width: 1, height: 2 },
-                        <Styles.FilterCaptionText>Display filters:</Styles.FilterCaptionText>
+                        <Styles.FilterCaptionText
+                            title="Filter stocks based on color code"
+                        >
+                            Display filters:
+                        </Styles.FilterCaptionText>
                     ),
                     makeOptionPanel({ x: 1, y: 3 }, { width: 1, height: 2 },
                         <Styles.ColorPickerContainer>
@@ -79,6 +87,7 @@ export default function FilterOptionsPanel(props) {
                             caption="Bring"
                             onClick={handleBringClick}
                             icon={images.import.white}
+                            tooltip="Bring stocks from previous tab/external source"
                         />,
                         enableBring
                     ),
@@ -87,12 +96,15 @@ export default function FilterOptionsPanel(props) {
                             caption="Clear"
                             onClick={handleClearClick}
                             icon={images.brush.black}
+                            tooltip="Remove all stocks from the view"
                         />,
                         enableClear
                     ),
                     makeOptionPanel({ x: 2, y: 5 }, { width: 1, height: 2 },
                         <Styles.RightShiftedContainer>
-                            <Styles.InfoPanel>
+                            <Styles.InfoPanel
+                                title="Number of stocks displayed vs. total number"
+                            >
                                 Displayed: {stocksDisplayed} <br />
                                 Total: {stocksCount}
                             </Styles.InfoPanel>

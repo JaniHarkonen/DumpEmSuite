@@ -43,7 +43,7 @@ export default function App(props) {
         openWorkspace(changes.activeWorkspaceID);
         setActiveWorkspace(changes.activeWorkspaceID);
         setOpenWorkspaces(changes.workspaces);
-        //setForceRerender(forceRerender + 1);
+        setForceRerender(forceRerender + 1);
         setColorCodes(ExternalStorageAPI.getColorCodes());
     };
 

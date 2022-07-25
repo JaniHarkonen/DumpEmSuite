@@ -6,9 +6,13 @@ export default function FilterOptionsPanelControl(props) {
     const caption = props.caption;
     const onClick = props.onClick;
     const iconImage = props.icon;
+    const tooltip = props.tooltip;
 
     return (
-        <Styles.Content onClick={onClick}>
+        <Styles.Content
+            title={tooltip}
+            onClick={onClick}
+        >
             <Styles.IconPanel>
                 <Styles.IconAligner>
                     <Styles.IconContainer><FullImage src={iconImage} /></Styles.IconContainer>

@@ -15,7 +15,9 @@ export default function Analysis(props) {
                 (selectedSymbolID >= 0) ?
                 (
                     <>
-                        <Styles.CaptionBar>
+                        <Styles.CaptionBar
+                            title="External files providing material for the analysis"
+                        >
                             <Styles.CaptionAligner>Research materials</Styles.CaptionAligner>
                         </Styles.CaptionBar>
 

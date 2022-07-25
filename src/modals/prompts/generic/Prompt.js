@@ -1,7 +1,49 @@
-
 import ModalAPI from "../../../apis/ModalAPI";
+
+import { Fragment } from "react";
+import { FullImage } from "../../../common/FullImage";
 import { getKey } from "../../../utils/KeyManager";
 import { Styles } from "./Prompt.styles";
+import { images } from "../../../assets/assets";
+
+
+/**
+ * Generates HTML-element(s) from a string. If there are new line
+ * characters present, they will be replaced with br-tags. In such
+ * cases the string will be split using React.Fragments that will
+ * each be assigned a key. The key can be configured with a custom
+ * prefix.
+ * 
+ * @param {String} str String to convert to HTML.
+ * @param {String} customKey Custom prefix for the keys of potential
+ * React.Fragments.
+ * 
+ * @returns String(s) inside a fragment.
+ */
+export const formatStringToHTML = (str, customKey = "formatted-string") => {
+    const paragraphs = [];
+    let nextNewlineAt = 0;
+    let prevNewLineAt = 0;
+
+        // Place a <br> tag where a new line character should be
+    while( (nextNewlineAt = str.indexOf("\n", nextNewlineAt)) >= 0 )
+    {
+        paragraphs.push(
+            <Fragment key={customKey + "-" + paragraphs.length}>
+                {str.substring(prevNewLineAt, nextNewlineAt)}
+                <br />
+            </Fragment>
+        );
+
+        nextNewlineAt ++;
+        prevNewLineAt = nextNewlineAt;
+    }
+
+    paragraphs.push(str.substring(prevNewLineAt));
+
+    return <>{paragraphs}</>;
+};
+
 
 export default function ModalView(props) {
     const title = props.title;
@@ -11,6 +53,7 @@ export default function ModalView(props) {
     const onClose = props.onClose || ModalAPI.close;
     const onBackground = props.onBackground || onClose;
     const Body = props.body || <></>;
+    const dimensions = props.dimensions;
 
 
     const renderTitle = (title, attrs) => {
@@ -22,7 +65,11 @@ export default function ModalView(props) {
 
                 {
                     attrs.renderClose &&
-                    (<Styles.CloseButton onClick={onClose} />)
+                    (
+                        <Styles.CloseButton onClick={onClose}>
+                            <FullImage src={images.close.square.black} />
+                        </Styles.CloseButton>
+                    )
                 }   
             </Styles.Caption>
         );
@@ -55,6 +102,26 @@ export default function ModalView(props) {
         );
     };
 
+    const determineBodyContainerStyle = (customDimensions, controls) => {
+        if( customDimensions )
+        {
+            const style = {};
+
+            if( customDimensions.width )
+            style.width = customDimensions.width;
+
+            if( customDimensions.height )
+            style.height = customDimensions.height;
+
+            return style;
+        }
+
+        if( controls )
+        return { width: "100%", height: `calc(100% - ${Styles.dimensions.Caption.height})` }
+        
+        return {}
+    };
+
     return (
         <Styles.Content>
             {
@@ -62,14 +129,19 @@ export default function ModalView(props) {
                 (<Styles.Background onClick={onBackground} />)
             }
 
-            <Styles.View>
+            <Styles.View
+                style={dimensions ? {
+                    width: dimensions.width,
+                    height: dimensions.height
+                } : {}}
+            >
                 {renderTitle(title, { renderClose: !disableClose })}
 
                 <Styles.BodyContainer
-                    style={!controls ? {
+                    style={controls ? {} : {
                         width: "100%",
                         height: `calc(100% - ${Styles.dimensions.Caption.height})`
-                    }: {}}
+                    }}
                 >
                     {Body}
                 </Styles.BodyContainer>

@@ -71,12 +71,12 @@ export default function ViewTabBar(props) {
             return (
                 <TabElement
                     key={key}
-
                     onClick={() => {
                         handleTabClick(index);
                     }}
 
                     style={isActive ? activeStyle : {}}
+                    title={tab.title}
                 >
 
                     {

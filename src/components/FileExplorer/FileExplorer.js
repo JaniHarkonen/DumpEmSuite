@@ -75,7 +75,7 @@ export default function FileExplorer(props) {
         {
             return (
                 <>
-                    No files or analysis yet...
+                    No research material yet...
                 </>
             );
         }

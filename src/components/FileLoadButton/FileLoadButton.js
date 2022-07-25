@@ -22,7 +22,9 @@ export default function FileLoadButton(props) {
     };
 
     return (
-        <Styles.Content>
+        <Styles.Content
+            title="Select a file to load in"
+        >
             <Styles.LoadFileIconPanel>
                 <Styles.LoadIconContainer>
                     <Styles.LoadIconAligner><FullImage src={images.folder.add.white} /></Styles.LoadIconAligner>

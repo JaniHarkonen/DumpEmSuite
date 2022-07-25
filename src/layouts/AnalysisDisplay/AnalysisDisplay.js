@@ -2,6 +2,7 @@ import Note from "../../components/Note/Note";
 import Config from "../../apis/Config";
 import TabBar from "../../components/TabBar/TabBar";
 
+import useStateRef from "react-usestateref";
 import { useState, useLayoutEffect } from "react";
 import { Styles } from "./AnalysisDisplay.styles";
 
@@ -32,7 +33,7 @@ export default function AnalysisDisplay(props) {
     ];
 
     const [ analysisText, setAnalysisText ] = useState(null);
-    const [ openAnalysis, setOpenAnalysis ] = useState("");
+    const [ openAnalysis, setOpenAnalysis, openAnalysisREF ] = useStateRef("");
 
 
     useLayoutEffect(() => {
@@ -58,7 +59,7 @@ export default function AnalysisDisplay(props) {
     };
 
     const handleAnalysisUpdate = (updatedText) => {
-        onAnalysisUpdate(openAnalysis.key, updatedText);
+        onAnalysisUpdate(openAnalysisREF.current.key, updatedText);
     };
     
     return (
@@ -76,8 +77,8 @@ export default function AnalysisDisplay(props) {
                         onTabClick={handleAnalysisTabChange}
                     />
                 </Styles.TopBarContainer>
-
                 <Styles.NoteContainer>
+                    
                     <Note
                         content={analysisText}
                         updateContent={handleAnalysisUpdate}

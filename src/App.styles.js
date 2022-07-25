@@ -78,6 +78,17 @@ const Tab = styled.div`
     }
 `;
 
+const TabContentWrapper = styled.div`
+    position: relative;
+    width: calc(100% - 16px);
+    height: calc(100% - 2px);
+    transform: translateY(18.75%);
+    
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+`;
+
 const TabCloseButton = styled.div`
     position: absolute;
     right: -1px;
@@ -89,18 +100,6 @@ const TabCloseButton = styled.div`
         opacity: 0.5;
         cursor: pointer;
     }
-`;
-
-const TabContentWrapper = styled.div`
-    position: relative;
-    display: flex;
-    width: calc(100% - 16px);
-    height: calc(100% - 2px);
-
-    align-items: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
 `;
 
 const Content = styled.div`

@@ -15,7 +15,9 @@ export default function OpenExplorerButton(props) {
     }
 
     return(
-        <Styles.Content>
+        <Styles.Content
+            title="Reveal the folder in File Explorer"
+        >
             <Styles.LoadFileIconPanel>
                 <Styles.LoadIconContainer>
                     <Styles.LoadIconAligner><FullImage src={images.openExternal.white} /></Styles.LoadIconAligner>

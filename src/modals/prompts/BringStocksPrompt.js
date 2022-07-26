@@ -2,6 +2,7 @@ import BinaryPrompt from "./generic/BinaryPrompt";
 
 import { formatStringToHTML } from "./generic/Prompt.js";
 
+
 export default function ClearTabPrompt(props) {
     return (
         <BinaryPrompt

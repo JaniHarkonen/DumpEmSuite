@@ -1,23 +1,17 @@
 {
-    "openWorkspaces": [
-        {
-            "name": "Workspace 2022",
-            "source": "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\testfolder\\test-ws\\",
-            "format": ".db"
-        }
-    ],
+    "openWorkspaces": [],
     "activeWorkspaceID": 0,
     "templates": {
         "technical": {
-            "filepath": "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\config\\antemplates\\template_technical.txt",
+            "filepath": "",
             "content": "--- TECHNICAL ANALYSIS AND PRICE TARGETS ---\r\n\r\nLIKELY PROFIT TARGET(S): x.yy ; z.ww        AVG: +a.bb%\r\nLIKELY RISK(S):          e.ff ; g.hh        AVG: -c.dd%\r\n\r\n                                            RR : 1 : i.jj\r\n                                            \r\nTA summary.\r\n\r\nRECOMMENDATION: Entry strategy and conditions.\r\n\r\n                Exit strategy and coniditions."
         },
         "fundamental": {
-            "filepath": "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\config\\antemplates\\template_fundamental.txt",
-            "content": "--- FUNDAMENTALS ---\r\n\r\nOperations: description.\r\n\r\nIMPORTANT: Q2 results will be released on 20.8.\r\n\r\n-- 2020 --\r\n- observation\r\n    -> conclusion\r\n    \r\n    \r\n-- 2021 --\r\n- observation\r\n    -> conclusion\r\n\r\n\r\n-- THESIS --\r\nnarrative\r\n\r\nPros. positive scenarios\r\n\r\nCons. negative scenarios\r\n\r\nSummary. outlook, main negative factors, main positive factors\r\n\r\n\r\nRECOMMENDATION: action"
+            "filepath": "",
+            "content": "--- FUNDAMENTALS ---\r\n\r\nOperations: description.\r\n\r\nIMPORTANT: notes.\r\n\r\n-- 2020 --\r\n- observation\r\n    -> conclusion\r\n    \r\n    \r\n-- 2021 --\r\n- observation\r\n    -> conclusion\r\n\r\n\r\n-- THESIS --\r\nnarrative\r\n\r\nPros. positive scenarios\r\n\r\nCons. negative scenarios\r\n\r\nSummary. outlook, main negative factors, main positive factors\r\n\r\n\r\nRECOMMENDATION: action"
         },
         "consensus": {
-            "filepath": "D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\config\\antemplates\\template_consensus.txt",
+            "filepath": "",
             "content": "--- CONSENSUS ---\r\n\r\n-- MarketScreener --\r\nanalyst sentiment\r\n\r\nRECOMMENDATION (x/10)\r\n\r\n\r\n-- Shareville --\r\nuser sentiment"
         }
     }

@@ -15,10 +15,6 @@ export default function FileItem(props) {
     const [ displayRemoveButton, setDisplayRemoveButton ] = useState(false);
 
 
-    const toggleRemoveButtonVisibility = () => {
-        setDisplayRemoveButton(!displayRemoveButton);
-    };
-
     const handleFileClick = (file) => {
         onClick(file);
     };

@@ -4,6 +4,7 @@ import ExternalStorageAPI from "../../apis/ExternalStorageAPI";
 import { Styles } from "./Analysis.styles";
 import { COMMON_PATHS } from "../../utils/CommonVariables";
 
+
 export default function Analysis(props) {
     const selectedSymbolID = props.selectedSymbolID;
     const targetDirectory = ExternalStorageAPI.getOpenWorkspaceDirectory() + COMMON_PATHS.folders.materialsSub + "\\" + selectedSymbolID + "\\";

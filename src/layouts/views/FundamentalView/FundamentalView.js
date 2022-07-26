@@ -53,6 +53,7 @@ export default function FundamentalView(props) {
         )
     ];
 
+    
     return (
         <View
             elements={elements}

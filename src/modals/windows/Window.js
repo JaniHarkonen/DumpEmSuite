@@ -6,6 +6,7 @@ export default function Window(props) {
     const dimensions = props.dimensions;
     const Body = props.children;
 
+    
     return (
         <Prompt
             title={title}

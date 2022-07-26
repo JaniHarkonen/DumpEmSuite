@@ -1,8 +1,10 @@
 import { useState } from "react";
 
+
 export default function useInputField(defaultInput) {
     const [input, setInput] = useState(defaultInput);
 
+    
     const handleInputChange = (e) => {
 
             // The input is expected to be received from an input

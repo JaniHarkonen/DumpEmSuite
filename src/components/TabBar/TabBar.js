@@ -35,6 +35,7 @@ export const extractTabsFromArray = (array, fieldTranslations) => {
     });
 };
 
+
 export default function ViewTabBar(props) {
     const keyFixes = props.keyFixes;
     const TabElement = props.tabElement;

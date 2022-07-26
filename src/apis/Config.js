@@ -1,7 +1,9 @@
 import { COMMON_PATHS } from "../utils/CommonVariables";
 import { readJson, writeJson } from "../utils/FileUtils";
+
 const fs = window.require("fs");
 const pathModule = window.require("path");
+
 
 export default class Config {
     static config;

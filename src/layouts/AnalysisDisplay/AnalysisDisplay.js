@@ -1,8 +1,8 @@
 import Note from "../../components/Note/Note";
 import Config from "../../apis/Config";
 import TabBar from "../../components/TabBar/TabBar";
-
 import useStateRef from "react-usestateref";
+
 import { useState, useLayoutEffect } from "react";
 import { Styles } from "./AnalysisDisplay.styles";
 

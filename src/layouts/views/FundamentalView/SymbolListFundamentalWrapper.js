@@ -8,6 +8,7 @@ export default function SymbolListFundamentalWrapper(props) {
     const onItemClick = props.onItemClick;
     const selectedSymbol = props.selectedSymbol || null;
 
+    
     return (
         <SymbolList
             enableBring={enableBring}

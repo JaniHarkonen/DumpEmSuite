@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
 import TabBar from "../../components/TabBar/TabBar";
 import FilterView from "../views/FilterView/FilterView";
-import { getKey } from "../../utils/KeyManager";
 import FundamentalView from "../views/FundamentalView/FundamentalView";
-import { Styles } from "./Workspace.styles";
 import MacroView from "../views/MacroView/MacroView";
+
+import { useState, useEffect } from "react";
+import { getKey } from "../../utils/KeyManager";
+import { Styles } from "./Workspace.styles";
+
 
 export default function Workspace(props) {
     const TABS = [

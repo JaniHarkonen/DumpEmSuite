@@ -4,6 +4,7 @@ import { images } from "../../assets/assets";
 
 const { exec } = window.require("child_process");
 
+
 export default function OpenExplorerButton(props) {
     const openPath = props.path;
     
@@ -12,7 +13,7 @@ export default function OpenExplorerButton(props) {
         if( !path || path === "" ) return;
 
         exec(`explorer "${path}"`);
-    }
+    };
 
     return(
         <Styles.Content

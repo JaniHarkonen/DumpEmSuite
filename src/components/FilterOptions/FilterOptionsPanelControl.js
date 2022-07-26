@@ -8,6 +8,7 @@ export default function FilterOptionsPanelControl(props) {
     const iconImage = props.icon;
     const tooltip = props.tooltip;
 
+    
     return (
         <Styles.Content
             title={tooltip}

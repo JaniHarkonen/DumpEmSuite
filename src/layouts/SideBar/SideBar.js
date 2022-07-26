@@ -13,6 +13,7 @@ import { Styles } from "./SideBar.styles";
 export default function SideBar(props) {
     const updateWorkspaces = props.updateWorkspaces;
 
+    
     const makeOption = (tooltip, image, onClick) => {
         return {
             tooltip: tooltip,

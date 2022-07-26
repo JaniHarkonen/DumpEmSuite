@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import GridLayout from "../GridLayout/GridLayout";
 import FilterOptionsPanelControl from "./FilterOptionsPanelControl";
 
 import { Styles } from "./FilterOptionsPanel.styles";
 import { images } from "../../assets/assets";
+
 
 export default function FilterOptionsPanel(props) {
     const enableBring = props.enableBring || false;

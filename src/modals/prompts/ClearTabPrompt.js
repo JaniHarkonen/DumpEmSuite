@@ -1,5 +1,6 @@
 import BinaryPrompt from "./generic/BinaryPrompt";
 
+
 export default function ClearTabPrompt(props) {
     return (
         <BinaryPrompt

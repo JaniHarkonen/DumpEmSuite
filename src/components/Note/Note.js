@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useLayoutEffect } from "react";
 import { FullDiv } from "../../common/FullDiv";
 import { Styles } from "./Note.styles";
+
 import "fixedsys-css/css/fixedsys.css";
 
 
@@ -24,7 +25,8 @@ export default function Note(props) {
         setText(content);
     }, [content]);
 
-        // 
+        // Update cursor position after tabs,
+        // also establish shortcut listener
     useLayoutEffect(() => {
         document.addEventListener("keydown", handleKeyboardShortcuts);
 

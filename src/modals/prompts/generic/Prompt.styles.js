@@ -110,6 +110,29 @@ const ControlButton = styled.div`
     }
 `;
 
+const InputPromptCaptionContainer = styled.div`
+    position: relative;
+    width: 100%;
+    height: 25%;
+`;
+
+const InputPromptInputContainer = styled.div`
+    position: relative;
+    width: 100%;
+    height: 24px;
+`;
+
+const InputPromptInput = styled.input`
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: calc(100% - 4px);
+    height: 100%;
+
+    padding: 0;
+    margin: 0;
+`;
+
 export const Styles = {
     Content,
     Background,
@@ -119,6 +142,10 @@ export const Styles = {
     ControlContainer,
     CloseButton,
     ControlButton,
+
+    InputPromptCaptionContainer,
+    InputPromptInputContainer,
+    InputPromptInput,
     
     dimensions
 };

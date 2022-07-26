@@ -1,5 +1,6 @@
 const pathModule = window.require("path");
 
+
 export default class ExternalStorageAPI {
     static externalController;
     static openWorkspacePath;

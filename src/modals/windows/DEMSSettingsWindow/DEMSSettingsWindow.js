@@ -23,9 +23,6 @@ export default function DEMSSettingsWindow() {
     }, []);
 
     const handleSaveChanges = () => {
-        console.log(technicalTemplate);
-        console.log(fundamentalTemplate);
-        console.log(consensusTemplate);
         Config.changeAnalysisTemplate("technical", technicalTemplate);
         Config.changeAnalysisTemplate("fundamental", fundamentalTemplate);
         Config.changeAnalysisTemplate("consensus", consensusTemplate);

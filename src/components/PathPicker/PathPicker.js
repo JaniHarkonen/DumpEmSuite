@@ -1,6 +1,8 @@
+import FileLoadButton from "../FileLoadButton/FileLoadButton";
+
 import { FullDiv } from "../../common/FullDiv"
 import { Styles } from "./PathPicker.styles";
-import FileLoadButton from "../FileLoadButton/FileLoadButton";
+
 
 export default function PathPicker(props) {
     const caption = props.caption;

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { FullDiv } from "../../common/FullDiv";
 import { getKey } from "../../utils/KeyManager";
 
+
 export default function GridLayout(props) {
     const dimensions = props.dimensions;
     const elements = props.elements;

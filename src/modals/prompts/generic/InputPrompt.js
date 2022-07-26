@@ -2,6 +2,9 @@ import Prompt from "./Prompt";
 import ModalAPI from "../../../apis/ModalAPI";
 import useInputField from "../../../hooks/useInputField";
 
+import { Styles } from "./Prompt.styles";
+
+
 export default function InputPrompt(props) {
     const inputCaption = props.inputCaption || "";
     const defaultInput = props.defaultInput || "";
@@ -10,18 +13,18 @@ export default function InputPrompt(props) {
 
     const [input, handleInputChange] = useInputField(defaultInput);
 
+
     const createForm = () => {
         return {
             body: (
                 <>
-                    {inputCaption}
-
-                    <br />
-
-                    <input
-                        value={input}
-                        onChange={handleInputChange}
-                    />
+                    <Styles.InputPromptCaptionContainer>{inputCaption}</Styles.InputPromptCaptionContainer>
+                    <Styles.InputPromptInputContainer>
+                        <Styles.InputPromptInput
+                            value={input}
+                            onChange={handleInputChange}
+                        />
+                    </Styles.InputPromptInputContainer>
                 </>
             ),
             controls: [

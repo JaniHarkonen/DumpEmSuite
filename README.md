@@ -378,3 +378,17 @@ in DatabaseController now facilitate this.
 The development for the first version of DumpEm Suite is now coming to a close. The next update will likely be the last one,
 and it is set to contain the final UI, which as of now is horrible. Some bugs will also be ironed out and some small
 features will be added in.
+
+### 26.7.2022
+
+The first release of DumpEm Suite v.1 is finally ready! The development took much longer than anticipated but, overall, I'm
+happy with the features of v.1. Overall, I'm pleased with the architecture of DumpEm Suite, however, there is still room for
+improvement with regards to future updates. For instance, a shift from better-sqlite3 to plain SQLite3 should be considered
+to improve performance. There are still many weird architecture decisions that resulted in messiness and many headaches,
+particularly, in the case of the generic TabBar-component. This component takes in way too many props and makes it impossible
+to implement certain kinds of tab buttons, such as ones that contain multiple divs. Perhaps the greatest issue in the current
+codebase arises from the misuse React keys. As of now, the unique keys are generated using the KeyManager-utility whose
+functions are called to get an unused integer. While this does result in unique keys being generated, new keys are assigned
+each time the parent component re-renders. In its current state, the key handling is not a huge issue, however, there was a
+bug where the SymbolList would lose the state of its scroll wheel upon re-rendering. It is recommended that the KeyManager is
+scrapped in future updates.

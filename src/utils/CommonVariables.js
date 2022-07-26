@@ -23,8 +23,8 @@ export var COLOR_CODES = [];
  * volume filter.
  */
 export const VOLUME_FILTER_COLOR_CODES = {
-    rejected: 1,
-    accepted: 2
+    rejected: 6,
+    accepted: 5
 };
 
 /**

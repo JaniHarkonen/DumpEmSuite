@@ -1,7 +1,9 @@
-import { FullDiv } from "../../common/FullDiv";
 import FileExplorer from "../../components/FileExplorer/FileExplorer";
 import ExternalStorageAPI from "../../apis/ExternalStorageAPI";
+
+import { Styles } from "./Analysis.styles";
 import { COMMON_PATHS } from "../../utils/CommonVariables";
+
 
 export default function Analysis(props) {
     const selectedSymbolID = props.selectedSymbolID;
@@ -9,13 +11,25 @@ export default function Analysis(props) {
     
 
     return (
-        <FullDiv>
+        <Styles.Content>
             {
                 (selectedSymbolID >= 0) ?
-                (<FileExplorer targetDirectory={targetDirectory} />)
+                (
+                    <>
+                        <Styles.CaptionBar
+                            title="External files providing material for the analysis"
+                        >
+                            <Styles.CaptionAligner>Research materials</Styles.CaptionAligner>
+                        </Styles.CaptionBar>
+
+                        <Styles.FileExplorerContainer>
+                            <FileExplorer targetDirectory={targetDirectory} />
+                        </Styles.FileExplorerContainer>
+                    </>
+                )
                 :
                 (<>{"Please, select a symbol..."}</>)
             }
-        </FullDiv>
+        </Styles.Content>
     );
 }

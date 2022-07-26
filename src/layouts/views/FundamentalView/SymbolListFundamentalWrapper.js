@@ -6,11 +6,14 @@ export default function SymbolListFundamentalWrapper(props) {
     const tab = props.tab;
     const enableBring = props.enableBring;
     const onItemClick = props.onItemClick;
+    const selectedSymbol = props.selectedSymbol || null;
 
+    
     return (
         <SymbolList
             enableBring={enableBring}
             disableFilterPanel={false}
+            selectedSymbol={selectedSymbol}
             refresh={() => {
                 return ExternalStorageAPI.getStocksOnTab(tab);
             }}
@@ -25,9 +28,6 @@ export default function SymbolListFundamentalWrapper(props) {
             }}
             onItemClick={(symbol) => {
                 onItemClick(symbol);
-            }}
-            onBackground={() => {
-                onItemClick(null);
             }}
         />
     );

@@ -1,9 +1,11 @@
-import { useState } from "react";
 import View, { makeViewElement } from "../View";
 import SymbolListFundamentalWrapper from "./SymbolListFundamentalWrapper";
 import Analysis from "../../Analysis/Analysis";
 import AnalysisDisplay from "../../AnalysisDisplay/AnalysisDisplay";
 import ExternalStorageAPI from "../../../apis/ExternalStorageAPI";
+
+import { useState } from "react";
+
 
 export default function FundamentalView(props) {
     const tab = props.tab;
@@ -19,7 +21,9 @@ export default function FundamentalView(props) {
                 onItemClick={(symbol) => {
                     setSelectedSymbol(symbol);
                 }}
-            />
+                selectedSymbol={selectedSymbol}
+            />,
+            "symbol-list-fundamental-avoid-rerender"
         ),
         makeViewElement(
             { x: 2, y: 1 },
@@ -49,6 +53,7 @@ export default function FundamentalView(props) {
         )
     ];
 
+    
     return (
         <View
             elements={elements}

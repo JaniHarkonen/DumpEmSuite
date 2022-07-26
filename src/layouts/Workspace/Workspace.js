@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
 import TabBar from "../../components/TabBar/TabBar";
 import FilterView from "../views/FilterView/FilterView";
-import { getKey } from "../../utils/KeyManager";
 import FundamentalView from "../views/FundamentalView/FundamentalView";
-import { Styles } from "./Workspace.styles";
 import MacroView from "../views/MacroView/MacroView";
 
+import { useState, useEffect } from "react";
+import { getKey } from "../../utils/KeyManager";
+import { Styles } from "./Workspace.styles";
+
+
 export default function Workspace(props) {
-    const DEBUG_TABS = [
+    const TABS = [
         { title: "Volume" },
         { title: "Price action" },
         { title: "TA #1" },
@@ -29,7 +31,7 @@ export default function Workspace(props) {
     const renderActiveView = (isFirstTab = false) => {
         let tab = activeTabIndex;
 
-        switch( DEBUG_TABS[tab-1].title )
+        switch( TABS[tab-1].title )
         {
             case "Fundamental":
             {
@@ -42,7 +44,7 @@ export default function Workspace(props) {
 
             case "MACRO":
             {
-                return <MacroView />
+                return <MacroView />;
             }
             
             default:
@@ -56,8 +58,6 @@ export default function Workspace(props) {
                 );
             }
         }
-
-        
     };
 
     return (
@@ -66,16 +66,19 @@ export default function Workspace(props) {
                 <TabBar
                     keyFixes={{ prefix: "workspace-view-tab" }}
                     tabElement={Styles.WSTab}
-                    tabs={DEBUG_TABS}
+                    tabElementContentWrapper={Styles.WSTabContent}
+                    tabs={TABS}
                     activeTabIndex={activeTabIndex - 1}
                     onTabClick={handleTabClick}
                     activeStyle={{
-                        backgroundColor: "#BCBCBC"
+                        backgroundColor: Styles.WSTab_highLightColor
                     }}
                 />
             </Styles.TabBarContainer>
 
-            <Styles.ViewContainer>
+            <Styles.ViewContainer style={(activeTabIndex === 5) ? {
+                maxWidth: "10000px"
+            } : {}}>
                 {renderActiveView(activeTabIndex === 1)}
             </Styles.ViewContainer>
         </Styles.Content>

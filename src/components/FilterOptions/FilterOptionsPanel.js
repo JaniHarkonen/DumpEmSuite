@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import { FullDiv } from "../../common/FullDiv";
+import { useState } from "react";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import GridLayout from "../GridLayout/GridLayout";
 import FilterOptionsPanelControl from "./FilterOptionsPanelControl";
+
+import { Styles } from "./FilterOptionsPanel.styles";
+import { images } from "../../assets/assets";
+
 
 export default function FilterOptionsPanel(props) {
     const enableBring = props.enableBring || false;
@@ -41,55 +44,76 @@ export default function FilterOptionsPanel(props) {
     };
 
     return (
-        <FullDiv>
+        <Styles.Content>
             <GridLayout
                 dimensions={{
                     width: 2,
                     height: 6
                 }}
                 elements={[
-                    makeOptionPanel({ x: 1, y: 1 }, { width: 1, height: 2 },
-                        "Bring:",
+                    makeOptionPanel({ x: 1, y: 2 }, { width: 1, height: 2 },
+                        <Styles.FilterCaptionText
+                            title="Color codes of the stocks to bring"
+                        >
+                            Bring filters:
+                        </Styles.FilterCaptionText>,
                         enableBring
                     ),
-                    makeOptionPanel({ x: 2, y: 1 }, { width: 1, height: 2 },
-                        "Filters:"
+                    makeOptionPanel({ x: 2, y: 2 }, { width: 1, height: 2 },
+                        <Styles.FilterCaptionText
+                            title="Filter stocks based on color code"
+                        >
+                            Display filters:
+                        </Styles.FilterCaptionText>
                     ),
                     makeOptionPanel({ x: 1, y: 3 }, { width: 1, height: 2 },
-                        <ColorPicker
-                            selection={bringFilters}
-                            onPick={setBringFilters}
-                        />,
+                        <Styles.ColorPickerContainer>
+                            <ColorPicker
+                                selection={bringFilters}
+                                onPick={setBringFilters}
+                            />
+                        </Styles.ColorPickerContainer>,
                         enableBring
                     ),
                     makeOptionPanel({ x: 2, y: 3 }, { width: 1, height: 2 },
-                        <ColorPicker
-                            selection={displayFilters}
-                            onPick={handleDisplayFilterSelection}
-                        />
+                        <Styles.ColorPickerContainer>
+                            <ColorPicker
+                                selection={displayFilters}
+                                onPick={handleDisplayFilterSelection}
+                            />
+                        </Styles.ColorPickerContainer>
                     ),
                     makeOptionPanel({ x: 1, y: 5 }, { width: 1, height: 1 },
                         <FilterOptionsPanelControl
-                            caption="BRING"
+                            caption="Bring"
                             onClick={handleBringClick}
+                            icon={images.import.white}
+                            tooltip="Bring stocks from previous tab/external source"
                         />,
                         enableBring
                     ),
                     makeOptionPanel({ x: 1, y: 6 }, { width: 1, height: 1 },
                         <FilterOptionsPanelControl
-                            caption="CLEAR"
+                            caption="Clear"
                             onClick={handleClearClick}
+                            icon={images.brush.black}
+                            tooltip="Remove all stocks from the view"
                         />,
                         enableClear
                     ),
                     makeOptionPanel({ x: 2, y: 5 }, { width: 1, height: 2 },
-                        <React.Fragment>
-                            Displayed: {stocksDisplayed} <br />
-                            Total: {stocksCount}
-                        </React.Fragment>
+                        <Styles.RightShiftedContainer>
+                            <Styles.InfoPanel
+                                title="Number of stocks displayed vs. total number"
+                            >
+                                Displayed: {stocksDisplayed} <br />
+                                Total: {stocksCount}
+                            </Styles.InfoPanel>
+                        </Styles.RightShiftedContainer>
                     ),
                 ]}
             />
-        </FullDiv>
+        </Styles.Content>
     );
 }
+

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { FullDiv } from "../../common/FullDiv";
 import { getKey } from "../../utils/KeyManager";
 
+
 export default function GridLayout(props) {
     const dimensions = props.dimensions;
     const elements = props.elements;
@@ -13,7 +14,7 @@ export default function GridLayout(props) {
         return content.map((element) => {
             return (
                 <FullDiv
-                    key={"grid-layout-element-" + getKey()}
+                    key={element.customKey || "grid-layout-element-" + getKey()}
                     style={{
                         gridColumn: element.position.x + " / " + (element.position.x + element.dimensions.width),
                         gridRow: element.position.y + " / " + (element.position.y + element.dimensions.height)

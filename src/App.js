@@ -8,6 +8,7 @@ import TabBar, { extractTabsFromArray } from "./components/TabBar/TabBar";
 import { Styles } from "./App.styles";
 import { useLayoutEffect, useState } from "react";
 import { setColorCodes } from "./utils/CommonVariables";
+import { images } from "./assets/assets";
 
 
 export default function App(props) {
@@ -16,14 +17,12 @@ export default function App(props) {
 
     const [activeWorkspaceIndex, setActiveWorkspace] = useState(null);
     const [openWorkspaces, setOpenWorkspaces] = useState(defaultOpenWorkspaces);
+    const [forceRerender, setForceRerender] = useState(0);
 
 
     useLayoutEffect(() => {
         if( defaultOpenWorkspaces[startupActiveWorkspaceID] != null )
-        {
-            switchWorkspace(startupActiveWorkspaceID);
-            setColorCodes(ExternalStorageAPI.getColorCodes());
-        }
+        switchWorkspace(startupActiveWorkspaceID);
     }, []);
 
     const openWorkspace = (workspaceIndex) => {
@@ -35,6 +34,7 @@ export default function App(props) {
         Config.switchWorkspace(index);
         openWorkspace(index);
         setActiveWorkspace(index);
+        setColorCodes(ExternalStorageAPI.getColorCodes());
     };
 
     const updateWorkspacesBasedOnConfigChanges = (changes) => {
@@ -43,6 +43,8 @@ export default function App(props) {
         openWorkspace(changes.activeWorkspaceID);
         setActiveWorkspace(changes.activeWorkspaceID);
         setOpenWorkspaces(changes.workspaces);
+        setForceRerender(forceRerender + 1);
+        setColorCodes(ExternalStorageAPI.getColorCodes());
     };
 
     const handleCloseWorkSpace = (index) => {
@@ -64,13 +66,13 @@ export default function App(props) {
                         <TabBar
                             keyFixes={{ prefix: "workspace-tab" }}
                             tabElement={Styles.Tab}
+                            tabElementContentWrapper={Styles.TabContentWrapper}
                             tabs={extractTabsFromArray(openWorkspaces, { titleAs: "name" })}
                             activeTabIndex={activeWorkspaceIndex}
                             onTabClick={switchWorkspace}
-                            activeStyle={{
-                                backgroundColor: "lightgreen"
-                            }}
+                            activeStyle={Styles.Tab_highlightStyle}
                             closeButton={Styles.TabCloseButton}
+                            closeButtonIcon={images.close.square.white}
                             allowCloseByDefault={true}
                             onClose={handleCloseWorkSpace}
                         />

@@ -1,5 +1,7 @@
-import { Component } from "react";
 import ModalAPI from "../../apis/ModalAPI";
+
+import { Component } from "react";
+
 
 export default class Modal extends Component {
     constructor(props) {

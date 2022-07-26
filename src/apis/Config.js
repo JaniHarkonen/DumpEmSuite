@@ -1,7 +1,9 @@
 import { COMMON_PATHS } from "../utils/CommonVariables";
 import { readJson, writeJson } from "../utils/FileUtils";
+
 const fs = window.require("fs");
 const pathModule = window.require("path");
+
 
 export default class Config {
     static config;
@@ -153,8 +155,8 @@ export default class Config {
 
             // Switch tabs if the active tab is the closed tab or
             // to the right of it
-        if( workspaceID >= this.config.activeWorkspaceID )
-        this.config.activeWorkspaceID = workspaceID - 1;
+        if( workspaceID <= this.config.activeWorkspaceID )
+        this.config.activeWorkspaceID = Math.max(0, this.config.activeWorkspaceID - 1);
 
         this.updateConfig();
 

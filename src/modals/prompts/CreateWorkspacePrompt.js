@@ -1,5 +1,6 @@
 import InputPrompt from "./generic/InputPrompt";
 
+
 export default function CreateWorkspacePrompt(props) {
     return (
         <InputPrompt

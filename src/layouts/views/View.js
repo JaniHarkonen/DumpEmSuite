@@ -20,11 +20,12 @@ import GridLayout from "../../components/GridLayout/GridLayout";
  * @returns A JSON structured like a GridLayout component with the
  * characteristics of a View component.
  */
-export const makeViewElement = (position, dimensions, element) => {
+export const makeViewElement = (position, dimensions, element, customKey = null) => {
     return {
         position: position,
         dimensions: dimensions,
-        element: element
+        element: element,
+        customKey: customKey
     };
 };
 

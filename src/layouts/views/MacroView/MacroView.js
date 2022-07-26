@@ -1,6 +1,8 @@
 import Note from "../../../components/Note/Note";
 import ExternalStorageAPI from "../../../apis/ExternalStorageAPI";
+
 import { Styles } from "./MacroView.styles";
+
 
 export default function FilterView() {
 

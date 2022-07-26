@@ -1,10 +1,10 @@
-import { useState, useLayoutEffect } from "react";
 import SymbolListItem from "./SymbolListItem";
-import { getKey } from "../../utils/KeyManager";
 import FilterOptionsPanel from "../FilterOptions/FilterOptionsPanel";
 import ModalAPI from "../../apis/ModalAPI";
 import ClearTabPrompt from "../../modals/prompts/ClearTabPrompt";
 import BringStocksPrompt from "../../modals/prompts/BringStocksPrompt";
+
+import { useState, useLayoutEffect } from "react";
 import { Styles } from "./SymbolList.styles";
 
 
@@ -17,6 +17,7 @@ export default function SymbolList(props) {
     const onItemClick = actions.onItemClick;
     const onColorCodeChange = actions.onColorCodeChange;
     const onBackground = actions.onBackground || function() {};
+    const selectedSymbol = props.selectedSymbol;
 
     const [displayFilters, setDisplayFilters] = useState([]);
     const [tabStocks, setTabStocks] = useState([]);
@@ -69,13 +70,14 @@ export default function SymbolList(props) {
     const renderSymbols = (stocks, filters) => {
         if( !stocks ) return <></>;
 
-        return filterStocks(stocks, filters).map((stock) => {
+        return filterStocks(stocks, filters).map((stock, ind) => {
             return (
-                <Styles.SymbolContainer key={"symbol-list-symbol-" + getKey()}>
+                <Styles.SymbolContainer key={"symbol-list-symbol-" + ind}>
                     <SymbolListItem
                         stock={stock}
                         onColorCodeChange={onColorCodeChange}
                         onItemClick={onItemClick}
+                        isSelected={selectedSymbol ? stock.id === selectedSymbol.id : false}
                     />
                 </Styles.SymbolContainer>
             );

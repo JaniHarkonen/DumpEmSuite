@@ -1,15 +1,20 @@
 import styled from "styled-components";
+import { UIstyle } from "../../assets/assets";
 
 const Content = styled.div`
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 100%;
+    width: calc(100% - ${UIstyle.majorBorder.width});
     height: 100%;
 
     display: flex;
     justify-content: center;
-    background-color: yellow;
+    background-color: ${UIstyle.colorScheme.background};
+
+    border-right-style: ${UIstyle.majorBorder.style};
+    border-right-width: ${UIstyle.majorBorder.width};
+    border-right-color: ${UIstyle.majorBorder.color};
 `;
 
 const OptionContainer = styled.div`
@@ -20,13 +25,33 @@ const OptionContainer = styled.div`
 
 const OptionPanelContainer = styled.div`
     position: relative;
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     aspect-ratio: 1/1;
     margin-bottom: 1em;
 `;
 
+const ImageButtonContainer = styled.div`
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 80%;
+    height: 80%;
+
+    &:hover {
+        cursor: pointer;
+        width: 90%;
+        height: 90%;
+    }
+`;
+
 export const Styles = {
-    Content: Content,
-    OptionContainer: OptionContainer,
-    OptionPanelContainer: OptionPanelContainer
+    Content,
+    OptionContainer,
+    OptionPanelContainer,
+    ImageButtonContainer
 };

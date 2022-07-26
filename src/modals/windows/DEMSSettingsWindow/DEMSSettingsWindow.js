@@ -1,11 +1,14 @@
-import { useLayoutEffect } from "react";
 import Window from "../Window";
-import useInputField from "../../../hooks/useInputField";
 import PathPicker from "../../../components/PathPicker/PathPicker";
-import { Styles } from "./DEMSSettingsWindow.styles";
 import Config from "../../../apis/Config";
 
-export default function DEMSSettingsWindow(props) {
+import useInputField from "../../../hooks/useInputField";
+import { useLayoutEffect } from "react";
+import { Styles } from "./DEMSSettingsWindow.styles";
+import { Styles as PromptStyles } from "../../prompts/generic/Prompt.styles";
+
+
+export default function DEMSSettingsWindow() {
     const [technicalTemplate, handleTechnicalTemplate] = useInputField("");
     const [fundamentalTemplate, handleFundamentalTemplate] = useInputField("");
     const [consensusTemplate, handleConsensusTemplate] = useInputField("");
@@ -28,6 +31,10 @@ export default function DEMSSettingsWindow(props) {
     return (
         <Window
             title="DumpEm Suite settings"
+            dimensions={{
+                width: "400px",
+                height: "400px"
+            }}
         >
             <Styles.BodyWrapper>
                 <Styles.FilePickerContainer>
@@ -60,11 +67,13 @@ export default function DEMSSettingsWindow(props) {
                 </Styles.FilePickerContainer>
                 <br/>
                 <br/>
-                <Styles.SaveButton
-                    onClick={handleSaveChanges}
-                >
-                    Save
-                </Styles.SaveButton>
+                <Styles.SaveButtonContainer>
+                    <PromptStyles.ControlButton
+                        onClick={handleSaveChanges}
+                    >
+                        Save
+                    </PromptStyles.ControlButton>
+                </Styles.SaveButtonContainer>
             </Styles.BodyWrapper>
         </Window>
     );

@@ -1,21 +1,46 @@
 import styled from "styled-components";
+import { UIstyle } from "../../assets/assets";
 
 const Content = styled.div`
-    position: relative;
-    width: 128px;
-    height: 32px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
 
     border-style: solid;
     border-width: 1px;
-    border-radius: 8px;
+    border-radius: 0px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: ${UIstyle.colorScheme.backgroundDistant}
+    }
 `;
 
 const LoadFileIconPanel = styled.div`
     position: relative;
-    width: 25%;
     height: 100%;
+    aspect-ratio: 1 / 1;
 
     display: inline-block;
+`;
+
+const LoadIconContainer = styled.div`
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+const LoadIconAligner = styled.div`
+    position: relative;
+    height: 80%;
+    aspect-ratio: 1 / 1;
 `;
 
 const LoadFileCaptionPanel = styled.div`
@@ -32,9 +57,10 @@ const LoadFileButtonCaptionContainer = styled.div`
     width: 100%;
     height: 100%;
 
+    padding-left: 5px;
+
     display: flex;
     align-items: center;
-    justify-content: center;
 `;
 
 const LoadFileInput = styled.div`
@@ -43,13 +69,14 @@ const LoadFileInput = styled.div`
     top: 0px;
     width: 100%;
     height: 100%;
-    //opacity: 0.0;
 `;
 
 export const Styles = {
-    Content: Content,
-    LoadFileIconPanel: LoadFileIconPanel,
-    LoadFileCaptionPanel: LoadFileCaptionPanel,
-    LoadFileButtonCaptionContainer: LoadFileButtonCaptionContainer,
-    LoadFileInput: LoadFileInput
+    Content,
+    LoadFileIconPanel,
+    LoadIconContainer,
+    LoadIconAligner,
+    LoadFileCaptionPanel,
+    LoadFileButtonCaptionContainer,
+    LoadFileInput
 };

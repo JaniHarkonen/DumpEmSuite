@@ -7,6 +7,7 @@ export default function SymbolListExternalWrapper(props) {
     const enableBring = props.enableBring;
     const customBring = props.customBring;
 
+    
     return (
         <SymbolList
             enableBring={enableBring}

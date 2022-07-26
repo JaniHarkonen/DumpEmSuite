@@ -1,4 +1,5 @@
 import { FullDiv } from "../../common/FullDiv";
+import { FullImage } from "../../common/FullImage";
 import { getKey } from "../../utils/KeyManager";
 
 /**
@@ -34,14 +35,17 @@ export const extractTabsFromArray = (array, fieldTranslations) => {
     });
 };
 
+
 export default function ViewTabBar(props) {
     const keyFixes = props.keyFixes;
     const TabElement = props.tabElement;
+    const TabElementContentWrapper = props.tabElementContentWrapper;
     const tabs = props.tabs;
     const activeTabIndex = props.activeTabIndex;
     const onTabClick = props.onTabClick;
     const activeStyle = props.activeStyle;
     const CloseButton = props.closeButton;
+    const closeButtonIcon = props.closeButtonIcon;
     const onClose = props.onClose || function() { };
     const allowCloseByDefault = props.allowCloseByDefault || false;
 
@@ -68,14 +72,22 @@ export default function ViewTabBar(props) {
             return (
                 <TabElement
                     key={key}
-
                     onClick={() => {
                         handleTabClick(index);
                     }}
 
                     style={isActive ? activeStyle : {}}
+                    title={tab.title}
                 >
-                    {tab.title}
+
+                    {
+                        TabElementContentWrapper ?
+                        <TabElementContentWrapper>
+                            {tab.title}
+                        </TabElementContentWrapper>
+                        :
+                        tab.title
+                    }
 
                     {
                         allowClose &&
@@ -84,7 +96,9 @@ export default function ViewTabBar(props) {
                                 e.stopPropagation();
                                 onClose(index);
                             }}
-                        />)
+                        >
+                            {closeButtonIcon && <FullImage src={closeButtonIcon} />}
+                        </CloseButton>)
                     }
                 </TabElement>
             );

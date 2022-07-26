@@ -8,7 +8,7 @@ require("@electron/remote/main").initialize();
 
 function createWindow() {
     const startUrl = isDev ? "http://localhost:3000" : process.env.ELECTRON_START_URL || url.format({
-        pathname: path.join(__dirname, './public/index.html'),  // EDIT OUT THE /public/ PART TO AVOID DUPLICATE DIRECTORY
+        pathname: path.join(__dirname, './public/index.html'),  // EDIT OUT THE /public/ PART TO AVOID DUPLICATE DIRECTORY, original: path.join(__dirname, './public/index.html')
         protocol: 'file:',
         slashes: true,
       });
@@ -17,7 +17,7 @@ function createWindow() {
         width: 1280,
         height: 720,
         resizable: true,
-        //icon: path.join(__dirname, "./logo_dumpem.png"),
+        icon: path.join(__dirname, "./logo_des.png"),
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,

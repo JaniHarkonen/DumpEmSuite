@@ -1,3 +1,5 @@
+import { useContext } from "react";
+
 import ImageButton from "../../components/ImageButton/ImageButton";
 import ModalAPI from "../../apis/ModalAPI";
 import DialogAPI from "../../apis/DialogAPI";
@@ -7,12 +9,14 @@ import DEMSSettingsWindow from "../../modals/windows/DEMSSettingsWindow/DEMSSett
 
 import { images } from "../../assets/assets";
 import { getKey } from "../../utils/KeyManager";
-import { Styles } from "./SideBar.styles";
+import SideBarStyles from "./SideBar.styles";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 
 export default function SideBar(props) {
     const updateWorkspaces = props.updateWorkspaces;
-
+    const { theme } = useContext(ThemeContext);
+    const Styles = SideBarStyles[theme];
     
     const makeOption = (tooltip, image, onClick) => {
         return {

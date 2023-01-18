@@ -5,7 +5,9 @@ import ClearTabPrompt from "../../modals/prompts/ClearTabPrompt";
 import BringStocksPrompt from "../../modals/prompts/BringStocksPrompt";
 
 import { useState, useLayoutEffect } from "react";
-import { Styles } from "./SymbolList.styles";
+import { useContext } from "react";
+import SymbolListStyles from "./SymbolList.styles";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 
 export default function SymbolList(props) {
@@ -21,7 +23,9 @@ export default function SymbolList(props) {
 
     const [displayFilters, setDisplayFilters] = useState([]);
     const [tabStocks, setTabStocks] = useState([]);
-
+    const { theme } = useContext(ThemeContext);
+    
+    const Styles = SymbolListStyles[theme];
 
     useLayoutEffect(() => {
         refresh();
@@ -70,9 +74,9 @@ export default function SymbolList(props) {
     const renderSymbols = (stocks, filters) => {
         if( !stocks ) return <></>;
 
-        return filterStocks(stocks, filters).map((stock, ind) => {
+        return filterStocks(stocks, filters).map((stock) => {
             return (
-                <Styles.SymbolContainer key={"symbol-list-symbol-" + ind}>
+                <Styles.SymbolContainer key={"symbol-list-symbol-" + stock.id}>
                     <SymbolListItem
                         stock={stock}
                         onColorCodeChange={onColorCodeChange}

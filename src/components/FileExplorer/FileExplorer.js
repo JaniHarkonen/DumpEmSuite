@@ -5,7 +5,9 @@ import OpenExplorerButton from "../OpenExplorerButton/OpenExplorerButton";
 import { useState, useLayoutEffect } from "react";
 import { FullDiv } from "../../common/FullDiv";
 import { getKey } from "../../utils/KeyManager";
-import { Styles } from "./FileExplorer.styles";
+import FileExplorerStyles from "./FileExplorer.styles";
+import { useContext } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 const { exec } = window.require("child_process");
 const fs = window.require("fs");
@@ -16,6 +18,9 @@ export default function FileExplorer(props) {
     const targetDirectory = props.targetDirectory;
 
     const [displayedFiles, setDisplayedFiles] = useState(null);
+    const { theme } = useContext(ThemeContext);
+
+    const Styles = FileExplorerStyles[theme];
 
 
     useLayoutEffect(() => {

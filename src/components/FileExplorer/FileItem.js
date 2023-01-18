@@ -47,6 +47,7 @@ export default function FileItem(props) {
             onClick={() => { handleFileClick(targetFile); }}
             onMouseEnter={() => { setDisplayRemoveButton(true); }}
             onMouseLeave={() => { setDisplayRemoveButton(false); }}
+            title={targetFile}
         >
             <Styles.IconPanel>
                 <Styles.IconContainer><FullImage src={determineIconImage(targetFile)} /></Styles.IconContainer>

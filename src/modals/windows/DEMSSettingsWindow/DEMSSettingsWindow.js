@@ -1,5 +1,6 @@
 import Window from "../Window";
 import PathPicker from "../../../components/PathPicker/PathPicker";
+import ThemePicker from "../../../components/ThemePicker/ThemePicker";
 import Config from "../../../apis/Config";
 
 import useInputField from "../../../hooks/useInputField";
@@ -17,6 +18,7 @@ export default function DEMSSettingsWindow() {
 
     useLayoutEffect(() => {
         const templates = Config.getAnalysisPaths();
+
         handleTechnicalTemplate(templates.technical);
         handleFundamentalTemplate(templates.fundamental);
         handleConsensusTemplate(templates.consensus);
@@ -64,6 +66,9 @@ export default function DEMSSettingsWindow() {
                         path={scraper}
                         onChange={handleScraperChange}
                     />
+                </Styles.FilePickerContainer>
+                <Styles.FilePickerContainer>
+                    <ThemePicker />
                 </Styles.FilePickerContainer>
                 <br/>
                 <br/>

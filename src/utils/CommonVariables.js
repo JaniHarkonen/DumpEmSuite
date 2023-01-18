@@ -80,3 +80,25 @@ export const getColorCode = (ind) => {
         // Return an rgba-color string
     return `rgba(${r}, ${g}, ${int}, ${alpha})`;
 };
+
+/**
+ * Capitalizes the first character of a given string and returns the result or
+ * NULL if no string was passed.
+ * @param {String} string The string whose first character to capitalize.
+ * 
+ * @returns The string with the first character capitalized.
+ */
+export const capitalizeFirstLetter = (string) => {
+    if( !string )
+    return null;
+
+    if( string.length === 0 )
+    return "";
+
+    let firstChar = string[0].toUpperCase();
+
+    if( string.length < 2 )
+    return firstChar;
+
+    return firstChar + string.substring(1);
+};

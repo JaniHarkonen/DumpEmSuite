@@ -1,9 +1,11 @@
-import { useState } from "react";
+//import { useState } from "react";
+import { useContext, useState } from "react";
 import ColorPicker from "../ColorPicker/ColorPicker";
 import GridLayout from "../GridLayout/GridLayout";
 import FilterOptionsPanelControl from "./FilterOptionsPanelControl";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
-import { Styles } from "./FilterOptionsPanel.styles";
+import FilterOptionsPanelStyles from "./FilterOptionsPanel.styles";
 import { images } from "../../assets/assets";
 
 
@@ -15,6 +17,9 @@ export default function FilterOptionsPanel(props) {
     const onBring = props.onBring;
     const onClear = props.onClear;
     const onDisplayFilterChange = props.onDisplayFilterChange;
+
+    const { theme } = useContext(ThemeContext);
+    const Styles = FilterOptionsPanelStyles[theme];
 
     const [bringFilters, setBringFilters] = useState([]);
     const [displayFilters, setDisplayFilters] = useState([]);

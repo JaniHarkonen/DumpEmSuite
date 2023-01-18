@@ -4,7 +4,9 @@ import TabBar from "../../components/TabBar/TabBar";
 import useStateRef from "react-usestateref";
 
 import { useState, useLayoutEffect } from "react";
-import { Styles } from "./AnalysisDisplay.styles";
+import AnalysisDisplayStyles from "./AnalysisDisplay.styles";
+import { useContext } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 
 export default function AnalysisDisplay(props) {
@@ -34,6 +36,9 @@ export default function AnalysisDisplay(props) {
 
     const [ analysisText, setAnalysisText ] = useState(null);
     const [ openAnalysis, setOpenAnalysis, openAnalysisREF ] = useStateRef("");
+
+    const { theme } = useContext(ThemeContext);
+    const Styles = AnalysisDisplayStyles[theme];
 
 
     useLayoutEffect(() => {
@@ -73,7 +78,7 @@ export default function AnalysisDisplay(props) {
                         tabElementContentWrapper={Styles.TabButtonContentAligner}
                         tabs={analyses}
                         activeTabIndex={openAnalysis.index}
-                        activeStyle={{ backgroundColor: "#FFF9E8" }}
+                        activeStyle={{ backgroundColor: Styles.TabBarColor.active }}
                         onTabClick={handleAnalysisTabChange}
                     />
                 </Styles.TopBarContainer>

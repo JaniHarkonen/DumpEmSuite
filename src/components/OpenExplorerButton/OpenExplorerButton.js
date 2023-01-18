@@ -1,12 +1,17 @@
-import { Styles } from "../FileLoadButton/FileLoadButton.styles";
+import ButtonStyles from "../FileLoadButton/FileLoadButton.styles";
 import { FullImage } from "../../common/FullImage";
 import { images } from "../../assets/assets";
+import { useContext } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 const { exec } = window.require("child_process");
 
 
 export default function OpenExplorerButton(props) {
     const openPath = props.path;
+
+    const { theme } = useContext(ThemeContext);
+    const Styles = ButtonStyles[theme];
     
 
     const handleExplorerOpen = (path) => {

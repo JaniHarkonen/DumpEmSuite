@@ -3,9 +3,11 @@ import useStateRef from "react-usestateref";
 import { useRef } from "react";
 import { useLayoutEffect } from "react";
 import { FullDiv } from "../../common/FullDiv";
-import { Styles } from "./Note.styles";
+import NoteStyles from "./Note.styles";
 
 import "fixedsys-css/css/fixedsys.css";
+import { useContext } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 
 export default function Note(props) {
@@ -17,6 +19,9 @@ export default function Note(props) {
     const [text, setText, textRef] = useStateRef(content);
     const [cursorPosition, setCursorPosition, cursorPositionREF] = useStateRef(-1);
     const [contentHasChanged, setContentHasChanged, contentHasChangedRef] = useStateRef(false);
+
+    const { theme } = useContext(ThemeContext);
+    const Styles = NoteStyles[theme];
 
 
         // Update the text content and reset color upon switching tabs
@@ -84,7 +89,7 @@ export default function Note(props) {
                 style={{
                     fontFamily: "Courier New",
                     fontSize: "14px",
-                    backgroundColor: (contentHasChanged) ? "#FFF980" : "#FFF9E8",
+                    backgroundColor: (contentHasChanged) ? Styles.NoteInputColors.unsaved : Styles.NoteInputColors.default,
                     tabSize: tabSize
                 }}
                 value={text || ""}

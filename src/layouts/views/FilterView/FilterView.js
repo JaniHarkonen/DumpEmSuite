@@ -3,9 +3,11 @@ import ExternalStorageAPI from "../../../apis/ExternalStorageAPI";
 import scrape from "../../../scraper/scrape";
 import View, { makeViewElement } from "../View";
 import SymbolListExternalWrapper from "./SymbolListExternalWrapper";
+import AdvancedRealTimeChart from "../../../components/AdvancedRealTimeChart/AdvancedRealTimeChart";
 import useStateRef from "react-usestateref";
 
 import { VOLUME_FILTER_COLOR_CODES } from "../../../utils/CommonVariables";
+import { useState } from "react";
 
 const fs = window.require("fs");
 
@@ -15,6 +17,7 @@ export default function FilterView(props) {
     const isFirstTab = props.isFirstTab;
 
     const [stocksChanged, setStocksChanged, stocksChangedREF] = useStateRef(1);
+    const [selectedSymbol, setSelectedSymbol] = useState(null);
 
     /**
      * Scrapes Kauppalehti's stock section from its HTML-string
@@ -79,9 +82,24 @@ export default function FilterView(props) {
                 tab={tab}
                 enableBring={true}
                 customBring={isFirstTab ? scrapeFromWebsite : null}
+                onItemClick={(symbol) => {
+                    setSelectedSymbol(symbol);
+                }}
+                selectedSymbol={selectedSymbol}
             />
         )
     ];
+
+    if( selectedSymbol )
+    {
+        elements.push(makeViewElement(
+            { x: 2, y: 1 },
+            { width: 1, height: 2 },
+            <AdvancedRealTimeChart
+                symbol={"OMXHEX:" + selectedSymbol.ticker}
+            />
+        ));
+    }
 
     return (
         <View elements={elements} />

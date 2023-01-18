@@ -5,10 +5,10 @@ import App from './App';
 import DatabaseController from "./database/DatabaseController";
 import ExternalStorageAPI from "./apis/ExternalStorageAPI";
 import Config from './apis/Config';
-
+import { COMMON_PATHS } from './utils/CommonVariables';
 
     // Load configuration
-Config.loadConfig("D:\\javascript\\DumpEmSuite\\project\\dump-em-suite\\config\\config.json");
+Config.loadConfig(process.cwd() + COMMON_PATHS.folders.config + "\\config.json");
 const workspaces = Config.getOpenWorkspaces();
 
     // Set up the ExternalStorageAPI interface along with a database connection

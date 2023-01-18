@@ -3,9 +3,11 @@ import FilterView from "../views/FilterView/FilterView";
 import FundamentalView from "../views/FundamentalView/FundamentalView";
 import MacroView from "../views/MacroView/MacroView";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { getKey } from "../../utils/KeyManager";
-import { Styles } from "./Workspace.styles";
+import WorkspaceStyles from "./Workspace.styles";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import Config from "../../apis/Config";
 
 
 export default function Workspace(props) {
@@ -18,13 +20,17 @@ export default function Workspace(props) {
     ];
 
     const [activeTabIndex, openTab] = useState(1);
+    
+    const { theme } = useContext(ThemeContext);
+    const Styles = WorkspaceStyles[theme];
 
 
     useEffect(() => {
-        openTab(1);
+        openTab(Config.getOpenWorkspaceTab());
     }, [props.activeWorkspace]);
 
     const handleTabClick = (tab) => {
+        Config.changeWorkspaceTab(tab + 1);
         openTab(tab + 1);
     };
 

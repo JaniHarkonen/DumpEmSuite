@@ -1,14 +1,19 @@
 import DialogAPI from "../../apis/DialogAPI";
 
-import { Styles } from "./FileLoadButton.styles";
+import ButtonStyles from "./FileLoadButton.styles";
 import { FullImage } from "../../common/FullImage";
 import { images } from "../../assets/assets";
+import { useContext } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 
 export default function FileLoadButton(props) {
     const caption = props.caption;
     const onFileLoad = props.onFileLoad;
     const dialogSettings = props.dialogSettings;
+
+    const { theme } = useContext(ThemeContext);
+    const Styles = ButtonStyles[theme];
 
 
     const handleFileSelection = (e) => {

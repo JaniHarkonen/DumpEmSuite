@@ -7,8 +7,8 @@ const url = require("url");
 require("@electron/remote/main").initialize();
 
 function createWindow() {
-    const startUrl = isDev ? "http://localhost:3000" : process.env.ELECTRON_START_URL || url.format({
-        pathname: path.join(__dirname, './public/index.html'),  // EDIT OUT THE /public/ PART TO AVOID DUPLICATE DIRECTORY, original: path.join(__dirname, './public/index.html')
+    const startUrl = /*isDev ? "http://localhost:3000" :*/ process.env.ELECTRON_START_URL || url.format({
+        pathname: path.join(__dirname, './index.html'),  // EDIT OUT THE /public/ PART TO AVOID DUPLICATE DIRECTORY, original: path.join(__dirname, './public/index.html')
         protocol: 'file:',
         slashes: true,
       });
@@ -25,7 +25,7 @@ function createWindow() {
         }
     });
 
-    //win.removeMenu();
+    win.removeMenu();
     win.loadURL(startUrl);
 }
 

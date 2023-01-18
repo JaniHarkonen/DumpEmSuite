@@ -1,18 +1,9 @@
-import styled from "styled-components";
+import { themes } from "../../contexts/ThemeContext";
+import { dark } from "./themes/NoteStyles.dark";
+import { light } from "./themes/NoteStyles.light";
 
-const NoteInput = styled.textarea`
-    position: relative;
-    left: 0px;
-    top: 0px;
-    width: calc(100% - 6px);
-    height: calc(100% - 6px);
-    border: none;
-    outline: none;
-    resize: none;
+const NoteStyles = { };
+NoteStyles[themes.LIGHT] = light;
+NoteStyles[themes.DARK] = dark;
 
-    border-radius: 8px;
-`;
-
-export const Styles = {
-    NoteInput: NoteInput
-};
+export default NoteStyles;

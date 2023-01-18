@@ -2,8 +2,6 @@ export default class ModalAPI {
     static modal = null;
 
     static initialize(modal) {
-        if( ModalAPI.modal != null ) return;
-
         ModalAPI.modal = modal;
     }
 

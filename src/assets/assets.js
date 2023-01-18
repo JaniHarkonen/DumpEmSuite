@@ -72,10 +72,23 @@ export const UIstyle = {
     majorBorder: {
         style: "solid",
         width: "2px",
-        color: "#C1C1C1" /*#C1C1C1*/
+        light: {
+            color: "#C1C1C1"
+        },
+        dark: {
+            color: "#F7F7F7"
+        }
     },
     colorScheme: {
-        background: "white",
-        backgroundDistant: "#E5E5E5" /*#E5E5E5*/
+        light: {
+            background: "white",
+            backgroundDistant: "#E5E5E5",
+            distinct: "#F7F7F7"
+        },
+        dark: {
+            background: "#808080",
+            backgroundDistant: "#404040",
+            distinct: "#ADADAD"
+        }
     }
 };

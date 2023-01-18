@@ -1,4 +1,7 @@
-import { Styles } from "./FilterOptionsPanelControl.styles";
+import { useContext } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext";
+
+import FilterOptionsPanelControlStyles from "./FilterOptionsPanelControl.styles";
 import { FullImage } from "../../common/FullImage";
 
 
@@ -8,6 +11,8 @@ export default function FilterOptionsPanelControl(props) {
     const iconImage = props.icon;
     const tooltip = props.tooltip;
 
+    const { theme } = useContext(ThemeContext);
+    const Styles = FilterOptionsPanelControlStyles[theme];
     
     return (
         <Styles.Content

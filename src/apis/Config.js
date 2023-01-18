@@ -1,3 +1,4 @@
+import { themes } from "../contexts/ThemeContext";
 import { COMMON_PATHS } from "../utils/CommonVariables";
 import { readJson, writeJson } from "../utils/FileUtils";
 
@@ -179,6 +180,47 @@ export default class Config {
 
         this.config.templates[templateIdentifier].content = fs.readFileSync(templatePath, "utf8").toString();
         this.config.templates[templateIdentifier].filepath = templatePath;
+        this.updateConfig();
+    }
+
+    static changeWorkspaceTab(tabid) {
+        if( !tabid ) return;
+
+        this.config.openWorkspaces[this.config.activeWorkspaceID].openTab = tabid;
+        this.updateConfig();
+    }
+
+    static getOpenWorkspaceTab() {
+        let tabid = 1;
+
+        if( !this.isConfigValid() ) return tabid;
+
+        tabid = this.config.openWorkspaces[this.config.activeWorkspaceID].openTab;
+        
+        if( !tabid )
+        tabid = 1;
+
+        return tabid;
+    }
+
+    static getTheme() {
+        let theme = themes.LIGHT;
+
+        if( !this.isConfigValid() ) return theme;
+
+        theme = this.config.activeTheme;
+
+        if( !theme )
+        theme = themes.LIGHT;
+
+        return this.config.activeTheme;
+    }
+
+    static changeTheme(theme) {
+        if( !this.isConfigValid() ) return;
+        if( !theme ) return;
+
+        this.config.activeTheme = theme;
         this.updateConfig();
     }
 }

@@ -30,6 +30,7 @@ export default function FundamentalView(props) {
             { width: 1, height: 1 },
             <Analysis
                 selectedSymbolID={selectedSymbol?.id || -1}
+                selectedSymbolTicker={"OMXHEX:" + selectedSymbol?.ticker}
             />
         ),
         makeViewElement(

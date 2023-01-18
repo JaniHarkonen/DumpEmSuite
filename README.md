@@ -9,6 +9,22 @@ scratch and create a standalone investment suite based on the workspace. This wa
 resctrictions and inefficiencies imposed by DumpEm and the development of the suite can be separated from the development
 of DumpEm.
 
+## Updates
+
+### 18.1.2023
+Version 1.1.0 introduces themes (light and dark so far), Advanced Real Time Chart for stocks provided by TradingView and
+some bugfixes including a major one.
+
+Changes:
+- themes can now be applied in settings (light and dark)
+- TradingView's Advanced Real Time Chart widget has been added to all views (aside from MACRO) coupled with MACD, RSI and 
+three MA indicators
+- `config.json` now stores the active tab making switching between workspaces easier
+- bugfixes
+	-- **MAJOR**: v.1.0.0 didn't use a relative directory path for `config.json` effectively preventing DumpEm Suite from 
+    functioning on any computer; now `process.cwd` is used to determine the directory
+	-- MINOR: filtering stocks worked, however, didn't update the colors of the listings; the colors of listings now update
+
 ## Change log
 
 ### 4.4.2020

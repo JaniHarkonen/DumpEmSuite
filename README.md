@@ -20,10 +20,10 @@ Changes:
 - TradingView's Advanced Real Time Chart widget has been added to all views (aside from MACRO) coupled with MACD, RSI and 
 three MA indicators
 - `config.json` now stores the active tab making switching between workspaces easier
-- bugfixes
-	-- **MAJOR**: v.1.0.0 didn't use a relative directory path for `config.json` effectively preventing DumpEm Suite from 
+* bugfixes
+    * **MAJOR**: v.1.0.0 didn't use a relative directory path for `config.json` effectively preventing DumpEm Suite from 
     functioning on any computer; now `process.cwd` is used to determine the directory
-	-- MINOR: filtering stocks worked, however, didn't update the colors of the listings; the colors of listings now update
+    * MINOR: filtering stocks worked, however, didn't update the colors of the listings; the colors of listings now update
 
 ## Change log
 

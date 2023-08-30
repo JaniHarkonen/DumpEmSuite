@@ -11,6 +11,51 @@ of DumpEm.
 
 ## Updates
 
+### 30.8.2023
+Version 1.2.0 introduces a new way that scraping is handled in the first tab by utilizing ScrapeScript. ScrapeScript is a
+scripting language designed specifically for developing scrapers for DumpEm Suite.
+
+Previously there was only a single scraper that was hard-coded into the application which would consequently have to be 
+updated each time the scraper became obsolete; each time the website layout changed. In order to avoid constant re-building
+and updating of DumpEm Suite ScrapeScript was developed which allows external scrapers to be compiled and interpreted. This 
+way, only the source code of the scraper as well as the scraper configuration of DumpEm Suite needs to be updated. 
+ScrapeScript is similar to JavaScript and, as such, Visual Studio Code's JavaScript-syntax highlighting can be used while
+writing scrapers.
+
+Read more about linking a ScrapeScript-based scraper to DumpEm Suite below the "changes"-section
+
+Changes:
+- ScrapeScript integration;
+- DumpEm Suite now keeps track of scraper settings
+* bugfixes
+    * MINOR: fixed the colors of the "Change"-buttons in DumpEm Suite settings when in dark theme; the font and outline 
+    are now visible when mouse is not hovering and the hover highligh color has been lightened
+
+How to use external scrapers:
+
+ScrapeScript scrapers must consist of at least two files, the header file and the source code itself. Both files must have
+the same name, however, the header file must be a `.json`-file while with a proper JSON structure while the source code file(s)
+must have the extension `.ss`. ScrapeScript allows the linking of multiple source files together using the `import`-statement,
+however, do not – nor should they – have to have the same name as the header file.
+
+When a scraper is linked to DumpEm Suite, the application first reads the header file and then tries to find a file in the same
+path with the same name, only with the extension `.ss`. The header file should be used to store the metadata of the scraper and
+should have the following form:
+```
+{
+    "name": "Name of the scraper",
+    "version": "Version number of the scraper",
+    "ss-version": "ScrapeScript version that the scraper was written in",
+    "goodFor": "Last date that the scraper was still functioning"
+}
+```
+
+To link the scraper to DumpEm Suite, simply goto the application settings using the cog on the left side of the screen and
+find the "Scraper"-section in the settings window. Click "Change" and the select the HEADER FILE of the scraper that is to be 
+linked. If successful, the file path of the scraper will become visible in the input field. The scraper is now ready to be 
+used by bringing stocks into DumpEm Suite using the "Bring"-option of the "Volume"-tab.
+
+
 ### 18.1.2023
 Version 1.1.0 introduces themes (light and dark so far), Advanced Real Time Chart for stocks provided by TradingView and
 some bugfixes including a major one.

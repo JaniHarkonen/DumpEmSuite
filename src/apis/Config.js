@@ -57,6 +57,26 @@ export default class Config {
             consensus: this.config.templates.consensus.filepath
         };
     }
+    
+    static getScraper() {
+        return this.config.scraper;
+    }
+
+    static changeScraper(scraperPath) {
+        if( !scraperPath || scraperPath === "" )
+        return;
+
+        const pathParse = pathModule.parse(scraperPath);
+        const sourcePath = pathParse.dir + "\\" + pathParse.name + ".ss";
+
+        if( !fs.existsSync(scraperPath) || !fs.existsSync(sourcePath) )
+        return;
+
+        const scraperMetadata = JSON.parse(fs.readFileSync(scraperPath).toString());
+        this.config.scraper.filepath = pathParse.dir + "\\" + pathParse.name + ".ss";
+        this.config.scraper.metadata = scraperMetadata;
+        this.updateConfig();
+    }
 
     static getOpenWorkspaces() {
         if( !this.isConfigValid() ) return [];

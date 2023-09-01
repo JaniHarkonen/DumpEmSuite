@@ -8,10 +8,22 @@ const BodyWrapper = styled.div`
     overflow-y: auto;
 `;
 
+const SaveButtonAlignmentContainer = styled.div`
+    position: relative;
+    width: 100%;
+    height: auto;
+`;
+
 const FilePickerContainer = styled.div`
     position: relative;
     width: 100%;
     height: 64px;
+`;
+
+const ScraperPickerContainer = styled.div`
+    position: relative;
+    width: 100%;
+    height: 128px;
 `;
 
 const SaveButton = styled.div`
@@ -35,5 +47,7 @@ export const Styles = {
     BodyWrapper,
     FilePickerContainer,
     SaveButton,
-    SaveButtonContainer
+    SaveButtonContainer,
+    ScraperPickerContainer,
+    SaveButtonAlignmentContainer
 };

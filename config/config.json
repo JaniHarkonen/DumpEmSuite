@@ -1,10 +1,10 @@
 {
     "openWorkspaces": [
         {
-            "name": "2022-11",
-            "source": "D:\\repos\\DumpEm Suite\\2022\\2022-11\\",
+            "name": "streetz",
+            "source": "C:\\Users\\User\\Desktop\\streetz\\",
             "format": ".db",
-            "openTab": 3
+            "openTab": 4
         }
     ],
     "activeWorkspaceID": 0,
@@ -22,5 +22,8 @@
             "content": "--- CONSENSUS ---\r\n\r\n-- MarketScreener --\r\nanalyst sentiment\r\n\r\nRECOMMENDATION (x/10)\r\n\r\n\r\n-- Shareville --\r\nuser sentiment"
         }
     },
-    "activeTheme": "dark"
+    "scraper": {
+        "filepath": ""
+    },
+    "activeTheme": "light"
 }

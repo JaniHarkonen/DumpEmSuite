@@ -11,7 +11,7 @@ function createWindow() {
         pathname: path.join(__dirname, './index.html'),  // EDIT OUT THE /public/ PART TO AVOID DUPLICATE DIRECTORY, original: path.join(__dirname, './public/index.html')
         protocol: 'file:',
         slashes: true,
-      });
+    });
 
     const win = new BrowserWindow({
         width: 1280,

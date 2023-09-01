@@ -1,6 +1,8 @@
 import DialogAPI from "../../../apis/DialogAPI";
+import Config from "../../../apis/Config";
 import ExternalStorageAPI from "../../../apis/ExternalStorageAPI";
 import scrape from "../../../scraper/scrape";
+import { compileAndRun } from "../../../ScrapeScript/ScrapeScript";
 import View, { makeViewElement } from "../View";
 import SymbolListExternalWrapper from "./SymbolListExternalWrapper";
 import AdvancedRealTimeChart from "../../../components/AdvancedRealTimeChart/AdvancedRealTimeChart";
@@ -36,15 +38,7 @@ export default function FilterView(props) {
 
                     // Scrape symbols from website
                 const htmlString = fs.readFileSync(selectedFile[0]).toString();
-                const scraperResult = scrape(htmlString, {
-                    form: {
-                        name: "companyName",
-                        ticker: "stockSymbol",
-                        volume: "volume",
-                        colorCode: 0
-                    }
-                });
-
+                const scraperResult = compileAndRun(Config.getScraper().filepath, htmlString);
                 const scrapedSymbols = scraperResult.symbols;
 
                     // Automatically reject stocks with less than €100k of volume
@@ -86,7 +80,8 @@ export default function FilterView(props) {
                     setSelectedSymbol(symbol);
                 }}
                 selectedSymbol={selectedSymbol}
-            />
+            />,
+            "symbol-list-filterview-avoid-rerender"
         )
     ];
 

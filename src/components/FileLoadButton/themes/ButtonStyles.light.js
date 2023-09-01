@@ -14,7 +14,7 @@ const Content = styled.div`
 
     &:hover {
         cursor: pointer;
-        background-color: ${UIstyle.colorScheme.dark.backgroundDistant}
+        background-color: ${UIstyle.colorScheme.dark.distinct}
     }
 `;
 

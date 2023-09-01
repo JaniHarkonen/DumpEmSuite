@@ -1,5 +1,12 @@
 {
-    "openWorkspaces": [],
+    "openWorkspaces": [
+        {
+            "name": "streetz",
+            "source": "C:\\Users\\User\\Desktop\\streetz\\",
+            "format": ".db",
+            "openTab": 4
+        }
+    ],
     "activeWorkspaceID": 0,
     "templates": {
         "technical": {

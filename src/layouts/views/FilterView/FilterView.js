@@ -40,7 +40,6 @@ export default function FilterView(props) {
                 const htmlString = fs.readFileSync(selectedFile[0]).toString();
                 const scraperResult = compileAndRun(Config.getScraper().filepath, htmlString);
                 const scrapedSymbols = scraperResult.symbols;
-                console.log(scrapedSymbols);
 
                     // Automatically reject stocks with less than €100k of volume
                     // by assigning them a certain color code (red)
@@ -81,7 +80,8 @@ export default function FilterView(props) {
                     setSelectedSymbol(symbol);
                 }}
                 selectedSymbol={selectedSymbol}
-            />
+            />,
+            "symbol-list-filterview-avoid-rerender"
         )
     ];
 

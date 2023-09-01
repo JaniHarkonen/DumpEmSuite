@@ -11,7 +11,7 @@ of DumpEm.
 
 ## Updates
 
-### 30.8.2023
+### 1.9.2023
 Version 1.2.0 introduces a new way that scraping is handled in the first tab by utilizing ScrapeScript. ScrapeScript is a
 scripting language designed specifically for developing scrapers for DumpEm Suite.
 
@@ -30,6 +30,8 @@ Changes:
 * bugfixes
     * MINOR: fixed the colors of the "Change"-buttons in DumpEm Suite settings when in dark theme; the font and outline 
     are now visible when mouse is not hovering and the hover highligh color has been lightened
+    * MINOR: fixed a scrolling bug on "Volume"-, "Price action"- and "TA #1"-tabs where the symbol list scroll position would 
+    reset each time a symbol was clicked 
 
 How to use external scrapers:
 

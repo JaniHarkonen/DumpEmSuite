@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef } from 'react';
 import { FullDiv } from '../../common/FullDiv';
-import { ThemeContext, themes } from '../../contexts/ThemeContext';
+import { ThemeContext } from '../../contexts/ThemeContext';
 import { MASimple } from './studies/MASimple';
 import { RSI } from './studies/RSI';
 import { MACD } from './studies/MACD';
@@ -11,7 +11,7 @@ export default function TradingViewWidget(props) {
 	const symbol = props.symbol;
 
   const onLoadScriptRef = useRef();
-	const { theme} = useContext(ThemeContext);
+	const { theme } = useContext(ThemeContext);
 
   const studies = [
 		MASimple(50),

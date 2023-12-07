@@ -1,5 +1,7 @@
 # DumpEm Suite
 
+![ScreenShot](https://github.com/JaniHarkonen/DumpEmSuite/blob/main/screenshot.png)
+
 ## Relation to DumpEm and motivations
 This appliaction is not to be confused with DumpEm, which is an application that can be used to create custom workspaces.
 The appliactions share a similar name because DumpEm was initially designed to create workspaces for investment purposes.

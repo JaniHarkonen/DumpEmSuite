@@ -1,6 +1,6 @@
 # DumpEm Suite
 
-[![DumpEmSuite video presentation](https://github.com/JaniHarkonen/DumpEmSuite./blob/main/video_thumbnail.png)](https://www.youtube.com/watch?v=Ojos-phJMKc)
+[![DumpEmSuite video presentation](https://github.com/JaniHarkonen/DumpEmSuite/blob/main/video_thumbnail.png)](https://www.youtube.com/watch?v=Ojos-phJMKc)
 
 ## Relation to DumpEm and motivations
 This appliaction is not to be confused with DumpEm, which is an application that can be used to create custom workspaces.
